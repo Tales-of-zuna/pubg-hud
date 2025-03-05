@@ -1,4 +1,4 @@
-const Popup = ({ activePopups }: any) => {
+const Popup = ({ activePopups, totalPlayerList }: any) => {
   const popups = activePopups?.data || [];
 
   return (

@@ -1,4 +1,4 @@
-const BattleScreen = ({ activeScreen }: { activeScreen: string }) => {
+const BattleScreen = ({ activeScreen, totalPlayerList }: any) => {
   if (activeScreen === "battle") {
     return <div className="h-screen w-screen bg-black">inbattle screen</div>;
   } else if (activeScreen === "postdata") {

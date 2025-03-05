@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const datafetchInterval = 2000;
 
 const useBattleData = () => {
-  const [battleData, setBattleData] = useState(null);
+  const [battleData, setBattleData] = useState<any>();
 
   const fetchBattleData = async () => {
     try {
