@@ -169,10 +169,78 @@ const Toggle = ({ activeToggles, totalPlayerList, observedPlayer }: any) => {
             </p>
           </div>
           <div className="h-[220px] w-full bg-red-600 bg-opacity-30">
-            <div className="h-[55px] w-full border-b p-1">Hello</div>
-            <div className="h-[55px] w-full border-b p-1">Hello</div>
-            <div className="h-[55px] w-full border-b p-1">Hello</div>
-            <div className="h-[55px] w-full border-b p-1">Hello</div>
+            <div className="h-[55px] w-full border-b px-3 py-1">
+              <div className="flex items-center justify-between">
+                <p>Zuna</p>
+                <p>3210</p>
+              </div>
+              <div className="flex h-[20px] w-full gap-2 bg-neutral-600">
+                <div
+                  className="h-full bg-orange-600"
+                  style={{
+                    width:
+                      (teamsWithPlayers?.[0]?.players[0]?.damage /
+                        teamsWithPlayers?.[0]?.teamDamage) *
+                        100 +
+                      "%",
+                  }}
+                ></div>
+              </div>
+            </div>
+            <div className="h-[55px] w-full border-b px-3 py-1">
+              <div className="flex items-center justify-between">
+                <p>Zuna</p>
+                <p>3210</p>
+              </div>
+              <div className="flex h-[20px] w-full gap-2 bg-neutral-600">
+                <div
+                  className="h-full bg-orange-600"
+                  style={{
+                    width:
+                      (teamsWithPlayers?.[0]?.players[0]?.damage /
+                        teamsWithPlayers?.[0]?.teamDamage) *
+                        100 +
+                      "%",
+                  }}
+                ></div>
+              </div>
+            </div>
+            <div className="h-[55px] w-full border-b px-3 py-1">
+              <div className="flex items-center justify-between">
+                <p>Zuna</p>
+                <p>3210</p>
+              </div>
+              <div className="flex h-[20px] w-full gap-2 bg-neutral-600">
+                <div
+                  className="h-full bg-orange-600"
+                  style={{
+                    width:
+                      (teamsWithPlayers?.[0]?.players[0]?.damage /
+                        teamsWithPlayers?.[0]?.teamDamage) *
+                        100 +
+                      "%",
+                  }}
+                ></div>
+              </div>
+            </div>
+            <div className="h-[55px] w-full border-b px-3 py-1">
+              <div className="flex items-center justify-between">
+                <p>Zuna</p>
+                <p>3210</p>
+              </div>
+              <div className="flex h-[20px] w-full gap-2 bg-neutral-600">
+                <div
+                  className="h-full bg-orange-600"
+                  style={{
+                    width:
+                      (teamsWithPlayers?.[0]?.players[0]?.damage /
+                        teamsWithPlayers?.[0]?.teamDamage) *
+                        100 +
+                      "%",
+                  }}
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
       )}
