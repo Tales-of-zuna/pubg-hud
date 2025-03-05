@@ -11,6 +11,7 @@ const DATA_FETCH_INTERVAL = 2000;
 const Home = () => {
   const { activeScreen, activePopups, activeToggles } = useBroadcastListeners();
   const [totalPlayerList, setTotalPlayerList] = useState<any[]>([]);
+  const [observedPlayer, setObservedPlayer] = useState<any>();
   const [error, setError] = useState<string | null>(null);
 
   const fetchBattleData = async () => {
@@ -34,7 +35,7 @@ const Home = () => {
       setError("Failed to fetch battle data.");
     }
   };
-
+  // main fetching logic here
   useEffect(() => {
     fetchBattleData();
     const interval = setInterval(fetchBattleData, DATA_FETCH_INTERVAL);
@@ -42,7 +43,13 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Updated Player List:", totalPlayerList);
+    const findObservingPlayer = async () => {
+      const res = await fetch("/api/observed");
+      const data = await res.json();
+      setObservedPlayer(data);
+    };
+
+    findObservingPlayer();
   }, [totalPlayerList]);
 
   return (
@@ -60,6 +67,7 @@ const Home = () => {
             activePopups={activePopups}
           />
           <Toggle
+            observedPlayer={observedPlayer}
             totalPlayerList={totalPlayerList}
             activeToggles={activeToggles}
           />

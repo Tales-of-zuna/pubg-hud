@@ -81,7 +81,7 @@ const Admin = () => {
                 <div className="h-px w-full bg-neutral-800"></div>
               </div>
               <div className="flex items-center gap-8">
-                {["sponsors", "teams", "playerimage", "lastfourteams"].map(
+                {["sponsors", "teams", "playerimage", "teamdamage"].map(
                   (toggle) => (
                     <Switch
                       key={toggle}
@@ -95,7 +95,7 @@ const Admin = () => {
                           ? "Teams"
                           : toggle === "playerimage"
                             ? "Player image"
-                            : "Last four teams"}
+                            : "Team damage"}
                     </Switch>
                   ),
                 )}

@@ -2,26 +2,28 @@
 import { Image } from "@heroui/react";
 import { useEffect, useState } from "react";
 
-const Toggle = ({ activeToggles, totalPlayerList }: any) => {
+const Toggle = ({ activeToggles, totalPlayerList, observedPlayer }: any) => {
   const toggles = activeToggles?.data || [];
   const [teamsWithPlayers, setTeamsWithPlayers] = useState<any>();
 
   useEffect(() => {
     const transformData = (list: any) => {
       const teamsWithPlayers = list?.reduce((acc: any, player: any) => {
-        const { teamId, teamName, killNum } = player;
+        const { teamId, teamName, killNum, damage } = player;
 
         if (!acc[teamId]) {
           acc[teamId] = {
             teamId,
             teamName,
             teamKillNum: killNum,
+            teamDamage: damage,
             players: [],
           };
         }
 
         acc[teamId].players.push(player);
         acc[teamId].teamKillNum += player.killNum;
+        acc[teamId].teamDamage += player.damage;
 
         return acc;
       }, {});
@@ -43,44 +45,50 @@ const Toggle = ({ activeToggles, totalPlayerList }: any) => {
       className="absolute left-0 top-0 z-10 h-screen w-screen"
       style={{
         backgroundImage:
-          "url('/assets/images/screens/Screenshot 2025-02-17 181903.png')",
+          "url('/assets/images/screens/Screenshot 2025-02-17 181837.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
     >
       {toggles.includes("teams") && (
-        <div className="absolute bottom-5 right-0 z-10 flex h-[812px] w-[350px] flex-col justify-start bg-green-950 bg-opacity-30">
-          <div className="flex h-[45px] w-full bg-black bg-opacity-30 text-sm font-bold">
-            <div className="flex h-full w-[45px] items-center justify-center bg-black bg-opacity-30">
+        <div className="absolute bottom-5 right-0 z-10 flex h-[812px] w-[350px] flex-col justify-start">
+          <div className="flex h-[45px] w-full text-sm font-bold">
+            <div className="flex h-full w-[45px] items-center justify-center">
               NO
             </div>
-            <div className="flex h-full w-[150px] items-center justify-center bg-green-600 bg-opacity-30">
+            <div className="flex h-full w-[150px] items-center justify-center">
               Teams
             </div>
-            <div className="flex h-full w-[55px] items-center justify-center bg-orange-600 bg-opacity-30">
+            <div className="flex h-full w-[55px] items-center justify-center">
               Alive
             </div>
-            <div className="flex h-full w-[50px] items-center justify-center bg-black bg-opacity-30">
+            <div className="flex h-full w-[50px] items-center justify-center">
               PTS
             </div>
-            <div className="flex h-full w-[50px] items-center justify-center bg-black bg-opacity-30">
+            <div className="flex h-full w-[50px] items-center justify-center">
               ELIMS
             </div>
           </div>
-          <div className="h-full w-full bg-red-600 bg-opacity-30">
+          <div className="h-full w-full">
             {teamsWithPlayers?.map((team: any, index: number) => (
               <div
                 key={index}
-                className={`flex h-[45.5px] w-full items-center justify-center bg-red-600 bg-opacity-30 text-xs font-bold`}
+                className={`flex h-[45.5px] w-full items-center justify-center ${
+                  team.players.some(
+                    (player: any) => player.uId == observedPlayer,
+                  )
+                    ? "bg-orange-600"
+                    : "bg-black"
+                } text-xl font-bold`}
               >
-                <div className="flex h-full w-[45px] items-center justify-center bg-black bg-opacity-30">
+                <div className="flex h-full w-[45px] items-center justify-center">
                   {index + 1}
                 </div>
-                <div className="flex h-full w-[150px] items-center justify-center bg-green-600 bg-opacity-30 text-medium">
+                <div className="flex h-full w-[150px] items-center justify-center text-medium">
                   {team.teamName}
                 </div>
-                <div className="flex h-full w-[55px] items-end justify-center gap-1 bg-orange-600 bg-opacity-30 py-2">
+                <div className="flex h-full w-[55px] items-end justify-center gap-1 py-2">
                   {team.players.map((player: any) => {
                     return (
                       <div
@@ -88,7 +96,7 @@ const Toggle = ({ activeToggles, totalPlayerList }: any) => {
                         key={player.uId}
                       >
                         <div
-                          className={`w-2 bg-emerald-700`}
+                          className={`w-[6px] bg-green-600`}
                           style={{
                             height: `${(player.health / player.healthMax) * 100}%`,
                           }}
@@ -97,13 +105,10 @@ const Toggle = ({ activeToggles, totalPlayerList }: any) => {
                     );
                   })}
                 </div>
-                <div className="flex h-full w-[50px] items-center justify-center bg-black bg-opacity-30">
-                  {team.players.reduce(
-                    (acc: any, player: any) => acc + player.assist,
-                    0,
-                  )}
+                <div className="flex h-full w-[50px] items-center justify-center">
+                  {team.teamId}
                 </div>
-                <div className="flex h-full w-[50px] items-center justify-center bg-black bg-opacity-30">
+                <div className="flex h-full w-[50px] items-center justify-center">
                   {team.teamKillNum}
                 </div>
               </div>
@@ -129,7 +134,7 @@ const Toggle = ({ activeToggles, totalPlayerList }: any) => {
         <div className="h-32 w-32 bg-red-500">last four</div>
       )}
       {toggles.includes("playerimage") && (
-        <div className="absolute bottom-0 left-[450px] z-10 flex h-[200px] w-[286px] flex-col items-center justify-end bg-green-600 bg-opacity-30">
+        <div className="absolute bottom-0 left-[450px] z-10 flex h-[200px] w-[286px] flex-col items-center justify-end">
           <div className="relative h-full w-full">
             <Image
               src="/assets/images/player.webp"
@@ -144,6 +149,30 @@ const Toggle = ({ activeToggles, totalPlayerList }: any) => {
           <div className="flex h-1/2 w-full items-center">
             <div className="h-full w-1/2 border-2 border-green-950"></div>
             <div className="h-full w-1/2 border-2 border-green-950"></div>
+          </div>
+        </div>
+      )}
+
+      {toggles.includes("teamdamage") && (
+        <div className="absolute bottom-[235px] left-0 z-10 h-[350px] w-[257px] bg-green-600 bg-opacity-30">
+          <div className="flex h-[40px] w-full items-center justify-center bg-red-600 bg-opacity-30 text-xl font-semibold uppercase">
+            Damage Proportion
+          </div>
+          <div className="flex h-[90px] w-full items-center justify-center gap-2 bg-black bg-opacity-30">
+            <Image
+              src="/assets/images/player.webp"
+              alt=""
+              className="h-[60px] w-[60px] object-cover"
+            />
+            <p className="text-xl font-bold">
+              {teamsWithPlayers?.[0]?.teamName}
+            </p>
+          </div>
+          <div className="h-[220px] w-full bg-red-600 bg-opacity-30">
+            <div className="h-[55px] w-full border-b p-1">Hello</div>
+            <div className="h-[55px] w-full border-b p-1">Hello</div>
+            <div className="h-[55px] w-full border-b p-1">Hello</div>
+            <div className="h-[55px] w-full border-b p-1">Hello</div>
           </div>
         </div>
       )}
