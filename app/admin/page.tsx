@@ -12,6 +12,7 @@ const toggleChannel = new BroadcastChannel("toggle");
 const Admin = () => {
   const [activeScreen, setActiveScreen] = useState("battle");
   const [activeToggles, setActiveToggles] = useState<string[]>([]);
+  const [activePopups, setActivePopups] = useState<string[]>([]);
 
   const handleToggleChange = (toggle: string) => {
     setActiveToggles((prevToggles) => {
@@ -21,6 +22,17 @@ const Admin = () => {
 
       toggleChannel.postMessage({ data: updatedToggles });
       return updatedToggles;
+    });
+  };
+
+  const handlePopupChange = (popup: string) => {
+    setActivePopups((prevPopups) => {
+      const updatedPopups = prevPopups.includes(popup)
+        ? prevPopups.filter((p) => p !== popup)
+        : [...prevPopups, popup];
+
+      popupChannel.postMessage({ data: updatedPopups });
+      return updatedPopups;
     });
   };
 
@@ -60,6 +72,7 @@ const Admin = () => {
                   ),
                 )}
               </div>
+
               <div className="flex w-full items-center justify-center gap-4">
                 <div className="h-px w-full bg-neutral-800"></div>
                 <div className="flex w-auto items-center gap-2">
@@ -90,12 +103,13 @@ const Admin = () => {
                   color="warning"
                   onPress={() => {
                     setActiveToggles([]);
-                    toggleChannel.postMessage({ activeToggles: [] });
+                    toggleChannel.postMessage({ data: [] });
                   }}
                 >
-                  Clear <Icon path={mdiToggleSwitch} size={1} />
+                  Clear Toggles <Icon path={mdiToggleSwitch} size={1} />
                 </Button>
               </div>
+
               <div className="flex w-full items-center justify-center gap-4">
                 <div className="h-px w-full bg-neutral-800"></div>
                 <div className="flex w-auto items-center gap-2">
@@ -107,46 +121,76 @@ const Admin = () => {
                 {[
                   { key: "socialplatforms", label: "Social Platforms" },
                   { key: "teamdamage", label: "Team Damage" },
-                  {
-                    key: "circleclosing",
-                    label: "Circle closing notif (auto)",
-                  },
+                  { key: "circleclosing", label: "Circle Closing (auto)" },
                   { key: "teamelimination", label: "Team Elimination (auto)" },
-                  { key: "finalblow", label: "Final blow (auto)" },
-                  {
-                    key: "uniqueweapons",
-                    label: "Unique Weapon Eliminations (auto)",
-                  },
+                  { key: "finalblow", label: "Final Blow (auto)" },
+                  { key: "uniqueweapons", label: "Unique Weapons (auto)" },
                   { key: "firstblood", label: "First Blood (auto)" },
                 ].map(({ key, label }) => (
-                  <Button
+                  <Switch
                     key={key}
-                    onPress={() => {
-                      popupChannel.postMessage(key);
-                    }}
+                    color="warning"
+                    isSelected={activePopups.includes(key)}
+                    onValueChange={() => handlePopupChange(key)}
                   >
                     {label}
-                  </Button>
+                  </Switch>
                 ))}
+                <Button
+                  color="warning"
+                  onPress={() => {
+                    setActivePopups([]);
+                    popupChannel.postMessage({ data: [] });
+                  }}
+                >
+                  Clear Popups <Icon path={mdiBellCog} size={1} />
+                </Button>
               </div>
             </CardBody>
           </Card>
         </Tab>
-        <Tab key="postgame" title="Post Game Data">
-          <Card>
-            <CardBody>
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur.
+        <Tab className="w-full" key="settings" title="Settings">
+          <Card className="w-full p-8">
+            <CardBody className="space-y-8">
+              <div className="flex w-full items-center justify-center gap-4">
+                <div className="h-px w-full bg-neutral-800"></div>
+                <div className="flex w-auto items-center gap-2">Settings</div>
+                <div className="h-px w-full bg-neutral-800"></div>
+              </div>
+              <div className="flex items-center gap-8">
+                <Switch color="warning">Enable/Disable</Switch>
+                <Switch color="warning">Enable/Disable</Switch>
+              </div>
             </CardBody>
           </Card>
         </Tab>
-        <Tab key="teams" title="Team Ratings">
-          <Card>
-            <CardBody>
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-              officia deserunt mollit anim id est laborum.
+        <Tab className="w-full" key="about" title="About">
+          <Card className="w-full p-8">
+            <CardBody className="space-y-8">
+              <div className="flex w-full items-center justify-center gap-4">
+                <div className="h-px w-full bg-neutral-800"></div>
+                <div className="flex w-auto items-center gap-2">About</div>
+                <div className="h-px w-full bg-neutral-800"></div>
+              </div>
+              <div className="flex items-center gap-8">
+                <Switch color="warning">Enable/Disable</Switch>
+                <Switch color="warning">Enable/Disable</Switch>
+              </div>
+            </CardBody>
+          </Card>
+        </Tab>
+        <Tab className="w-full" key="help" title="Help">
+          <Card className="w-full p-8">
+            <CardBody className="space-y-8">
+              <div className="flex w-full items-center justify-center gap-4">
+                <div className="h-px w-full bg-neutral-800"></div>
+                <div className="flex w-auto items-center gap-2">Help</div>
+                <div className="h-px w-full bg-neutral-800"></div>
+              </div>
+              <div className="flex items-center gap-8">
+                <Switch color="warning">Enable/Disable</Switch>
+                <Switch color="warning">Enable/Disable</Switch>
+              </div>
             </CardBody>
           </Card>
         </Tab>

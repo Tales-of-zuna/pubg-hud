@@ -1,4 +1,6 @@
-const Popup = ({ activePopup }: { activePopup: string }) => {
+const Popup = ({ activePopups }: any) => {
+  const popups = activePopups?.data || [];
+
   return (
     <div
       className="absolute left-0 top-0 z-10 h-screen w-screen"
@@ -6,19 +8,16 @@ const Popup = ({ activePopup }: { activePopup: string }) => {
         backgroundImage:
           "url('/assets/images/screens/Screenshot 2025-02-17 181725.png')",
         backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
-      {activePopup.includes("socialplatforms") && (
-        <div className="absolute bottom-0 left-0 z-10 flex h-[200px] w-[450px] flex-col items-center justify-end border-2 border-green-950">
-          <div className="flex h-1/2 w-full items-center">
-            <div className="h-full w-1/2 border-2 border-green-950"></div>
-            <div className="h-full w-1/2 border-2 border-green-950"></div>
-          </div>
+      {popups.includes("socialplatforms") && (
+        <div className="absolute bottom-[20px] left-[450px] z-10 flex h-[180px] w-[1080px] flex-col items-center justify-end bg-cyan-600 bg-opacity-30">
+          hola amigo
         </div>
       )}
-      {activePopup.includes("teams") && (
+      {popups.includes("teams") && (
         <div className="absolute bottom-5 right-0 z-10 flex h-[812px] w-[300px] flex-col items-center justify-start bg-green-950 bg-opacity-30">
           <div className="flex h-[40px] w-full bg-black bg-opacity-30 font-bold">
             <div className="flex h-full w-[45px] items-center justify-center bg-black bg-opacity-30">
@@ -51,10 +50,10 @@ const Popup = ({ activePopup }: { activePopup: string }) => {
           </div>
         </div>
       )}
-      {activePopup.includes("lastfourteams") && (
+      {popups.includes("lastfourteams") && (
         <div className="h-32 w-32 bg-red-500">last four</div>
       )}
-      {activePopup.includes("playerimage") && (
+      {popups.includes("playerimage") && (
         <div className="h-32 w-32 bg-red-500">player image here</div>
       )}
     </div>

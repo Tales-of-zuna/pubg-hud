@@ -4,15 +4,15 @@ const screenChannel = new BroadcastChannel("screen");
 const popupChannel = new BroadcastChannel("popup");
 const toggleChannel = new BroadcastChannel("toggle");
 
-const popupTimeout = 5000;
+// const popupTimeout = 5000;
 
 const useBroadcastListeners = () => {
   const [activeScreen, setActiveScreen] = useState("none");
-  const [activePopup, setActivePopup] = useState("none");
+  const [activePopups, setActivePopups] = useState({});
   const [activeToggles, setActiveToggles] = useState({});
 
   useEffect(() => {
-    const handlePopupMessage = (e: MessageEvent) => setActivePopup(e.data);
+    const handlePopupMessage = (e: MessageEvent) => setActivePopups(e.data);
     const handleScreenMessage = (e: MessageEvent) => setActiveScreen(e.data);
     const handleToggleMessage = (e: MessageEvent) => setActiveToggles(e.data);
 
@@ -27,14 +27,14 @@ const useBroadcastListeners = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (activePopup !== "none") {
-      const timeout = setTimeout(() => setActivePopup("none"), popupTimeout);
-      return () => clearTimeout(timeout);
-    }
-  }, [activePopup]);
+  // useEffect(() => {
+  //   if (activePopups.data !== null) {
+  //     const timeout = setTimeout(() => setActivePopups({}), popupTimeout);
+  //     return () => clearTimeout(timeout);
+  //   }
+  // }, [activePopups]);
 
-  return { activeScreen, activePopup, activeToggles };
+  return { activeScreen, activePopups, activeToggles };
 };
 
 export default useBroadcastListeners;
