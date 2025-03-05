@@ -9,12 +9,12 @@ const popupTimeout = 3000;
 const useBroadcastListeners = () => {
   const [activeScreen, setActiveScreen] = useState("none");
   const [activePopup, setActivePopup] = useState("none");
-  const [activeToggle, setActiveToggle] = useState({});
+  const [activeToggles, setActiveToggles] = useState({});
 
   useEffect(() => {
     const handlePopupMessage = (e: MessageEvent) => setActivePopup(e.data);
     const handleScreenMessage = (e: MessageEvent) => setActiveScreen(e.data);
-    const handleToggleMessage = (e: MessageEvent) => setActiveToggle(e.data);
+    const handleToggleMessage = (e: MessageEvent) => setActiveToggles(e.data);
 
     popupChannel.addEventListener("message", handlePopupMessage);
     screenChannel.addEventListener("message", handleScreenMessage);
@@ -34,7 +34,7 @@ const useBroadcastListeners = () => {
     }
   }, [activePopup]);
 
-  return { activeScreen, activePopup, activeToggle };
+  return { activeScreen, activePopup, activeToggles };
 };
 
 export default useBroadcastListeners;

@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 const Home = () => {
   const battleData = useBattleData();
-  const { activeScreen, activePopup, activeToggle } = useBroadcastListeners();
+  const { activeScreen, activePopup, activeToggles } = useBroadcastListeners();
 
   useEffect(() => {
     // i will set popups here or some additional logics based on in game data
@@ -22,7 +22,7 @@ const Home = () => {
     <div className="h-full w-full bg-neutral-900">
       <BattleScreen activeScreen={activeScreen} />
       <Popup activePopup={activePopup} />
-      <Toggle activeToggle={activeToggle} />
+      <Toggle activeToggles={activeToggles} />
     </div>
   );
 };
