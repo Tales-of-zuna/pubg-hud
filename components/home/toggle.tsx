@@ -2,16 +2,7 @@ const Toggle = ({ activeToggles }: any) => {
   const toggles = activeToggles?.data || [];
 
   return (
-    <div
-      className="absolute left-0 top-0 z-10 h-screen w-screen"
-      style={{
-        backgroundImage:
-          "url('/assets/images/screens/Screenshot 2025-02-17 181725.png')",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="absolute left-0 top-0 z-10 h-screen w-screen">
       {toggles.includes("sponsors") && (
         <div className="absolute bottom-0 left-0 z-10 flex h-[200px] w-[450px] flex-col items-center justify-end border-2 border-green-950">
           <div className="flex h-1/2 w-full items-center">
@@ -54,10 +45,10 @@ const Toggle = ({ activeToggles }: any) => {
         </div>
       )}
       {toggles.includes("lastfourteams") && (
-        <div className="h-32 w-32 bg-red-500">Promotions here</div>
+        <div className="h-32 w-32 bg-red-500">last four</div>
       )}
       {toggles.includes("playerimage") && (
-        <div className="h-32 w-32 bg-red-500">Promotions here</div>
+        <div className="h-32 w-32 bg-red-500">player image here</div>
       )}
     </div>
   );

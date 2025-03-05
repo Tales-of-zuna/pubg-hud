@@ -4,7 +4,7 @@ const screenChannel = new BroadcastChannel("screen");
 const popupChannel = new BroadcastChannel("popup");
 const toggleChannel = new BroadcastChannel("toggle");
 
-const popupTimeout = 3000;
+const popupTimeout = 5000;
 
 const useBroadcastListeners = () => {
   const [activeScreen, setActiveScreen] = useState("none");
