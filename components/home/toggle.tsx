@@ -2,7 +2,13 @@
 import { Image } from "@heroui/react";
 import { useEffect, useState } from "react";
 
-const Toggle = ({ activeToggles, totalPlayerList, observedPlayer }: any) => {
+const Toggle = ({
+  activeToggles,
+  totalPlayerList,
+  observedPlayer,
+  matchName,
+  seriesName,
+}: any) => {
   const toggles = activeToggles?.data || [];
   const [teamsWithPlayers, setTeamsWithPlayers] = useState<any>();
   const [selectedTeam, setSelectedTeam] = useState<any>();
@@ -145,7 +151,7 @@ const Toggle = ({ activeToggles, totalPlayerList, observedPlayer }: any) => {
           <div className="px-4">
             <Image src="/assets/images/logo.png" alt="" className="w-32" />
           </div>
-          <div className="flex h-1/2 w-full items-center">
+          <div className="flex h-1/2 w-full flex-col items-start justify-end">
             <div className="relative flex h-full w-full flex-col items-center justify-center gap-2">
               <video
                 src="/assets/videos/sponsors.mp4"
@@ -154,6 +160,13 @@ const Toggle = ({ activeToggles, totalPlayerList, observedPlayer }: any) => {
                 loop
                 muted
               />
+            </div>
+
+            <div className="absolute bottom-[30px] z-10 flex h-[70px] w-[225px] items-center justify-center text-3xl font-bold text-neutral-800">
+              {seriesName}
+            </div>
+            <div className="absolute z-10 flex h-[30px] w-[225px] items-center justify-center font-bold text-neutral-800">
+              {matchName}
             </div>
           </div>
         </div>
@@ -171,7 +184,7 @@ const Toggle = ({ activeToggles, totalPlayerList, observedPlayer }: any) => {
           </div>
           <div className="absolute top-0 h-full w-full">
             <div className="flex h-[30px] w-full items-center justify-center text-xl font-semibold uppercase">
-              Damage Proportion
+              <p className="">Damage Proportion</p>
             </div>
             <div className="flex h-[100px] w-full items-center justify-center gap-2">
               <Image
@@ -179,7 +192,9 @@ const Toggle = ({ activeToggles, totalPlayerList, observedPlayer }: any) => {
                 alt=""
                 className="h-[80px] w-[80px] object-cover"
               />
-              <p className="text-xl font-bold">{selectedTeam?.teamName}</p>
+              <p className="text-xl font-bold text-neutral-800">
+                {selectedTeam?.teamName}
+              </p>
             </div>
             <div className="h-[220px] w-full">
               {selectedTeam?.players?.map((player: any) => {
