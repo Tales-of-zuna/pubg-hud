@@ -2,13 +2,7 @@
 import { Image } from "@heroui/react";
 import { useEffect, useState } from "react";
 
-const Toggle = ({
-  activeToggles,
-  totalPlayerList,
-  observedPlayer,
-  matchName,
-  seriesName,
-}: any) => {
+const Toggle = ({ activeToggles, totalPlayerList, observedPlayer }: any) => {
   const toggles = activeToggles?.data || [];
   const [teamsWithPlayers, setTeamsWithPlayers] = useState<any>();
   const [selectedTeam, setSelectedTeam] = useState<any>();
@@ -49,52 +43,48 @@ const Toggle = ({
 
   useEffect(() => {
     teamsWithPlayers?.forEach((team: any) => {
-      if (team.players.some((player: any) => player.uId == observedPlayer)) {
+      if (team.players.some((player: any) => player?.uId == observedPlayer)) {
         setSelectedTeam(team);
       }
     });
-  }, [observedPlayer]);
+  }, [observedPlayer, teamsWithPlayers]);
 
   return (
     <div className="absolute left-0 top-0 z-10 h-screen w-screen">
       {toggles?.includes("teams") && (
-        <div className="absolute bottom-5 right-0 z-10 flex h-[812px] w-[350px] flex-col justify-start">
-          <div className="flex h-[45px] w-full text-sm font-bold">
-            <div className="flex h-full w-[45px] items-center justify-center">
-              NO
-            </div>
-            <div className="flex h-full w-[150px] items-center justify-center">
-              Teams
-            </div>
-            <div className="flex h-full w-[55px] items-center justify-center">
-              Alive
-            </div>
-            <div className="flex h-full w-[50px] items-center justify-center">
-              PTS
-            </div>
-            <div className="flex h-full w-[50px] items-center justify-center">
-              ELIMS
-            </div>
-          </div>
-          <div className="h-full w-full">
+        <div className="absolute bottom-5 right-0 z-10 flex h-[812px] w-[425px] flex-col justify-start">
+          <video
+            src="assets/videos/teamList.mp4"
+            className="absolute left-0 top-0 h-full w-full object-cover"
+            autoPlay
+            loop
+            muted
+          ></video>
+          <div className="z-10 flex h-[40px] w-full text-sm font-bold"></div>
+          <div className="z-10 h-full w-full">
             {teamsWithPlayers?.map((team: any, index: number) => (
               <div
                 key={index}
-                className={`flex h-[45.5px] w-full items-center justify-center ${
+                className={`flex h-[44px] w-full ${
                   team?.players?.some(
                     (player: any) => player.uId == observedPlayer,
                   )
-                    ? "bg-orange-600"
-                    : "bg-black"
+                    ? "bg-emerald-600"
+                    : "bg-transparent"
                 } text-xl font-bold`}
               >
-                <div className="flex h-full w-[45px] items-center justify-center">
+                <div className="flex h-full w-[40px] items-center justify-center">
                   {index + 1}
                 </div>
-                <div className="flex h-full w-[150px] items-center justify-center text-medium">
+                <div className="relative flex h-full w-[140px] items-center justify-center text-medium text-neutral-800">
+                  <Image
+                    src="assets/images/player.webp"
+                    alt=""
+                    className="aspect-square h-[30px]"
+                  />
                   {team?.teamName}
                 </div>
-                <div className="flex h-full w-[55px] items-end justify-center gap-1 py-2">
+                <div className="flex h-full w-[100px] items-end justify-center gap-1 py-2">
                   {team?.players?.map((player: any) => {
                     return (
                       <div
@@ -111,10 +101,10 @@ const Toggle = ({
                     );
                   })}
                 </div>
-                <div className="flex h-full w-[50px] items-center justify-center">
+                <div className="flex h-full w-[55px] items-center justify-center">
                   {team?.teamId}
                 </div>
-                <div className="flex h-full w-[50px] items-center justify-center">
+                <div className="flex h-full w-[90px] items-center justify-center">
                   {team?.teamKillNum}
                 </div>
               </div>
@@ -169,10 +159,10 @@ const Toggle = ({
         </div>
       )}
       {toggles?.includes("teamdamage") && (
-        <div className="absolute bottom-[280px] left-0 z-10 h-[350px] w-[257px] bg-green-600 bg-opacity-30">
+        <div className="absolute bottom-[280px] left-0 z-10 h-[350px] w-[250px] bg-green-600 bg-opacity-30">
           <div className="relative h-full w-full">
             <video
-              src="/assets/videos/background.mp4"
+              src="/assets/videos/damageStat.mp4"
               className="h-full w-full object-cover"
               autoPlay
               loop
@@ -180,50 +170,48 @@ const Toggle = ({
             ></video>
           </div>
           <div className="absolute top-0 h-full w-full">
-            <div className="flex h-[40px] w-full items-center justify-center text-xl font-semibold uppercase">
+            <div className="flex h-[30px] w-full items-center justify-center text-xl font-semibold uppercase">
               Damage Proportion
             </div>
-            <div className="flex h-[90px] w-full items-center justify-center gap-2">
+            <div className="flex h-[100px] w-full items-center justify-center gap-2">
               <Image
                 src="/assets/images/player.webp"
                 alt=""
-                className="h-[60px] w-[60px] object-cover"
+                className="h-[80px] w-[80px] object-cover"
               />
               <p className="text-xl font-bold">{selectedTeam?.teamName}</p>
             </div>
             <div className="h-[220px] w-full">
-              {selectedTeam?.players?.map((player: any) => (
-                <div
-                  key={player?.uId}
-                  className="h-[55px] w-full border-b px-3 py-1"
-                >
-                  <div className="flex items-center justify-between font-bold">
-                    <div className="flex items-center gap-2">
-                      <p>{selectedTeam?.teamName}</p>
-                      <p>{player.playerName}</p>
+              {selectedTeam?.players?.map((player: any) => {
+                const damagePercentage = selectedTeam?.teamDamage
+                  ? ((player?.damage !== 0 ? player?.damage : 1) /
+                      selectedTeam?.teamDamage) *
+                    100
+                  : 0;
+                return (
+                  <div
+                    key={player?.uId}
+                    className="h-[55px] w-full border-b px-3 py-1"
+                  >
+                    <div className="flex items-center justify-between font-bold">
+                      <div className="flex items-center gap-2">
+                        <p>{selectedTeam?.teamName}</p>
+                        <p>{player.playerName}</p>
+                      </div>
+                      <p>{player.damage}</p>
                     </div>
-                    <p>{player.damage}</p>
+                    <div className="flex h-[20px] w-full gap-2 bg-neutral-600 pr-2">
+                      <div
+                        className="h-full bg-orange-500"
+                        style={{
+                          width: `${damagePercentage}%`,
+                        }}
+                      ></div>
+                      <p className="text-sm">{`${damagePercentage.toFixed(2)}%`}</p>
+                    </div>
                   </div>
-                  <div className="flex h-[20px] w-full gap-2 bg-neutral-600 pr-2">
-                    <div
-                      className="h-full bg-orange-500"
-                      style={{
-                        width:
-                          ((player?.damage != 0 ? player?.damage : 1) /
-                            selectedTeam?.teamDamage) *
-                            100 +
-                          "%",
-                      }}
-                    ></div>
-                    <p className="text-sm">
-                      {((player?.damage != 0 ? player?.damage : 1) /
-                        selectedTeam?.teamDamage) *
-                        100 +
-                        "%"}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
