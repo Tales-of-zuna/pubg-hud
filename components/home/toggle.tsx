@@ -187,7 +187,7 @@ const Toggle = ({
           <div className="h-[220px] w-full bg-red-600 bg-opacity-30">
             {selectedTeam?.players?.map((player: any) => (
               <div
-                key={player.uId}
+                key={player?.uId}
                 className="h-[55px] w-full border-b px-3 py-1"
               >
                 <div className="flex items-center justify-between font-bold">
