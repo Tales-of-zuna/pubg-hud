@@ -1,48 +1,90 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const BattleScreen = ({ activeScreen, totalPlayerList }: any) => {
+const BattleScreen = ({
+  totalPlayerList,
+  isInGame,
+  seriesName,
+  matchName,
+}: any) => {
+  const [screenIndex, setScreenIndex] = useState(0);
+
   useEffect(() => {
-    console.log(totalPlayerList);
-  }, [totalPlayerList]);
+    if (isInGame == true) {
+      return;
+    }
+    const screenDurations = [5000, 5000, 5000, 5000];
+    let index = 0;
 
-  if (activeScreen === "battle") {
-    return (
-      <div className="h-screen w-screen bg-transparent">inbattle screen</div>
-    );
-  } else if (activeScreen === "teamstats") {
-    return (
-      <div className="h-screen w-screen bg-transparent">
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="flex h-1/2 w-1/2 items-center justify-center rounded-xl bg-neutral-800 text-9xl text-white">
-            team stats
-          </div>
-        </div>
-      </div>
-    );
-  } else if (activeScreen === "matchrankings") {
-    return (
-      <div className="h-screen w-screen bg-transparent">
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="flex h-1/2 w-1/2 items-center justify-center rounded-xl bg-neutral-800 text-9xl text-white">
-            Match rankings
-          </div>
-        </div>
-      </div>
-    );
-  } else if (activeScreen === "overallrankings") {
-    return (
-      <div className="h-screen w-screen bg-transparent">
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="flex h-1/2 w-1/2 items-center justify-center rounded-xl bg-neutral-800 text-9xl text-white">
-            overallrankings
-          </div>
-        </div>
-      </div>
-    );
+    const cycleScreens = () => {
+      setScreenIndex(index);
+      index++;
+
+      if (index < screenDurations.length) {
+        setTimeout(cycleScreens, screenDurations[index]);
+      }
+    };
+
+    cycleScreens();
+
+    return () => {
+      index = screenDurations.length;
+    };
+  }, [isInGame]);
+
+  if (isInGame == true) {
+    return <div className="h-screen w-screen bg-transparent">v1.2</div>;
   }
-  return null;
+
+  return (
+    <div>
+      {screenIndex === 0 && (
+        <div className="relative h-screen w-screen">
+          <video
+            src="/assets/videos/background.mp4"
+            autoPlay
+            loop
+            muted
+            className="absolute left-0 top-0 z-10 h-full w-full object-cover"
+          ></video>
+        </div>
+      )}
+      {screenIndex === 1 && (
+        <div className="relative h-screen w-screen">
+          <video
+            src="/assets/videos/teamStat.mp4"
+            autoPlay
+            loop
+            muted
+            className="absolute left-0 top-0 z-10 h-full w-full object-cover"
+          ></video>
+        </div>
+      )}
+      {screenIndex === 2 && (
+        <div className="relative h-screen w-screen">
+          <video
+            src="/assets/videos/matchRanking.mp4"
+            autoPlay
+            loop
+            muted
+            className="absolute left-0 top-0 z-10 h-full w-full object-cover"
+          ></video>
+        </div>
+      )}
+      {screenIndex === 3 && (
+        <div className="relative h-screen w-screen">
+          <video
+            src="/assets/videos/overallRanking.mp4"
+            autoPlay
+            loop
+            muted
+            className="absolute left-0 top-0 z-10 h-full w-full object-cover"
+          ></video>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default BattleScreen;

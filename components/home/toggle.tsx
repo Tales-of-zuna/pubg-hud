@@ -56,16 +56,7 @@ const Toggle = ({
   }, [observedPlayer]);
 
   return (
-    <div
-      className="absolute left-0 top-0 z-10 h-screen w-screen"
-      // style={{
-      //   backgroundImage:
-      //     "url('/assets/images/screens/Screenshot 2025-02-17 181837.png')",
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      //   backgroundRepeat: "no-repeat",
-      // }}
-    >
+    <div className="absolute left-0 top-0 z-10 h-screen w-screen">
       {toggles?.includes("teams") && (
         <div className="absolute bottom-5 right-0 z-10 flex h-[812px] w-[350px] flex-col justify-start">
           <div className="flex h-[45px] w-full text-sm font-bold">
@@ -160,13 +151,20 @@ const Toggle = ({
         </div>
       )}
       {toggles?.includes("sponsors") && (
-        <div className="absolute bottom-0 left-0 z-10 flex h-[200px] w-[450px] flex-col items-center justify-end border-2 border-green-950">
+        <div className="absolute bottom-0 left-0 z-10 flex h-[200px] w-[450px] flex-col items-start justify-end gap-4">
+          <div className="px-4">
+            <Image src="/assets/images/logo.png" alt="" className="w-32" />
+          </div>
           <div className="flex h-1/2 w-full items-center">
-            <div className="flex h-full w-1/2 flex-col items-center justify-center gap-2 border-2 border-green-950">
-              <p className="text-xl font-bold">{seriesName}</p>
-              <p className="">{matchName}</p>
+            <div className="relative flex h-full w-full flex-col items-center justify-center gap-2">
+              <video
+                src="/assets/videos/sponsors.mp4"
+                className="h-full w-full object-cover"
+                autoPlay
+                loop
+                muted
+              />
             </div>
-            <div className="h-full w-1/2 border-2 border-green-950"></div>
           </div>
         </div>
       )}

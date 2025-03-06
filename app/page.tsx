@@ -1,5 +1,4 @@
 "use client";
-
 import AutoNotifs from "@/components/home/autoNotifs";
 import BattleScreen from "@/components/home/battleScreen";
 import Popup from "@/components/home/popups";
@@ -12,47 +11,74 @@ const DATA_FETCH_INTERVAL = 2000;
 const Home = () => {
   const { activeScreen, activePopups, activeToggles, matchName, seriesName } =
     useBroadcastListeners();
-  const [totalPlayerList, setTotalPlayerList] = useState<any[]>([]);
-  const [observedPlayer, setObservedPlayer] = useState<any>();
 
-  const fetchBattleData = async () => {
+  const [gameData, setGameData] = useState({
+    totalPlayerList: [],
+    observedPlayer: null,
+    circleInfo: null,
+    teamInfo: null,
+    isInGame: null,
+  });
+
+  const fetchAllData = async () => {
     try {
-      const res = await fetch("/api/battle");
-      const data = await res.json();
-      setTotalPlayerList(data);
+      const [playersRes, observedRes, circleRes, teamRes, isInGameRes] =
+        await Promise.all([
+          fetch("/api/battle"),
+          fetch("/api/observed"),
+          fetch("/api/circleinfo"),
+          fetch("/api/teamInfo"),
+          fetch("/api/isInGame"),
+        ]);
+
+      const [totalPlayerList, observedPlayer, circleInfo, teamInfo, isInGame] =
+        await Promise.all([
+          playersRes.json(),
+          observedRes.json(),
+          circleRes.json(),
+          teamRes.json(),
+          isInGameRes.json(),
+        ]);
+
+      setGameData({
+        totalPlayerList,
+        observedPlayer,
+        circleInfo,
+        teamInfo,
+        isInGame,
+      });
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching game data:", err);
     }
   };
+
   useEffect(() => {
-    fetchBattleData();
-    const interval = setInterval(fetchBattleData, DATA_FETCH_INTERVAL);
+    fetchAllData();
+    const interval = setInterval(fetchAllData, DATA_FETCH_INTERVAL);
     return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    const findObservingPlayer = async () => {
-      const res = await fetch("/api/observed");
-      const data = await res.json();
-      setObservedPlayer(data);
-    };
-
-    findObservingPlayer();
-  }, [totalPlayerList]);
 
   return (
     <div className="h-full w-full bg-neutral-900">
       <BattleScreen
-        totalPlayerList={totalPlayerList}
+        totalPlayerList={gameData.totalPlayerList}
         activeScreen={activeScreen}
         matchName={matchName}
         seriesName={seriesName}
+        isInGame={gameData.isInGame}
       />
-      <Popup totalPlayerList={totalPlayerList} activePopups={activePopups} />
-      <AutoNotifs totalPlayerList={totalPlayerList} />
+      <Popup
+        totalPlayerList={gameData.totalPlayerList}
+        activePopups={activePopups}
+      />
+      <AutoNotifs
+        teamInfo={gameData.teamInfo}
+        circleInfo={gameData.circleInfo}
+        totalPlayerList={gameData.totalPlayerList}
+      />
       <Toggle
-        observedPlayer={observedPlayer}
-        totalPlayerList={totalPlayerList}
+        observedPlayer={gameData.observedPlayer}
+        totalPlayerList={gameData.totalPlayerList}
         activeToggles={activeToggles}
         matchName={matchName}
         seriesName={seriesName}
