@@ -1,6 +1,14 @@
 "use client";
 
-import { Button, Card, CardBody, Switch, Tab, Tabs } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Input,
+  Switch,
+  Tab,
+  Tabs,
+} from "@heroui/react";
 import { mdiBellCog, mdiProjectorScreen, mdiToggleSwitch } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useState } from "react";
@@ -8,11 +16,17 @@ import { useState } from "react";
 const popupChannel = new BroadcastChannel("popup");
 const screenChannel = new BroadcastChannel("screen");
 const toggleChannel = new BroadcastChannel("toggle");
+const matchChannel = new BroadcastChannel("match");
+const seriesChannel = new BroadcastChannel("series");
 
 const Admin = () => {
   const [activeScreen, setActiveScreen] = useState("battle");
   const [activeToggles, setActiveToggles] = useState<string[]>([]);
   const [activePopups, setActivePopups] = useState<string[]>([]);
+
+  // popupChannel.onmessage = (e) => setActivePopups(e.data);
+  // screenChannel.onmessage = (e) => setActiveScreen(e.data);
+  // toggleChannel.onmessage = (e) => setActiveToggles(e.data);
 
   const handleToggleChange = (toggle: string) => {
     setActiveToggles((prevToggles) => {
@@ -42,6 +56,16 @@ const Admin = () => {
         <Tab className="w-full" key="dashboard" title="In Game Dashboard">
           <Card className="w-full p-8">
             <CardBody className="space-y-8">
+              <div className="flex w-1/2 gap-4">
+                <Input
+                  onChange={(e) => seriesChannel.postMessage(e.target.value)}
+                  label="Series Name"
+                />
+                <Input
+                  onChange={(e) => matchChannel.postMessage(e.target.value)}
+                  label="Current Match (13/18)"
+                />
+              </div>
               <div className="flex w-full items-center justify-center gap-4">
                 <div className="h-px w-full bg-neutral-800"></div>
                 <div className="flex w-auto items-center gap-2">
@@ -50,27 +74,30 @@ const Admin = () => {
                 <div className="h-px w-full bg-neutral-800"></div>
               </div>
               <div className="flex items-center gap-8">
-                {["battle", "postdata", "teamstats", "matchrankings"].map(
-                  (screen) => (
-                    <Switch
-                      key={screen}
-                      color="warning"
-                      isSelected={activeScreen === screen}
-                      onValueChange={() => {
-                        setActiveScreen(screen);
-                        screenChannel.postMessage(screen);
-                      }}
-                    >
-                      {screen === "battle"
-                        ? "Battle"
-                        : screen === "postdata"
-                          ? "Teams data"
-                          : screen === "teamstats"
-                            ? "Match ranking"
-                            : "Overall ranking"}
-                    </Switch>
-                  ),
-                )}
+                {[
+                  "battle",
+                  "teamstats",
+                  "matchrankings",
+                  "overallrankings",
+                ].map((screen) => (
+                  <Switch
+                    key={screen}
+                    color="warning"
+                    isSelected={activeScreen === screen}
+                    onValueChange={() => {
+                      setActiveScreen(screen);
+                      screenChannel.postMessage(screen);
+                    }}
+                  >
+                    {screen === "battle"
+                      ? "Battle"
+                      : screen === "overallrankings"
+                        ? "Overall ranking"
+                        : screen === "teamstats"
+                          ? "Team stats"
+                          : "Match ranking"}
+                  </Switch>
+                ))}
               </div>
 
               <div className="flex w-full items-center justify-center gap-4">
