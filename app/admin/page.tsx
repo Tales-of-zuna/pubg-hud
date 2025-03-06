@@ -145,24 +145,18 @@ const Admin = () => {
                 <div className="h-px w-full bg-neutral-800"></div>
               </div>
               <div className="flex items-center gap-8">
-                {[
-                  { key: "socialplatforms", label: "Social Platforms" },
-                  { key: "teamdamage", label: "Team Damage" },
-                  { key: "circleclosing", label: "Circle Closing (auto)" },
-                  { key: "teamelimination", label: "Team Elimination (auto)" },
-                  { key: "finalblow", label: "Final Blow (auto)" },
-                  { key: "uniqueweapons", label: "Unique Weapons (auto)" },
-                  { key: "firstblood", label: "First Blood (auto)" },
-                ].map(({ key, label }) => (
-                  <Switch
-                    key={key}
-                    color="warning"
-                    isSelected={activePopups.includes(key)}
-                    onValueChange={() => handlePopupChange(key)}
-                  >
-                    {label}
-                  </Switch>
-                ))}
+                {[{ key: "socialplatforms", label: "Social Platforms" }].map(
+                  ({ key, label }) => (
+                    <Button
+                      key={key}
+                      color="warning"
+                      variant="bordered"
+                      onPress={() => handlePopupChange(key)}
+                    >
+                      {label}
+                    </Button>
+                  ),
+                )}
                 <Button
                   color="warning"
                   onPress={() => {

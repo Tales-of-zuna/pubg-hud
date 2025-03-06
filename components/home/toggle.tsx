@@ -168,47 +168,63 @@ const Toggle = ({
           </div>
         </div>
       )}
-
       {toggles?.includes("teamdamage") && (
-        <div className="absolute bottom-[235px] left-0 z-10 h-[350px] w-[257px] bg-green-600 bg-opacity-30">
-          <div className="flex h-[40px] w-full items-center justify-center bg-red-600 bg-opacity-30 text-xl font-semibold uppercase">
-            Damage Proportion
+        <div className="absolute bottom-[280px] left-0 z-10 h-[350px] w-[257px] bg-green-600 bg-opacity-30">
+          <div className="relative h-full w-full">
+            <video
+              src="/assets/videos/background.mp4"
+              className="h-full w-full object-cover"
+              autoPlay
+              loop
+              muted
+            ></video>
           </div>
-          <div className="flex h-[90px] w-full items-center justify-center gap-2 bg-black bg-opacity-30">
-            <Image
-              src="/assets/images/player.webp"
-              alt=""
-              className="h-[60px] w-[60px] object-cover"
-            />
-            <p className="text-xl font-bold">{selectedTeam?.teamName}</p>
-          </div>
-          <div className="h-[220px] w-full bg-red-600 bg-opacity-30">
-            {selectedTeam?.players?.map((player: any) => (
-              <div
-                key={player?.uId}
-                className="h-[55px] w-full border-b px-3 py-1"
-              >
-                <div className="flex items-center justify-between font-bold">
-                  <div className="flex items-center gap-2">
-                    <p>{selectedTeam?.teamName}</p>
-                    <p>{player.playerName}</p>
+          <div className="absolute top-0 h-full w-full">
+            <div className="flex h-[40px] w-full items-center justify-center text-xl font-semibold uppercase">
+              Damage Proportion
+            </div>
+            <div className="flex h-[90px] w-full items-center justify-center gap-2">
+              <Image
+                src="/assets/images/player.webp"
+                alt=""
+                className="h-[60px] w-[60px] object-cover"
+              />
+              <p className="text-xl font-bold">{selectedTeam?.teamName}</p>
+            </div>
+            <div className="h-[220px] w-full">
+              {selectedTeam?.players?.map((player: any) => (
+                <div
+                  key={player?.uId}
+                  className="h-[55px] w-full border-b px-3 py-1"
+                >
+                  <div className="flex items-center justify-between font-bold">
+                    <div className="flex items-center gap-2">
+                      <p>{selectedTeam?.teamName}</p>
+                      <p>{player.playerName}</p>
+                    </div>
+                    <p>{player.damage}</p>
                   </div>
-                  <p>{player.damage}</p>
+                  <div className="flex h-[20px] w-full gap-2 bg-neutral-600 pr-2">
+                    <div
+                      className="h-full bg-orange-500"
+                      style={{
+                        width:
+                          ((player?.damage != 0 ? player?.damage : 1) /
+                            selectedTeam?.teamDamage) *
+                            100 +
+                          "%",
+                      }}
+                    ></div>
+                    <p className="text-sm">
+                      {((player?.damage != 0 ? player?.damage : 1) /
+                        selectedTeam?.teamDamage) *
+                        100 +
+                        "%"}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex h-[20px] w-full gap-2 bg-neutral-600 pr-2">
-                  <div
-                    className="h-full bg-orange-500"
-                    style={{
-                      width:
-                        (player?.damage / selectedTeam?.teamDamage) * 100 + "%",
-                    }}
-                  ></div>
-                  <p className="text-sm">
-                    {(player?.damage / selectedTeam?.teamDamage) * 100 + "%"}
-                  </p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       )}
