@@ -1,7 +1,7 @@
 "use client";
 import AutoNotifs from "@/components/home/autoNotifs";
-import BattleScreen from "@/components/home/battleScreen";
 import Popup from "@/components/home/popups";
+import BattleScreen from "@/components/home/postgame";
 import Toggle from "@/components/home/toggle";
 import useBroadcastListeners from "@/hooks/useBroadcastListener";
 import { useEffect, useState } from "react";

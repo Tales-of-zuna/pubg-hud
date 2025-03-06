@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
   const [notifications, setNotifications] = useState<any>([]);
-  const [circleTimer, setCircleTimer] = useState<number | null>(null);
+  const [circleTimer, setCircleTimer] = useState<any>(null);
   const [circleTimerInterval, setCircleTimerInterval] = useState<any>(null);
 
   const [firstBloodShown, setFirstBloodShown] = useState(false);
@@ -66,17 +66,18 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
   useEffect(() => {
     if (!circleInfo) return;
 
-    const { Counter, MaxTime, CircleStatus } = circleInfo;
+    const Counter = Number(circleInfo.Counter);
+    const MaxTime = Number(circleInfo.MaxTime);
+    const CircleStatus = Number(circleInfo.CircleStatus);
 
-    if (MaxTime - Counter <= 20 && Counter < MaxTime && CircleStatus === 0) {
+    if (MaxTime - Counter <= 20 && Counter < MaxTime && CircleStatus == 0) {
       setCircleTimer(MaxTime - Counter);
-
       if (circleTimerInterval) {
         clearInterval(circleTimerInterval);
       }
 
       const intervalId = setInterval(() => {
-        setCircleTimer((prev) => {
+        setCircleTimer((prev: any) => {
           if (prev !== null && prev > 0) {
             return prev - 1;
           } else {
@@ -164,7 +165,6 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
   return (
     <div className="absolute left-0 top-0 z-10 h-screen w-screen">
       {notifications.map(renderNotification)}
-
       {circleTimer !== null && (
         <div className="absolute left-[275px] top-[90px] z-10 flex h-[100px] w-[315px] bg-cyan-600 bg-opacity-30">
           <video

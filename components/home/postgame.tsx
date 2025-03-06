@@ -14,7 +14,7 @@ const BattleScreen = ({
     if (isInGame == true) {
       return;
     }
-    const screenDurations = [5000, 5000, 5000, 5000];
+    const screenDurations = [30000, 35000, 40000, 40000];
     let index = 0;
 
     const cycleScreens = () => {
@@ -51,35 +51,35 @@ const BattleScreen = ({
         </div>
       )}
       {screenIndex === 1 && (
-        <div className="relative h-screen w-screen">
+        <div className="relative h-screen w-screen overflow-hidden">
           <video
             src="/assets/videos/teamStat.mp4"
             autoPlay
             loop
             muted
-            className="absolute left-0 top-0 z-10 h-full w-full object-cover"
+            className="absolute left-0 top-0 z-10 h-full w-full scale-[1.02] object-cover"
           ></video>
         </div>
       )}
       {screenIndex === 2 && (
-        <div className="relative h-screen w-screen">
+        <div className="relative h-screen w-screen overflow-hidden">
           <video
             src="/assets/videos/matchRanking.mp4"
             autoPlay
             loop
             muted
-            className="absolute left-0 top-0 z-10 h-full w-full object-cover"
+            className="absolute left-0 top-0 z-10 h-full w-full scale-[1.02] object-cover"
           ></video>
         </div>
       )}
       {screenIndex === 3 && (
-        <div className="relative h-screen w-screen">
+        <div className="relative h-screen w-screen overflow-hidden">
           <video
             src="/assets/videos/overallRanking.mp4"
             autoPlay
             loop
             muted
-            className="absolute left-0 top-0 z-10 h-full w-full object-cover"
+            className="absolute left-0 top-0 z-10 h-full w-full scale-[1.02] object-cover"
           ></video>
         </div>
       )}
