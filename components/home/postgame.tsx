@@ -9,12 +9,29 @@ const BattleScreen = ({
   matchName,
 }: any) => {
   const [screenIndex, setScreenIndex] = useState(0);
+  const [teamsData, setTeamsData] = useState<any>([]);
+  useEffect(() => {
+    if (isInGame == true && teamsData.length > 0) {
+      return;
+    }
+    const fetchTeamsData = async () => {
+      try {
+        const res = await fetch("/api/gameData");
+        const data = await res.json();
+        setTeamsData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchTeamsData();
+  }, [isInGame]);
 
   useEffect(() => {
     if (isInGame == true) {
       return;
     }
-    const screenDurations = [30000, 35000, 40000, 40000];
+
+    const screenDurations = [35000, 35000, 40000, 40000];
     let index = 0;
 
     const cycleScreens = () => {

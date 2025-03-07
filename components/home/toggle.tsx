@@ -139,7 +139,7 @@ const Toggle = ({
         <div className="absolute bottom-0 left-[450px] z-10 flex h-[200px] w-[286px] flex-col items-center justify-end">
           <div className="relative h-full w-full">
             <Image
-              src="/assets/images/player.webp"
+              src="/assets/images/logo.png"
               alt=""
               className="h-[200px] w-[290px] object-contain"
             />
@@ -184,11 +184,11 @@ const Toggle = ({
           </div>
           <div className="absolute top-0 h-full w-full">
             <div className="flex h-[30px] w-full items-center justify-center text-xl font-semibold uppercase">
-              <p className="">Damage Proportion</p>
+              <p className="">Damage Dealt</p>
             </div>
             <div className="flex h-[100px] w-full items-center justify-center gap-2">
               <Image
-                src="/assets/images/player.webp"
+                src="/assets/images/logo.png"
                 alt=""
                 className="h-[80px] w-[80px] object-cover"
               />

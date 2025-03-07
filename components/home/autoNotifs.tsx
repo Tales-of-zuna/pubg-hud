@@ -110,7 +110,7 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
                 #{notification.data.position}
               </div>
               <Image
-                src="/assets/images/player.webp"
+                src="/assets/images/logo.png"
                 alt=""
                 className="h-[60px] w-[60px] object-cover"
               />
