@@ -90,14 +90,14 @@ const Toggle = ({
                     : ""
                 } text-xl font-bold ${
                   team?.players?.every((player: any) => player.health <= 0)
-                    ? "bg-black bg-opacity-20 text-white grayscale filter backdrop-blur-xl"
-                    : ""
+                    ? "bg-black bg-opacity-90 text-white grayscale backdrop-blur-sm"
+                    : "text-neutral-800"
                 }`}
               >
                 <div className="flex h-full w-[40px] items-center justify-center">
                   {index + 1}
                 </div>
-                <div className="relative flex h-full w-[140px] items-center justify-center text-medium text-neutral-800">
+                <div className="relative flex h-full w-[140px] items-center justify-center text-medium">
                   {/* <Image
                     src="assets/images/player.webp"
                     alt=""

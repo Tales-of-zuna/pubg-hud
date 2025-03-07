@@ -24,38 +24,43 @@ const BattleScreen = ({
     const teamStats: any = {};
     totalPlayerList.forEach((player: any) => {
       const { teamId, teamName, killNum, rank } = player;
+
       if (!teamStats[teamId]) {
         teamStats[teamId] = {
           teamName,
-          teamId: teamId,
+          teamId,
           totalPoints: 0,
           winCount: 0,
           killCount: 0,
+          bestRank: Infinity,
         };
       }
 
       teamStats[teamId].killCount += killNum;
 
-      if (rank == 1) {
-        teamStats[teamId].winCount += 1;
-        teamStats[teamId].totalPoints += 10;
-      } else if (rank == 2) {
-        teamStats[teamId].totalPoints += 6;
-      } else if (rank == 3) {
-        teamStats[teamId].totalPoints += 5;
-      } else if (rank == 4) {
-        teamStats[teamId].totalPoints += 4;
-      } else if (rank == 5) {
-        teamStats[teamId].totalPoints += 3;
-      } else if (rank == 6) {
-        teamStats[teamId].totalPoints += 2;
-      } else if (rank == 8 || rank == 7) {
-        teamStats[teamId].totalPoints += 1;
-      } else {
-        teamStats[teamId].totalPoints += 0;
+      teamStats[teamId].bestRank = Math.min(teamStats[teamId].bestRank, rank);
+    });
+    Object.values(teamStats).forEach((team: any) => {
+      const { bestRank } = team;
+
+      if (bestRank === 1) {
+        team.winCount += 1;
+        team.totalPoints += 10;
+      } else if (bestRank === 2) {
+        team.totalPoints += 6;
+      } else if (bestRank === 3) {
+        team.totalPoints += 5;
+      } else if (bestRank === 4) {
+        team.totalPoints += 4;
+      } else if (bestRank === 5) {
+        team.totalPoints += 3;
+      } else if (bestRank === 6) {
+        team.totalPoints += 2;
+      } else if (bestRank === 7 || bestRank === 8) {
+        team.totalPoints += 1;
       }
 
-      teamStats[teamId].totalPoints += killNum;
+      team.totalPoints += team.killCount;
     });
 
     const teamsToUpdate = Object.values(teamStats);
@@ -111,7 +116,6 @@ const BattleScreen = ({
     }
 
     const screenDurations = [35000, 20000, 35000, 35000];
-    // const screenDurations = [1000, 1000, 1000, 1000];
     let index = 0;
 
     const cycleScreens = () => {
@@ -233,7 +237,7 @@ const BattleScreen = ({
             })}
           </div>
           <div className="absolute bottom-[205px] right-0 z-20 flex h-[900px] w-[1342px] items-end text-4xl font-bold">
-            <div className="">
+            <div className="flex">
               {matchWinners?.map((player: any) => {
                 return (
                   <div
@@ -289,7 +293,7 @@ const BattleScreen = ({
                     key={team.teamId}
                     className="flex h-[127.5px] items-center"
                   >
-                    <div className="flex h-full w-[250px] items-center justify-center">
+                    <div className="flex h-full w-[260px] items-center justify-center">
                       #{index + 1}
                     </div>
                     <div className="flex h-full w-[135px] items-center justify-center">
@@ -309,7 +313,7 @@ const BattleScreen = ({
               })}
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
               {matchTeams?.slice(4, 8).map((team: any, index: number) => {
                 const placementPoints = team.totalPoints - team.killCount;
                 return (
@@ -317,7 +321,7 @@ const BattleScreen = ({
                     key={team.teamId}
                     className="flex h-[127.5px] items-center"
                   >
-                    <div className="flex h-full w-[250px] items-center justify-center">
+                    <div className="flex h-full w-[290px] items-center justify-center">
                       #{index + 5}
                     </div>
                     <div className="flex h-full w-[135px] items-center justify-center">
