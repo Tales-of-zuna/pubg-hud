@@ -94,7 +94,7 @@ const Toggle = ({
                     : "text-neutral-800"
                 }`}
               >
-                <div className="flex h-full w-[40px] items-center justify-center">
+                <div className="flex h-full w-[40px] items-center justify-center text-white">
                   {index + 1}
                 </div>
                 <div className="relative flex h-full w-[140px] items-center justify-center text-medium">
@@ -122,10 +122,10 @@ const Toggle = ({
                     );
                   })}
                 </div>
-                <div className="flex h-full w-[55px] items-center justify-center">
+                <div className="flex h-full w-[55px] items-center justify-center text-white">
                   {team?.teamKillNum + getPlacementPoints(index + 1)}
                 </div>
-                <div className="flex h-full w-[90px] items-center justify-center">
+                <div className="flex h-full w-[90px] items-center justify-center text-white">
                   {team?.teamKillNum}
                 </div>
               </div>
