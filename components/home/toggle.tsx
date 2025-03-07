@@ -113,7 +113,7 @@ const Toggle = ({
                   })}
                 </div>
                 <div className="flex h-full w-[55px] items-center justify-center">
-                  {team?.teamId}
+                  {team?.teamKillNum}
                 </div>
                 <div className="flex h-full w-[90px] items-center justify-center">
                   {team?.teamKillNum}
