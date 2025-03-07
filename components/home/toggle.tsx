@@ -55,6 +55,16 @@ const Toggle = ({
       }
     });
   }, [observedPlayer, teamsWithPlayers]);
+  const getPlacementPoints = (placement: any) => {
+    if (placement === 1) return 10;
+    if (placement === 2) return 6;
+    if (placement === 3) return 5;
+    if (placement === 4) return 4;
+    if (placement === 5) return 3;
+    if (placement === 6) return 2;
+    if (placement >= 7 && placement <= 8) return 1;
+    return 0;
+  };
 
   return (
     <div className="absolute left-0 top-0 z-10 h-screen w-screen">
@@ -72,7 +82,7 @@ const Toggle = ({
             {teamsWithPlayers?.map((team: any, index: number) => (
               <div
                 key={index}
-                className={`flex h-[44px] w-full ${
+                className={`flex h-[43.5px] w-full ${
                   team?.players?.some(
                     (player: any) => player.uId == observedPlayer,
                   )
@@ -80,7 +90,7 @@ const Toggle = ({
                     : ""
                 } text-xl font-bold ${
                   team?.players?.every((player: any) => player.health <= 0)
-                    ? "bg-black bg-opacity-20 grayscale filter backdrop-blur-xl"
+                    ? "bg-black bg-opacity-20 text-white grayscale filter backdrop-blur-xl"
                     : ""
                 }`}
               >
@@ -113,7 +123,7 @@ const Toggle = ({
                   })}
                 </div>
                 <div className="flex h-full w-[55px] items-center justify-center">
-                  {team?.teamKillNum}
+                  {team?.teamKillNum + getPlacementPoints(index + 1)}
                 </div>
                 <div className="flex h-full w-[90px] items-center justify-center">
                   {team?.teamKillNum}
