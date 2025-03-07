@@ -8,7 +8,9 @@ export const POST = async (req: NextRequest) => {
   try {
     const teamData = await req.json();
 
-    const existingTeam = await TeamsData.findOne({ teamId: teamData.teamId });
+    const existingTeam = await TeamsData.findOne({
+      teamName: teamData.teamName,
+    });
 
     if (existingTeam) {
       existingTeam.totalPoints += teamData.totalPoints;
