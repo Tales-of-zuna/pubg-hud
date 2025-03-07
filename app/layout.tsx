@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Oswald } from "next/font/google";
 import "./globals.css";
 
-const roboto = Roboto({
-  subsets: ["cyrillic"],
-  weight: ["100", "300", "400", "500", "700", "900"],
+const roboto = Oswald({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {

@@ -8,6 +8,7 @@ const Toggle = ({
   observedPlayer,
   matchName,
   seriesName,
+  mapName,
 }: any) => {
   const toggles = activeToggles?.data || [];
   const [teamsWithPlayers, setTeamsWithPlayers] = useState<any>();
@@ -134,6 +135,25 @@ const Toggle = ({
       )}
       {toggles?.includes("lastfourteams") && (
         <div className="h-32 w-32 bg-red-500">last four</div>
+      )}
+      {toggles?.includes("plane") && (
+        <div className="absolute top-[150px] flex h-32 w-full items-center justify-center">
+          <div className="relative h-48 w-96 bg-black">
+            <video
+              src="/assets/videos/mininotif.mp4"
+              className="h-full w-full object-cover"
+              autoPlay
+              loop
+              muted
+            ></video>
+            <div className="absolute top-0 z-10 flex h-36 w-full items-center justify-center text-4xl font-bold uppercase">
+              {mapName}
+            </div>
+            <div className="absolute bottom-0 z-10 flex h-14 w-full items-center justify-center text-xl font-bold uppercase">
+              {seriesName} MATCH {matchName}
+            </div>
+          </div>
+        </div>
       )}
       {toggles?.includes("playerimage") && (
         <div className="absolute bottom-0 left-[450px] z-10 flex h-[200px] w-[286px] flex-col items-center justify-end">

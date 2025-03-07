@@ -5,6 +5,7 @@ const popupChannel = new BroadcastChannel("popup");
 const toggleChannel = new BroadcastChannel("toggle");
 const matchChannel = new BroadcastChannel("match");
 const seriesChannel = new BroadcastChannel("series");
+const mapChannel = new BroadcastChannel("map");
 
 const popupTimeout = 5000;
 
@@ -14,6 +15,7 @@ const useBroadcastListeners = () => {
   const [activeToggles, setActiveToggles] = useState({});
   const [seriesName, setSeriesName] = useState<string>("");
   const [matchName, setMatchName] = useState<string>("");
+  const [mapName, setMapName] = useState<string>("");
 
   useEffect(() => {
     const handlePopupMessage = (e: MessageEvent) => setActivePopups(e.data);
@@ -21,12 +23,14 @@ const useBroadcastListeners = () => {
     const handleToggleMessage = (e: MessageEvent) => setActiveToggles(e.data);
     const handleMatchMessage = (e: MessageEvent) => setMatchName(e.data);
     const handleSeriesMessage = (e: MessageEvent) => setSeriesName(e.data);
+    const handleMapMessage = (e: MessageEvent) => setMapName(e.data);
 
     popupChannel.addEventListener("message", handlePopupMessage);
     screenChannel.addEventListener("message", handleScreenMessage);
     toggleChannel.addEventListener("message", handleToggleMessage);
     matchChannel.addEventListener("message", handleMatchMessage);
     seriesChannel.addEventListener("message", handleSeriesMessage);
+    mapChannel.addEventListener("message", handleMapMessage);
 
     return () => {
       popupChannel.removeEventListener("message", handlePopupMessage);
@@ -34,6 +38,7 @@ const useBroadcastListeners = () => {
       toggleChannel.removeEventListener("message", handleToggleMessage);
       matchChannel.removeEventListener("message", handleMatchMessage);
       seriesChannel.removeEventListener("message", handleSeriesMessage);
+      mapChannel.removeEventListener("message", handleMapMessage);
     };
   }, []);
 
@@ -47,7 +52,14 @@ const useBroadcastListeners = () => {
     }
   }, [activePopups]);
 
-  return { activeScreen, activePopups, activeToggles, seriesName, matchName };
+  return {
+    activeScreen,
+    activePopups,
+    activeToggles,
+    seriesName,
+    matchName,
+    mapName,
+  };
 };
 
 export default useBroadcastListeners;

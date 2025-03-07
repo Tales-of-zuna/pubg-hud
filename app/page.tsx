@@ -1,5 +1,4 @@
 "use client";
-import AutoNotifs from "@/components/home/autoNotifs";
 import Popup from "@/components/home/popups";
 import BattleScreen from "@/components/home/postgame";
 import Toggle from "@/components/home/toggle";
@@ -9,8 +8,14 @@ import { useEffect, useState } from "react";
 const DATA_FETCH_INTERVAL = 2000;
 
 const Home = () => {
-  const { activeScreen, activePopups, activeToggles, matchName, seriesName } =
-    useBroadcastListeners();
+  const {
+    activeScreen,
+    activePopups,
+    activeToggles,
+    matchName,
+    seriesName,
+    mapName,
+  } = useBroadcastListeners();
 
   const [gameData, setGameData] = useState({
     totalPlayerList: [],
@@ -71,17 +76,18 @@ const Home = () => {
         totalPlayerList={gameData.totalPlayerList}
         activePopups={activePopups}
       />
-      <AutoNotifs
+      {/* <AutoNotifs
         teamInfo={gameData.teamInfo}
         circleInfo={gameData.circleInfo}
         totalPlayerList={gameData.totalPlayerList}
-      />
+      /> */}
       <Toggle
         observedPlayer={gameData.observedPlayer}
         totalPlayerList={gameData.totalPlayerList}
         activeToggles={activeToggles}
         matchName={matchName}
         seriesName={seriesName}
+        mapName={mapName}
       />
     </div>
   );

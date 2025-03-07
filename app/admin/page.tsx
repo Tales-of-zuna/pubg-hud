@@ -24,6 +24,7 @@ const screenChannel = new BroadcastChannel("screen");
 const toggleChannel = new BroadcastChannel("toggle");
 const matchChannel = new BroadcastChannel("match");
 const seriesChannel = new BroadcastChannel("series");
+const mapChannel = new BroadcastChannel("map");
 
 const Admin = () => {
   const [activeScreen, setActiveScreen] = useState("battle");
@@ -133,6 +134,10 @@ const Admin = () => {
                   onChange={(e) => matchChannel.postMessage(e.target.value)}
                   label="Current Match (13/18)"
                 />
+                <Input
+                  onChange={(e) => mapChannel.postMessage(e.target.value)}
+                  label="Map Name"
+                />
               </div>
               <div className="flex w-full items-center justify-center gap-4">
                 <div className="h-px w-full bg-neutral-800"></div>
@@ -176,24 +181,30 @@ const Admin = () => {
                 <div className="h-px w-full bg-neutral-800"></div>
               </div>
               <div className="flex items-center gap-8">
-                {["sponsors", "teams", "playerimage", "teamdamage"].map(
-                  (toggle) => (
-                    <Switch
-                      key={toggle}
-                      color="warning"
-                      isSelected={activeToggles.includes(toggle)}
-                      onValueChange={() => handleToggleChange(toggle)}
-                    >
-                      {toggle === "sponsors"
-                        ? "Sponsors"
-                        : toggle === "teams"
-                          ? "Teams"
-                          : toggle === "playerimage"
-                            ? "Player image"
+                {[
+                  "sponsors",
+                  "teams",
+                  "playerimage",
+                  "teamdamage",
+                  "plane",
+                ].map((toggle) => (
+                  <Switch
+                    key={toggle}
+                    color="warning"
+                    isSelected={activeToggles.includes(toggle)}
+                    onValueChange={() => handleToggleChange(toggle)}
+                  >
+                    {toggle === "sponsors"
+                      ? "Sponsors"
+                      : toggle === "teams"
+                        ? "Teams"
+                        : toggle === "playerimage"
+                          ? "Player image"
+                          : toggle === "plane"
+                            ? "Plane"
                             : "Team damage"}
-                    </Switch>
-                  ),
-                )}
+                  </Switch>
+                ))}
                 <Button
                   color="warning"
                   onPress={() => {
