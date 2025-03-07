@@ -183,7 +183,7 @@ const Toggle = ({
       {toggles?.includes("sponsors") && (
         <div className="absolute bottom-0 left-0 z-10 flex h-[200px] w-[450px] flex-col items-start justify-end gap-4">
           <div className="px-4">
-            <Image src="/assets/images/logo.png" alt="" className="w-32" />
+            {/* <Image src="/assets/images/logo.png" alt="" className="w-32" /> */}
           </div>
           <div className="flex h-1/2 w-full flex-col items-start justify-end">
             <div className="relative flex h-full w-full flex-col items-center justify-center gap-2">
