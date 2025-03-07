@@ -88,11 +88,11 @@ const Toggle = ({
                   {index + 1}
                 </div>
                 <div className="relative flex h-full w-[140px] items-center justify-center text-medium text-neutral-800">
-                  <Image
+                  {/* <Image
                     src="assets/images/player.webp"
                     alt=""
                     className="aspect-square h-[30px]"
-                  />
+                  /> */}
                   {team?.teamName}
                 </div>
                 <div className="flex h-full w-[100px] items-end justify-center gap-1 py-2">
