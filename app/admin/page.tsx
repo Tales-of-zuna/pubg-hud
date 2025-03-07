@@ -281,13 +281,7 @@ const Admin = () => {
                 <Icon path={mdiCog} size={1} className="animate-bounce" />
               </div>
               <div>
-                {totalPlayerList.map((player: any) => {
-                  return (
-                    <div key={player.uId}>
-                      {player.playerName} - {player.teamId} - {player.killNum}
-                    </div>
-                  );
-                })}
+                <div>{totalPlayerList.length > 0 ? "Ready" : "Not Ready"}</div>
               </div>
             </CardBody>
           </Card>
