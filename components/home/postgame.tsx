@@ -20,14 +20,59 @@ const BattleScreen = ({
   const [matchWinners, setMatchWinners] = useState<any>([]);
   const [matchTeams, setMatchTeams] = useState<any>([]);
 
+  // const saveTeamData = async () => {
+  //   const teamStats: any = {};
+  //   totalPlayerList.forEach((player: any) => {
+  //     const { teamId, teamName, killNum, rank } = player;
+  //     if (!teamStats[teamId]) {
+  //       teamStats[teamId] = {
+  //         teamName,
+  //         teamId: teamId,
+  //         totalPoints: 0,
+  //         winCount: 0,
+  //         killCount: 0,
+  //       };
+  //     }
+
+  //     teamStats[teamId].killCount += killNum;
+
+  //     if (rank == 1) {
+  //       teamStats[teamId].winCount += 1;
+  //       teamStats[teamId].totalPoints += 10;
+  //     } else if (rank == 2) {
+  //       teamStats[teamId].totalPoints += 6;
+  //     } else if (rank == 3) {
+  //       teamStats[teamId].totalPoints += 5;
+  //     } else if (rank == 4) {
+  //       teamStats[teamId].totalPoints += 4;
+  //     } else if (rank == 5) {
+  //       teamStats[teamId].totalPoints += 3;
+  //     } else if (rank == 6) {
+  //       teamStats[teamId].totalPoints += 2;
+  //     } else if (rank == 8 || rank == 7) {
+  //       teamStats[teamId].totalPoints += 1;
+  //     } else {
+  //       teamStats[teamId].totalPoints += 0;
+  //     }
+
+  //     teamStats[teamId].totalPoints += killNum;
+  //   });
+
+  //   const teamsToUpdate = Object.values(teamStats);
+  //   teamsToUpdate.sort((a: any, b: any) => b.totalPoints - a.totalPoints);
+  //   setMatchTeams(teamsToUpdate);
+  // };
+
   const saveTeamData = async () => {
     const teamStats: any = {};
+
     totalPlayerList.forEach((player: any) => {
       const { teamId, teamName, killNum, rank } = player;
+
       if (!teamStats[teamId]) {
         teamStats[teamId] = {
           teamName,
-          teamId: teamId,
+          teamId,
           totalPoints: 0,
           winCount: 0,
           killCount: 0,
@@ -51,24 +96,43 @@ const BattleScreen = ({
         teamStats[teamId].totalPoints += 2;
       } else if (rank == 8 || rank == 7) {
         teamStats[teamId].totalPoints += 1;
-      } else {
-        teamStats[teamId].totalPoints += 0;
       }
 
       teamStats[teamId].totalPoints += killNum;
     });
 
-    const teamsToUpdate = Object.values(teamStats);
-    teamsToUpdate.sort((a: any, b: any) => b.totalPoints - a.totalPoints);
-    setMatchTeams(teamsToUpdate);
+    const matchResults = Object.values(teamStats);
+    matchResults.sort((a: any, b: any) => b.totalPoints - a.totalPoints);
+    setMatchTeams(matchResults);
+
+    setTeamsData((prevTeamsData: any) => {
+      const updatedTeamsData = [...prevTeamsData];
+
+      matchResults.forEach((matchTeam: any) => {
+        const existingTeam = updatedTeamsData.find(
+          (team) => team.teamId === matchTeam.teamId,
+        );
+
+        if (existingTeam) {
+          existingTeam.totalPoints += matchTeam.totalPoints;
+          existingTeam.killCount += matchTeam.killCount;
+          existingTeam.winCount += matchTeam.winCount;
+        }
+        // else {
+        //   updatedTeamsData.push({ ...matchTeam });
+        // }
+      });
+
+      return updatedTeamsData.sort(
+        (a: any, b: any) => b.totalPoints - a.totalPoints,
+      );
+    });
   };
 
   useEffect(() => {
     if (isInGame == true && teamsData.length > 0) {
       return;
     }
-
-    saveTeamData();
 
     const rankedPlayers = totalPlayerList?.filter(
       (player: any) => player.rank == 1,
@@ -90,6 +154,7 @@ const BattleScreen = ({
         const data = await res.json();
         data.sort((a: any, b: any) => b.totalPoints - a.totalPoints);
         setTeamsData(data);
+        saveTeamData();
       } catch (error) {
         console.log(error);
       }
@@ -102,8 +167,8 @@ const BattleScreen = ({
       return;
     }
 
-    const screenDurations = [35000, 20000, 35000, 35000];
-    // const screenDurations = [1000, 1000, 1000000, 1000];
+    // const screenDurations = [35000, 20000, 35000, 35000];
+    const screenDurations = [1000, 1000, 1000, 1000];
     let index = 0;
 
     const cycleScreens = () => {

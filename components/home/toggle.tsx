@@ -76,9 +76,13 @@ const Toggle = ({
                   team?.players?.some(
                     (player: any) => player.uId == observedPlayer,
                   )
-                    ? "bg-emerald-600"
-                    : "bg-transparent"
-                } text-xl font-bold`}
+                    ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
+                    : ""
+                } text-xl font-bold ${
+                  team?.players?.every((player: any) => player.health <= 0)
+                    ? "bg-black bg-opacity-20 grayscale filter backdrop-blur-xl"
+                    : ""
+                }`}
               >
                 <div className="flex h-full w-[40px] items-center justify-center">
                   {index + 1}
