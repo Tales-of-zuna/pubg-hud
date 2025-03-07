@@ -150,7 +150,7 @@ const Toggle = ({
               loop
               muted
             ></video>
-            <div className="absolute top-0 z-10 flex h-36 w-full items-center justify-center text-4xl font-bold uppercase">
+            <div className="absolute top-0 z-10 flex h-36 w-full items-center justify-center text-5xl font-bold uppercase text-neutral-800">
               {mapName}
             </div>
             <div className="absolute bottom-0 z-10 flex h-14 w-full items-center justify-center text-xl font-bold uppercase">
