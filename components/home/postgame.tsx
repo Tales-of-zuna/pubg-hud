@@ -20,59 +20,14 @@ const BattleScreen = ({
   const [matchWinners, setMatchWinners] = useState<any>([]);
   const [matchTeams, setMatchTeams] = useState<any>([]);
 
-  // const saveTeamData = async () => {
-  //   const teamStats: any = {};
-  //   totalPlayerList.forEach((player: any) => {
-  //     const { teamId, teamName, killNum, rank } = player;
-  //     if (!teamStats[teamId]) {
-  //       teamStats[teamId] = {
-  //         teamName,
-  //         teamId: teamId,
-  //         totalPoints: 0,
-  //         winCount: 0,
-  //         killCount: 0,
-  //       };
-  //     }
-
-  //     teamStats[teamId].killCount += killNum;
-
-  //     if (rank == 1) {
-  //       teamStats[teamId].winCount += 1;
-  //       teamStats[teamId].totalPoints += 10;
-  //     } else if (rank == 2) {
-  //       teamStats[teamId].totalPoints += 6;
-  //     } else if (rank == 3) {
-  //       teamStats[teamId].totalPoints += 5;
-  //     } else if (rank == 4) {
-  //       teamStats[teamId].totalPoints += 4;
-  //     } else if (rank == 5) {
-  //       teamStats[teamId].totalPoints += 3;
-  //     } else if (rank == 6) {
-  //       teamStats[teamId].totalPoints += 2;
-  //     } else if (rank == 8 || rank == 7) {
-  //       teamStats[teamId].totalPoints += 1;
-  //     } else {
-  //       teamStats[teamId].totalPoints += 0;
-  //     }
-
-  //     teamStats[teamId].totalPoints += killNum;
-  //   });
-
-  //   const teamsToUpdate = Object.values(teamStats);
-  //   teamsToUpdate.sort((a: any, b: any) => b.totalPoints - a.totalPoints);
-  //   setMatchTeams(teamsToUpdate);
-  // };
-
   const saveTeamData = async () => {
     const teamStats: any = {};
-
     totalPlayerList.forEach((player: any) => {
       const { teamId, teamName, killNum, rank } = player;
-
       if (!teamStats[teamId]) {
         teamStats[teamId] = {
           teamName,
-          teamId,
+          teamId: teamId,
           totalPoints: 0,
           winCount: 0,
           killCount: 0,
@@ -96,43 +51,24 @@ const BattleScreen = ({
         teamStats[teamId].totalPoints += 2;
       } else if (rank == 8 || rank == 7) {
         teamStats[teamId].totalPoints += 1;
+      } else {
+        teamStats[teamId].totalPoints += 0;
       }
 
       teamStats[teamId].totalPoints += killNum;
     });
 
-    const matchResults = Object.values(teamStats);
-    matchResults.sort((a: any, b: any) => b.totalPoints - a.totalPoints);
-    setMatchTeams(matchResults);
-
-    setTeamsData((prevTeamsData: any) => {
-      const updatedTeamsData = [...prevTeamsData];
-
-      matchResults.forEach((matchTeam: any) => {
-        const existingTeam = updatedTeamsData.find(
-          (team) => team.teamId === matchTeam.teamId,
-        );
-
-        if (existingTeam) {
-          existingTeam.totalPoints += matchTeam.totalPoints;
-          existingTeam.killCount += matchTeam.killCount;
-          existingTeam.winCount += matchTeam.winCount;
-        }
-        // else {
-        //   updatedTeamsData.push({ ...matchTeam });
-        // }
-      });
-
-      return updatedTeamsData.sort(
-        (a: any, b: any) => b.totalPoints - a.totalPoints,
-      );
-    });
+    const teamsToUpdate = Object.values(teamStats);
+    teamsToUpdate.sort((a: any, b: any) => b.totalPoints - a.totalPoints);
+    setMatchTeams(teamsToUpdate);
   };
 
   useEffect(() => {
     if (isInGame == true && teamsData.length > 0) {
       return;
     }
+
+    saveTeamData();
 
     const rankedPlayers = totalPlayerList?.filter(
       (player: any) => player.rank == 1,
@@ -148,27 +84,34 @@ const BattleScreen = ({
     }
     popupChannel.postMessage({ data: [] });
     toggleChannel.postMessage({ data: [] });
-    const fetchTeamsData = async () => {
-      try {
-        const res = await fetch("/api/gameData");
-        const data = await res.json();
-        data.sort((a: any, b: any) => b.totalPoints - a.totalPoints);
-        setTeamsData(data);
-        saveTeamData();
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchTeamsData();
   }, [isInGame]);
 
   useEffect(() => {
     if (isInGame == true) {
       return;
     }
+    if (screenIndex == 2) {
+      const fetchTeamsData = async () => {
+        try {
+          const res = await fetch("/api/gameData");
+          const data = await res.json();
+          data.sort((a: any, b: any) => b.totalPoints - a.totalPoints);
+          setTeamsData(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchTeamsData();
+    }
+  }, [screenIndex, isInGame]);
 
-    // const screenDurations = [35000, 20000, 35000, 35000];
-    const screenDurations = [1000, 1000, 1000, 1000];
+  useEffect(() => {
+    if (isInGame == true) {
+      return;
+    }
+
+    const screenDurations = [35000, 20000, 35000, 35000];
+    // const screenDurations = [1000, 1000, 1000, 1000];
     let index = 0;
 
     const cycleScreens = () => {
@@ -265,7 +208,7 @@ const BattleScreen = ({
             muted
             className="absolute left-0 top-0 z-10 h-full w-full scale-[1.02] object-cover"
           ></video>
-          <div className="absolute bottom-[358px] left-[22px] z-20 flex h-[60px] w-[530px] items-center text-4xl font-bold text-neutral-800">
+          <div className="absolute bottom-[358px] left-[22px] z-20 flex h-[60px] w-[530px] items-center text-4xl font-bold text-blue-950">
             <div className="flex w-64 items-center justify-center">
               <p className="">{seriesName}</p>
             </div>
@@ -284,7 +227,7 @@ const BattleScreen = ({
                   key={player.uId}
                   className="flex h-full w-[335.5px] items-center justify-center"
                 >
-                  <p className="text-neutral-800">{player.playerName}</p>
+                  <p className="text-blue-950">{player.playerName}</p>
                 </div>
               );
             })}
@@ -518,7 +461,7 @@ const BattleScreen = ({
           <div
             className={`absolute right-[170px] top-[210px] z-20 flex h-[75px] w-[660px] transform items-center justify-around text-3xl font-bold transition-all duration-1000 ease-in-out`}
           >
-            <p className="text-neutral-800">{matchName}</p>
+            <p className="text-blue-950">{matchName}</p>
             <p className="">{seriesName}</p>
           </div>
         </div>
