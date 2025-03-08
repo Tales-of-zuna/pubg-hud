@@ -212,7 +212,7 @@ const BattleScreen = ({
             muted
             className="absolute left-0 top-0 z-10 h-full w-full scale-[1.02] object-cover"
           ></video>
-          <div className="absolute bottom-[358px] left-[22px] z-20 flex h-[60px] w-[530px] items-center text-4xl font-bold text-blue-950">
+          <div className="absolute bottom-[358px] left-[22px] z-20 flex h-[60px] w-[530px] items-center text-3xl font-bold text-blue-950">
             <div className="flex w-64 items-center justify-center">
               <p className="">{seriesName}</p>
             </div>
