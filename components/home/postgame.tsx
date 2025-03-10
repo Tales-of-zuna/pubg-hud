@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import MatchRankings from "../screens/matchRanking";
-import MVPDisplay from "../screens/MVPDisplay";
+import MVPDisplay from "../screens/mvpDisplay";
 import OverallRanking from "../screens/overallRanking";
 import WinnerTeam from "../screens/winnerTeam";
 
