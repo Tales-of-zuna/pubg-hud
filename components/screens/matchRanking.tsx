@@ -1,0 +1,111 @@
+import { Image } from "@heroui/react";
+
+const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
+  return (
+    <div className="relative h-screen w-screen overflow-hidden">
+      <video
+        src="/assets/videos/matchRanking.mp4"
+        autoPlay
+        loop
+        muted
+        className="absolute left-0 top-0 z-10 h-full w-full scale-[1.02] object-cover"
+      ></video>
+      <div className="absolute bottom-2 left-0 z-20 grid h-[510px] w-full grid-cols-2 px-4 text-4xl font-bold">
+        <div className="flex flex-col">
+          {matchTeams?.slice(0, 4).map((team: any, index: number) => {
+            const placementPoints = team.totalPoints - team.killCount;
+            return (
+              <div key={team.teamId} className="flex h-[127.5px] items-center">
+                <div className="flex h-full w-[260px] items-center justify-center">
+                  #{index + 1}
+                </div>
+                <div className="flex h-full w-[135px] items-center justify-center">
+                  {team.teamName}
+                </div>
+                <div className="flex h-full w-[200px] items-center justify-center">
+                  {placementPoints}
+                </div>
+                <div className="flex h-full w-[125px] items-center justify-center">
+                  {team.killCount}
+                </div>
+                <div className="flex h-full w-[185px] items-center justify-center">
+                  {team.totalPoints}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-col">
+          {matchTeams?.slice(4, 8).map((team: any, index: number) => {
+            const placementPoints = team.totalPoints - team.killCount;
+            return (
+              <div key={team.teamId} className="flex h-[127.5px] items-center">
+                <div className="flex h-full w-[290px] items-center justify-center">
+                  #{index + 5}
+                </div>
+                <div className="flex h-full w-[135px] items-center justify-center">
+                  {team.teamName}
+                </div>
+                <div className="flex h-full w-[200px] items-center justify-center">
+                  {placementPoints}
+                </div>
+                <div className="flex h-full w-[125px] items-center justify-center">
+                  {team.killCount}
+                </div>
+                <div className="flex h-full w-[185px] items-center justify-center">
+                  {team.totalPoints}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="absolute left-4 top-16 z-20 flex w-full items-center text-6xl font-bold">
+        Match Rankings
+      </div>
+      <div className="absolute left-4 top-[135px] z-20 flex h-[70px] w-[694px] items-center justify-around text-3xl font-bold">
+        <p>{matchName}</p>
+        <p>{seriesName}</p>
+      </div>
+      <div className="absolute left-4 top-[220px] z-20 flex h-[276px] w-[1888px] text-3xl font-bold">
+        <div className="w-[100px] p-4 text-4xl">
+          <p>#1</p>
+        </div>
+        <div className="flex w-[700px] items-center justify-center">
+          <Image
+            src="/assets/images/logo.png"
+            alt=""
+            className="z-20 h-32 w-32 object-contain"
+          />
+        </div>
+        <div className="flex w-[272px] flex-col items-center justify-center uppercase text-neutral-800">
+          <p className="text-lg uppercase">team</p>
+          <p className="text-6xl font-bold uppercase">
+            {matchTeams[0].teamName}
+          </p>
+        </div>
+        <div className="flex w-[272px] flex-col items-center justify-center text-neutral-800">
+          <p className="uppercase">place pts</p>
+          <p className="text-9xl font-bold uppercase">
+            {matchTeams[0].totalPoints - matchTeams[0].killCount}
+          </p>
+        </div>
+        <div className="flex w-[272px] flex-col items-center justify-center text-neutral-800">
+          <p className="uppercase">elims</p>
+          <p className="text-9xl font-bold uppercase">
+            {matchTeams[0].killCount}
+          </p>
+        </div>
+        <div className="flex w-[272px] flex-col items-center justify-center text-neutral-800">
+          <p className="uppercase">total pts</p>
+          <p className="text-9xl font-bold uppercase">
+            {matchTeams[0].totalPoints}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MatchRankings;

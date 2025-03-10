@@ -31,7 +31,7 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
         kills: teamInfo.killNum,
       });
     }
-  }, [teamInfo?.liveMemberNum]);
+  }, [teamInfo, teamInfo.liveMemberNum]);
 
   useEffect(() => {
     if (!totalPlayerList || !totalPlayerList.length) return;
@@ -61,7 +61,7 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
       player.prevKillNumByGrenade = player.killNumByGrenade;
       player.prevKillNumInVehicle = player.killNumInVehicle;
     });
-  }, [totalPlayerList]);
+  }, [firstBloodShown, totalPlayerList]);
 
   useEffect(() => {
     if (!circleInfo) return;
@@ -95,7 +95,7 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
         setCircleTimerInterval(null);
       }
     }
-  }, [circleInfo?.Counter]);
+  }, [circleInfo, circleInfo.Counter, circleTimerInterval]);
 
   const renderNotification = (notification: any) => {
     switch (notification.type) {
