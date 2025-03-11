@@ -5,7 +5,7 @@ const teamsDataSchema = new mongoose.Schema(
     teamName: {
       type: String,
     },
-    teamId: {
+    matchNumber: {
       type: String,
     },
     totalPoints: {

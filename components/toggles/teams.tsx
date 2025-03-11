@@ -20,7 +20,11 @@ const Teams = ({
             className={`flex h-[43.5px] w-full ${
               team?.players?.some((player: any) => player.uId == observedPlayer)
                 ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
-                : ""
+                : team?.players?.some(
+                      (player: any) => player.isOutsideBlueCircle == true,
+                    )
+                  ? "animate-pulse bg-blue-700 bg-opacity-30 backdrop-blur-lg"
+                  : ""
             } text-xl font-bold ${
               team?.players?.every((player: any) => player.health <= 0)
                 ? "bg-black bg-opacity-90 text-white grayscale backdrop-blur-sm"
@@ -42,7 +46,7 @@ const Teams = ({
               {team?.players?.map((player: any) => {
                 return (
                   <div
-                    className="flex h-full items-end bg-neutral-700"
+                    className={`flex h-full items-end ${player.liveState == 4 ? "bg-red-600" : "bg-neutral-700"} `}
                     key={player?.uId}
                   >
                     <div
