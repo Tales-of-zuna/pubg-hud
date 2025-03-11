@@ -1,4 +1,5 @@
 "use client";
+import AutoNotifs from "@/components/home/autoNotifs";
 import Popup from "@/components/home/popups";
 import BattleScreen from "@/components/home/postgame";
 import Toggle from "@/components/home/toggle";
@@ -76,11 +77,11 @@ const Home = () => {
         totalPlayerList={gameData.totalPlayerList}
         activePopups={activePopups}
       />
-      {/* <AutoNotifs
+      <AutoNotifs
         teamInfo={gameData.teamInfo}
         circleInfo={gameData.circleInfo}
         totalPlayerList={gameData.totalPlayerList}
-      /> */}
+      />
       <Toggle
         observedPlayer={gameData.observedPlayer}
         totalPlayerList={gameData.totalPlayerList}

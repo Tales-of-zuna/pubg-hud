@@ -9,12 +9,7 @@ import {
   Tab,
   Tabs,
 } from "@heroui/react";
-import {
-  mdiBellCog,
-  mdiCog,
-  mdiProjectorScreen,
-  mdiToggleSwitch,
-} from "@mdi/js";
+import { mdiBellCog, mdiCog, mdiToggleSwitch } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -144,39 +139,6 @@ const Admin = () => {
                   onChange={(e) => mapChannel.postMessage(e.target.value)}
                   label="Map Name"
                 />
-              </div>
-              <div className="flex w-full items-center justify-center gap-4">
-                <div className="h-px w-full bg-neutral-800"></div>
-                <div className="flex w-auto items-center gap-2">
-                  Screens <Icon path={mdiProjectorScreen} size={1} />
-                </div>
-                <div className="h-px w-full bg-neutral-800"></div>
-              </div>
-              <div className="flex items-center gap-8">
-                {[
-                  "battle",
-                  "teamstats",
-                  "matchrankings",
-                  "overallrankings",
-                ].map((screen) => (
-                  <Switch
-                    key={screen}
-                    color="warning"
-                    isSelected={activeScreen === screen}
-                    onValueChange={() => {
-                      setActiveScreen(screen);
-                      screenChannel.postMessage(screen);
-                    }}
-                  >
-                    {screen === "battle"
-                      ? "Battle"
-                      : screen === "overallrankings"
-                        ? "Overall ranking"
-                        : screen === "teamstats"
-                          ? "Team stats"
-                          : "Match ranking"}
-                  </Switch>
-                ))}
               </div>
 
               <div className="flex w-full items-center justify-center gap-4">

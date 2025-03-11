@@ -15,7 +15,7 @@ const WinnerTeam = ({
         muted
         className="absolute left-0 top-0 z-10 h-full w-full scale-[1.02] object-cover"
       ></video>
-      <div className="absolute bottom-[358px] left-[22px] z-20 flex h-[60px] w-[530px] items-center text-3xl font-bold text-blue-950">
+      <div className="absolute bottom-[358px] left-[22px] z-20 flex h-[60px] w-[530px] items-center text-4xl font-bold text-neutral-800">
         <div className="flex w-64 items-center justify-center">
           <p className="">{seriesName}</p>
         </div>
@@ -34,7 +34,7 @@ const WinnerTeam = ({
               key={player.uId}
               className="flex h-full w-[335.5px] items-center justify-center"
             >
-              <p className="text-blue-950">{player.playerName}</p>
+              <p className="text-neutral-800">{player.playerName}</p>
             </div>
           );
         })}

@@ -1,17 +1,20 @@
 "use client";
 import { Image } from "@heroui/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
   const [notifications, setNotifications] = useState<any>([]);
   const [circleTimer, setCircleTimer] = useState<any>(null);
-  const [circleTimerInterval, setCircleTimerInterval] = useState<any>(null);
+  const circleTimerIntervalRef = useRef<any>(null);
+  const firstBloodShownRef = useRef(false);
 
-  const [firstBloodShown, setFirstBloodShown] = useState(false);
+  const prevPlayersRef = useRef<any>({});
+  const prevTeamInfoRef = useRef<any>(null);
 
-  const addNotification = (type: any, data: any) => {
+  const addNotification = useCallback((type: any, data: any) => {
     const id = Date.now();
     const newNotification = { id, type, data, timestamp: Date.now() };
+
     setNotifications((prev: any) => [...prev, newNotification]);
 
     setTimeout(() => {
@@ -19,49 +22,67 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
         prev.filter((notif: any) => notif.id !== id),
       );
     }, 5000);
-  };
+  }, []);
 
   useEffect(() => {
-    if (!teamInfo || !teamInfo.liveMemberNum) return;
+    if (
+      !teamInfo ||
+      prevTeamInfoRef.current?.liveMemberNum === teamInfo.liveMemberNum
+    ) {
+      prevTeamInfoRef.current = teamInfo;
+      return;
+    }
 
     if (teamInfo.liveMemberNum === 0) {
       addNotification("teamEliminated", {
         teamName: teamInfo.teamName,
         teamId: teamInfo.teamId,
         kills: teamInfo.killNum,
+        position: teamInfo.position || "?",
       });
     }
-  }, [teamInfo, teamInfo.liveMemberNum]);
+
+    prevTeamInfoRef.current = teamInfo;
+  }, [teamInfo, addNotification]);
 
   useEffect(() => {
     if (!totalPlayerList || !totalPlayerList.length) return;
 
     totalPlayerList.forEach((player: any) => {
-      if (player.killNumByGrenade > (player.prevKillNumByGrenade || 0)) {
+      const prevPlayer = prevPlayersRef.current[player.id] || {
+        killNumByGrenade: 0,
+        killNumInVehicle: 0,
+        killNum: 0,
+      };
+
+      if (player.killNumByGrenade > prevPlayer.killNumByGrenade) {
         addNotification("grenadeKill", {
           playerName: player.name,
           victims: player.victims?.slice(-1) || ["an opponent"],
         });
       }
 
-      if (player.killNumInVehicle > (player.prevKillNumInVehicle || 0)) {
+      if (player.killNumInVehicle > prevPlayer.killNumInVehicle) {
         addNotification("vehicleKill", {
           playerName: player.name,
           victims: player.victims?.slice(-1) || ["an opponent"],
         });
       }
 
-      if (!firstBloodShown && player.killNum > 0) {
-        setFirstBloodShown(true);
+      if (!firstBloodShownRef.current && player.killNum > 0) {
+        firstBloodShownRef.current = true;
         addNotification("firstBlood", {
           playerName: player.name,
         });
       }
 
-      player.prevKillNumByGrenade = player.killNumByGrenade;
-      player.prevKillNumInVehicle = player.killNumInVehicle;
+      prevPlayersRef.current[player.id] = {
+        killNumByGrenade: player.killNumByGrenade,
+        killNumInVehicle: player.killNumInVehicle,
+        killNum: player.killNum,
+      };
     });
-  }, [firstBloodShown, totalPlayerList]);
+  }, [totalPlayerList, addNotification]);
 
   useEffect(() => {
     if (!circleInfo) return;
@@ -69,11 +90,13 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
     const Counter = Number(circleInfo.Counter);
     const MaxTime = Number(circleInfo.MaxTime);
     const CircleStatus = Number(circleInfo.CircleStatus);
+    const timeRemaining = MaxTime - Counter;
 
-    if (MaxTime - Counter <= 20 && Counter < MaxTime && CircleStatus == 0) {
-      setCircleTimer(MaxTime - Counter);
-      if (circleTimerInterval) {
-        clearInterval(circleTimerInterval);
+    if (timeRemaining <= 20 && Counter < MaxTime && CircleStatus === 0) {
+      setCircleTimer(timeRemaining);
+
+      if (circleTimerIntervalRef.current) {
+        clearInterval(circleTimerIntervalRef.current);
       }
 
       const intervalId = setInterval(() => {
@@ -87,15 +110,21 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
         });
       }, 1000);
 
-      setCircleTimerInterval(intervalId);
-    } else {
+      circleTimerIntervalRef.current = intervalId;
+    } else if (timeRemaining > 20 || CircleStatus !== 0) {
       setCircleTimer(null);
-      if (circleTimerInterval) {
-        clearInterval(circleTimerInterval);
-        setCircleTimerInterval(null);
+      if (circleTimerIntervalRef.current) {
+        clearInterval(circleTimerIntervalRef.current);
+        circleTimerIntervalRef.current = null;
       }
     }
-  }, [circleInfo, circleInfo.Counter, circleTimerInterval]);
+
+    return () => {
+      if (circleTimerIntervalRef.current) {
+        clearInterval(circleTimerIntervalRef.current);
+      }
+    };
+  }, [circleInfo]);
 
   const renderNotification = (notification: any) => {
     switch (notification.type) {

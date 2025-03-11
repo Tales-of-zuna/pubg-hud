@@ -11,7 +11,7 @@ const MVPDisplay = ({ seriesName, matchName, mvpPlayer }: any) => {
         className="absolute left-0 top-0 z-10 h-full w-full object-cover"
       ></video>
       <div className="absolute left-0 top-0 z-20 flex h-full w-[800px] flex-col justify-center py-32 pl-32 text-3xl font-bold">
-        <p>
+        <p className="text-5xl">
           {seriesName} {matchName}
         </p>
         <Divider className="w-96" />

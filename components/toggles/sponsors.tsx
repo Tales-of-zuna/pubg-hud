@@ -15,10 +15,10 @@ const Sponsors = ({ seriesName, matchName }: any) => {
           />
         </div>
 
-        <div className="absolute bottom-[30px] z-10 flex h-[70px] w-[225px] items-center justify-center text-3xl font-bold text-neutral-800">
+        <div className="absolute bottom-[30px] z-10 flex h-[70px] w-[225px] items-center justify-center text-4xl font-bold text-neutral-800">
           {seriesName}
         </div>
-        <div className="absolute z-10 flex h-[30px] w-[225px] items-center justify-center font-bold text-neutral-800">
+        <div className="absolute z-10 flex h-[30px] w-[225px] items-center justify-center text-xl font-bold text-neutral-800">
           {matchName}
         </div>
       </div>

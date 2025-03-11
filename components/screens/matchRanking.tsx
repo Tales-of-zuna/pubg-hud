@@ -64,13 +64,13 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
       <div className="absolute left-4 top-16 z-20 flex w-full items-center text-6xl font-bold">
         Match Rankings
       </div>
-      <div className="absolute left-4 top-[135px] z-20 flex h-[70px] w-[694px] items-center justify-around text-3xl font-bold">
+      <div className="absolute left-4 top-[135px] z-20 flex h-[70px] w-[694px] items-center justify-around text-5xl font-bold">
         <p>{matchName}</p>
         <p>{seriesName}</p>
       </div>
       <div className="absolute left-4 top-[220px] z-20 flex h-[276px] w-[1888px] text-3xl font-bold">
         <div className="w-[100px] p-4 text-4xl">
-          <p>#1</p>
+          <p className="text-neutral-800">#1</p>
         </div>
         <div className="flex w-[700px] items-center justify-center">
           <Image
