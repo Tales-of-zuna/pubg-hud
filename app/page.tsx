@@ -81,6 +81,7 @@ const Home = () => {
         teamInfo={gameData.teamInfo}
         circleInfo={gameData.circleInfo}
         totalPlayerList={gameData.totalPlayerList}
+        isInGame={gameData.isInGame}
       />
       <Toggle
         observedPlayer={gameData.observedPlayer}

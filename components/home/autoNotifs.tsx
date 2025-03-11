@@ -2,7 +2,12 @@
 import { Image } from "@heroui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
+const AutoNotifs = ({
+  totalPlayerList,
+  circleInfo,
+  teamInfo,
+  isInGame,
+}: any) => {
   const [notifications, setNotifications] = useState<any>([]);
   const [circleTimer, setCircleTimer] = useState<any>(null);
   const circleTimerIntervalRef = useRef<any>(null);
@@ -25,6 +30,9 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
   }, []);
 
   useEffect(() => {
+    if (!isInGame) {
+      return;
+    }
     if (
       !teamInfo ||
       prevTeamInfoRef.current?.liveMemberNum === teamInfo.liveMemberNum
@@ -43,10 +51,10 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
     }
 
     prevTeamInfoRef.current = teamInfo;
-  }, [teamInfo, addNotification]);
+  }, [teamInfo, addNotification, isInGame]);
 
   useEffect(() => {
-    if (!totalPlayerList || !totalPlayerList.length) return;
+    if (!totalPlayerList || !totalPlayerList.length || !isInGame) return;
 
     totalPlayerList.forEach((player: any) => {
       const prevPlayer = prevPlayersRef.current[player.id] || {
@@ -58,14 +66,12 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
       if (player.killNumByGrenade > prevPlayer.killNumByGrenade) {
         addNotification("grenadeKill", {
           playerName: player.name,
-          victims: player.victims?.slice(-1) || ["an opponent"],
         });
       }
 
       if (player.killNumInVehicle > prevPlayer.killNumInVehicle) {
         addNotification("vehicleKill", {
           playerName: player.name,
-          victims: player.victims?.slice(-1) || ["an opponent"],
         });
       }
 
@@ -82,10 +88,10 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
         killNum: player.killNum,
       };
     });
-  }, [totalPlayerList, addNotification]);
+  }, [totalPlayerList, addNotification, isInGame]);
 
   useEffect(() => {
-    if (!circleInfo) return;
+    if (!circleInfo || !isInGame) return;
 
     const Counter = Number(circleInfo.Counter);
     const MaxTime = Number(circleInfo.MaxTime);
@@ -124,7 +130,7 @@ const AutoNotifs = ({ totalPlayerList, circleInfo, teamInfo }: any) => {
         clearInterval(circleTimerIntervalRef.current);
       }
     };
-  }, [circleInfo]);
+  }, [circleInfo, isInGame]);
 
   const renderNotification = (notification: any) => {
     switch (notification.type) {
