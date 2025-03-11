@@ -1,6 +1,14 @@
+import { motion } from "framer-motion";
+
 const Plane = ({ mapName, seriesName, matchName }: any) => {
   return (
-    <div className="absolute top-[150px] flex h-32 w-full items-center justify-center">
+    <motion.div
+      initial={{ opacity: 0, y: 50 }} // Start hidden and below its position
+      animate={{ opacity: 1, y: 0 }} // Animate to full visibility
+      exit={{ opacity: 0, x: 50 }} // Exit animation
+      transition={{ duration: 0.5, ease: "easeOut" }} // Smooth transition
+      className="absolute top-[150px] flex h-32 w-full items-center justify-center"
+    >
       <div className="relative h-48 w-96 bg-black">
         <video
           src="/assets/videos/mininotif.mp4"
@@ -16,7 +24,7 @@ const Plane = ({ mapName, seriesName, matchName }: any) => {
           {seriesName} MATCH {matchName}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

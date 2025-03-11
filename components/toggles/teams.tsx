@@ -1,8 +1,15 @@
 import { Image } from "@heroui/react";
+import { motion } from "framer-motion";
 
 const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
   return (
-    <div className="absolute bottom-5 right-0 z-10 flex h-[812px] w-[425px] flex-col justify-start">
+    <motion.div
+      initial={{ opacity: 0, x: 50 }} // Start hidden and below its position
+      animate={{ opacity: 1, x: 0 }} // Animate to full visibility
+      exit={{ opacity: 0, x: 50 }} // Exit animation
+      transition={{ duration: 0.5, ease: "easeOut" }} // Smooth transition
+      className="absolute bottom-5 right-0 z-10 flex h-[812px] w-[425px] flex-col justify-start"
+    >
       <video
         src="assets/videos/teamList.mp4"
         className="absolute left-0 top-0 h-full w-full object-contain object-top"
@@ -27,8 +34,11 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
       </div>
       <div className="z-10 h-full w-full">
         {teamsWithPlayers?.map((team: any, index: number) => (
-          <div
+          <motion.div
             key={index}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }} // Staggered animation for each team
             className={`flex h-[43.5px] w-full ${
               team?.players?.some((player: any) => player.uId == observedPlayer)
                 ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
@@ -76,7 +86,7 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
             <div className="flex h-full w-[70px] items-center justify-center text-white">
               {team?.teamKillNum}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
       <div className="absolute bottom-9 flex h-[40px] w-full items-center justify-center gap-2 bg-[#030e22] px-2 text-lg font-bold">
@@ -93,7 +103,7 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
           ELIMINATED
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

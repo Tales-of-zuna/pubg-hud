@@ -1,6 +1,14 @@
+import { motion } from "framer-motion";
+
 const Sponsors = ({ seriesName, matchName }: any) => {
   return (
-    <div className="absolute bottom-0 left-0 z-10 flex h-[200px] w-[450px] flex-col items-start justify-end gap-4">
+    <motion.div
+      initial={{ opacity: 0, y: 50 }} // Start hidden and below its position
+      animate={{ opacity: 1, y: 0 }} // Animate to full visibility
+      exit={{ opacity: 0, x: 50 }} // Exit animation
+      transition={{ duration: 0.5, ease: "easeOut" }} // Smooth transition
+      className="absolute bottom-0 left-0 z-10 flex h-[200px] w-[450px] flex-col items-start justify-end gap-4"
+    >
       <div className="px-4">
         {/* <Image src="/assets/images/logo.png" alt="" className="w-32" /> */}
       </div>
@@ -22,7 +30,7 @@ const Sponsors = ({ seriesName, matchName }: any) => {
           {matchName}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

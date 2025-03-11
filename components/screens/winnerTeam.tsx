@@ -5,6 +5,7 @@ const WinnerTeam = ({
   seriesName,
   matchName,
   matchWinners,
+  screenIndex,
 }: any) => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
@@ -15,7 +16,15 @@ const WinnerTeam = ({
         muted
         className="absolute left-0 top-0 z-10 h-full w-full scale-[1.02] object-cover"
       ></video>
-      <div className="absolute bottom-[358px] left-[22px] z-20 flex h-[60px] w-[530px] items-center text-4xl font-bold text-neutral-800">
+
+      {/* Series and match name */}
+      <div
+        className={`transform transition-all duration-1000 ease-in-out ${
+          screenIndex === 1
+            ? "translate-y-0 opacity-100"
+            : "translate-y-8 opacity-0"
+        } absolute bottom-[358px] left-[22px] z-20 flex h-[60px] w-[530px] items-center text-4xl font-bold text-neutral-800`}
+      >
         <div className="flex w-64 items-center justify-center">
           <p className="">{seriesName}</p>
         </div>
@@ -23,29 +32,55 @@ const WinnerTeam = ({
           <p className="">{matchName}</p>
         </div>
       </div>
-      <div className="absolute bottom-[450px] left-[22px] z-20 flex h-[250px] w-[530px] flex-col items-center justify-center text-4xl font-bold">
+
+      {/* Winner heading */}
+      <div
+        className={`transform transition-all delay-150 duration-1000 ease-in-out ${
+          screenIndex === 1
+            ? "translate-y-0 opacity-100"
+            : "translate-y-8 opacity-0"
+        } absolute bottom-[450px] left-[22px] z-20 flex h-[250px] w-[530px] flex-col items-center justify-center text-4xl font-bold`}
+      >
         <p className="text-9xl">Winner</p>
         <p className="text-5xl">Team Stats</p>
       </div>
-      <div className="absolute bottom-[75px] right-0 z-20 flex h-[130px] w-[1342px] items-center text-4xl font-bold">
-        {matchWinners?.map((player: any) => {
+
+      {/* Player names */}
+      <div
+        className={`absolute bottom-[75px] right-0 z-20 flex h-[130px] w-[1342px] items-center text-4xl font-bold`}
+      >
+        {matchWinners?.map((player: any, index: any) => {
           return (
             <div
               key={player.uId}
-              className="flex h-full w-[335.5px] items-center justify-center"
+              className={`transform transition-all duration-1000 ease-in-out ${
+                screenIndex === 1
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              } flex h-full w-[335.5px] items-center justify-center`}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <p className="text-neutral-800">{player.playerName}</p>
             </div>
           );
         })}
       </div>
-      <div className="absolute bottom-[205px] right-0 z-20 flex h-[900px] w-[1342px] items-end text-4xl font-bold">
+
+      {/* Player stats */}
+      <div
+        className={`absolute bottom-[205px] right-0 z-20 flex h-[900px] w-[1342px] items-end text-4xl font-bold`}
+      >
         <div className="flex">
-          {matchWinners?.map((player: any) => {
+          {matchWinners?.map((player: any, index: any) => {
             return (
               <div
                 key={player.uId}
-                className="h-full w-[335.5px] space-y-8 bg-gradient-to-t from-black to-transparent p-4"
+                className={`transform transition-all duration-1000 ease-in-out ${
+                  screenIndex === 1
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0"
+                } h-full w-[335.5px] space-y-8 bg-gradient-to-t from-black to-transparent p-4`}
+                style={{ transitionDelay: `${(index + 1) * 150}ms` }}
               >
                 <div className="">
                   <p className="text-5xl">{player.killNum}</p>
@@ -68,7 +103,16 @@ const WinnerTeam = ({
           })}
         </div>
       </div>
-      <div className="absolute bottom-[100px] left-[22px] z-20 flex h-[250px] w-[530px] items-center justify-center text-4xl font-bold">
+
+      {/* Team logo and name */}
+      <div
+        className={`transform transition-all duration-1000 ease-in-out ${
+          screenIndex === 1
+            ? "translate-y-0 opacity-100"
+            : "translate-y-8 opacity-0"
+        } absolute bottom-[100px] left-[22px] z-20 flex h-[250px] w-[530px] items-center justify-center text-4xl font-bold`}
+        style={{ transitionDelay: "300ms" }}
+      >
         <Image
           src="/assets/images/logo.png"
           className="h-32 w-32 object-contain"

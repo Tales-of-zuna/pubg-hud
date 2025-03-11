@@ -116,7 +116,8 @@ const BattleScreen = ({
       return;
     }
 
-    const screenDurations = [35000, 20000, 35000, 35000];
+    // const screenDurations = [35000, 20000, 35000, 35000];
+    const screenDurations = [1000, 1000, 100000, 1000];
     let index = 0;
 
     const cycleScreens = () => {
@@ -146,6 +147,7 @@ const BattleScreen = ({
           mvpPlayer={mvpPlayer}
           seriesName={seriesName}
           matchName={matchName}
+          screenIndex={screenIndex}
         />
       )}
       {screenIndex === 1 && (
@@ -154,6 +156,7 @@ const BattleScreen = ({
           matchName={matchName}
           matchWinners={matchWinners}
           mvpPlayer={mvpPlayer}
+          screenIndex={screenIndex}
         />
       )}
       {screenIndex === 2 && (
@@ -161,6 +164,7 @@ const BattleScreen = ({
           matchTeams={matchTeams}
           seriesName={seriesName}
           matchName={matchName}
+          screenIndex={screenIndex}
         />
       )}
 
@@ -169,6 +173,7 @@ const BattleScreen = ({
           teamsData={teamsData}
           seriesName={seriesName}
           matchName={matchName}
+          screenIndex={screenIndex}
         />
       )}
     </div>

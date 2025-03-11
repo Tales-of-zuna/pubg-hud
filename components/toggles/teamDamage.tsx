@@ -1,8 +1,14 @@
 import { Image } from "@heroui/react";
-
+import { motion } from "framer-motion";
 const TeamDamage = ({ selectedTeam }: any) => {
   return (
-    <div className="absolute bottom-[280px] left-0 z-10 h-[350px] w-[250px] bg-green-600 bg-opacity-30">
+    <motion.div
+      initial={{ opacity: 0, x: -50 }} // Start hidden and below its position
+      animate={{ opacity: 1, x: 0 }} // Animate to full visibility
+      exit={{ opacity: 0, x: -50 }} // Exit animation
+      transition={{ duration: 0.5, ease: "easeOut" }} // Smooth transition
+      className="absolute bottom-[280px] left-0 z-10 h-[350px] w-[250px] bg-green-600 bg-opacity-30"
+    >
       <div className="relative h-full w-full">
         <video
           src="/assets/videos/damageStat.mp4"
@@ -27,14 +33,17 @@ const TeamDamage = ({ selectedTeam }: any) => {
           </p>
         </div>
         <div className="h-[220px] w-full">
-          {selectedTeam?.players?.map((player: any) => {
+          {selectedTeam?.players?.map((player: any, index: any) => {
             const damagePercentage = selectedTeam?.teamDamage
               ? ((player?.damage !== 0 ? player?.damage : 1) /
                   selectedTeam?.teamDamage) *
                 100
               : 0;
             return (
-              <div
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }} // Staggered animation for each team
                 key={player?.uId}
                 className="h-[55px] w-full border-b px-3 py-1"
               >
@@ -54,12 +63,12 @@ const TeamDamage = ({ selectedTeam }: any) => {
                   ></div>
                   <p className="text-sm">{`${damagePercentage.toFixed(2)}%`}</p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
