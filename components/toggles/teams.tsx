@@ -40,17 +40,19 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }} // Staggered animation for each team
             className={`flex h-[43.5px] w-full ${
-              team?.players?.some((player: any) => player.uId == observedPlayer)
-                ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
-                : ""
+              team?.players?.some(
+                (player: any) => player.isOutsideBlueCircle === true,
+              )
+                ? "z-30 animate-pulse bg-blue-700 bg-opacity-100 backdrop-blur-lg"
+                : team?.players?.some(
+                      (player: any) => player.uId == observedPlayer,
+                    )
+                  ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
+                  : ""
             } text-xl font-bold ${
               team?.players?.every((player: any) => player.health <= 0)
                 ? "bg-black bg-opacity-90 text-white grayscale backdrop-blur-sm"
-                : team?.players?.some(
-                      (player: any) => player.isOutsideBlueCircle === true,
-                    )
-                  ? "animaterotate z-30 animate-pulse bg-blue-700 bg-opacity-100 backdrop-blur-lg"
-                  : "text-neutral-800"
+                : "text-neutral-800"
             }`}
           >
             <div className="flex h-full w-[40px] items-center justify-center text-white">
