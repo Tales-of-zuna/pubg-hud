@@ -1,5 +1,4 @@
 "use client";
-import { Image } from "@heroui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const AutoNotifs = ({
@@ -144,11 +143,11 @@ const AutoNotifs = ({
               <div className="absolute left-2 top-2">
                 #{notification.data.position}
               </div>
-              <Image
+              {/* <Image
                 src="/assets/images/logo.png"
                 alt=""
                 className="h-[60px] w-[60px] object-cover"
-              />
+              /> */}
             </div>
             <div className="flex h-full w-[155px] items-center justify-center bg-white bg-opacity-30">
               <div className="flex h-full w-full flex-col items-center justify-center gap-2">
@@ -181,14 +180,16 @@ const AutoNotifs = ({
                 muted
               />
             </div>
-            <p className="text-3xl font-bold">
-              {notification.type === "grenadeKill" &&
-                `${notification.data.playerName} fragged ${notification.data.victims}`}
-              {notification.type === "vehicleKill" &&
-                `${notification.data.playerName} roadkilled ${notification.data.victims}`}
-              {notification.type === "firstBlood" &&
-                `FIRST BLOOD: ${notification.data.playerName}`}
-            </p>
+            <div className="absolute left-0 top-0 flex items-center justify-center">
+              <p className="text-3xl font-bold">
+                {notification.type === "grenadeKill" &&
+                  `${notification.data.playerName} fragged ${notification.data.victims}`}
+                {notification.type === "vehicleKill" &&
+                  `${notification.data.playerName} roadkilled ${notification.data.victims}`}
+                {notification.type === "firstBlood" &&
+                  `FIRST BLOOD: ${notification.data.playerName}`}
+              </p>
+            </div>
           </div>
         );
 
