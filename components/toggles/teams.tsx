@@ -40,14 +40,13 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className={`flex h-[43.5px] w-full ${
-              team?.players?.some(
-                (player: any) => player.isOutsideBlueCircle === true,
-              )
-                ? "z-30 animate-pulse bg-blue-700 bg-opacity-100 backdrop-blur-lg"
+              team?.players?.some((player: any) => player.uId == observedPlayer)
+                ? // ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
+                  "border-l-2 border-[#FEE75C]"
                 : team?.players?.some(
-                      (player: any) => player.uId == observedPlayer,
+                      (player: any) => player.isOutsideBlueCircle === true,
                     )
-                  ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
+                  ? "z-30 animate-pulse bg-blue-700 bg-opacity-100 backdrop-blur-lg"
                   : ""
             } text-xl font-bold ${
               team?.players?.every((player: any) => player.health <= 0)
@@ -64,8 +63,7 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
                 alt=""
                 className="aspect-square h-[30px]"
               />
-              VCTC
-              {/* {team?.teamName} */}
+              {team?.teamName}
             </div>
             <div className="flex h-full w-[155px] items-end justify-center gap-1 py-2">
               {team?.players?.map((player: any) => {

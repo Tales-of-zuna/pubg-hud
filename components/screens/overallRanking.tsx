@@ -1,7 +1,7 @@
 import { Image } from "@heroui/react";
 import { mdiFoodDrumstick } from "@mdi/js";
 import Icon from "@mdi/react";
-
+import { motion } from "framer-motion";
 const OverallRanking = ({ teamsData, seriesName, matchName }: any) => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
@@ -36,8 +36,11 @@ const OverallRanking = ({ teamsData, seriesName, matchName }: any) => {
           </div>
         </div>
         {teamsData?.slice(0, 8)?.map((team: any, index: any) => (
-          <div
+          <motion.div
             key={index}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
             className="flex h-[80px] w-full items-center justify-between py-2"
           >
             <div
@@ -62,7 +65,7 @@ const OverallRanking = ({ teamsData, seriesName, matchName }: any) => {
                 {team.winCount}
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
       <div className="absolute bottom-[100px] left-[170px] z-20 flex h-[100px] w-[800px] items-center text-7xl font-bold">

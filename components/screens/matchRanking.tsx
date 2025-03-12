@@ -1,5 +1,5 @@
 import { Image } from "@heroui/react";
-
+import { motion } from "framer-motion";
 const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
@@ -15,7 +15,13 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
           {matchTeams?.slice(0, 4).map((team: any, index: number) => {
             const placementPoints = team.totalPoints - team.killCount;
             return (
-              <div key={team.teamId} className="flex h-[127.5px] items-center">
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                key={team.teamId}
+                className="flex h-[127.5px] items-center"
+              >
                 <div className="flex h-full w-[260px] items-center justify-center">
                   #{index + 1}
                 </div>
@@ -31,7 +37,7 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
                 <div className="flex h-full w-[185px] items-center justify-center">
                   {team.totalPoints}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -40,7 +46,13 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
           {matchTeams?.slice(4, 8).map((team: any, index: number) => {
             const placementPoints = team.totalPoints - team.killCount;
             return (
-              <div key={team.teamId} className="flex h-[127.5px] items-center">
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                key={team.teamId}
+                className="flex h-[127.5px] items-center"
+              >
                 <div className="flex h-full w-[290px] items-center justify-center">
                   #{index + 5}
                 </div>
@@ -56,7 +68,7 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
                 <div className="flex h-full w-[185px] items-center justify-center">
                   {team.totalPoints}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

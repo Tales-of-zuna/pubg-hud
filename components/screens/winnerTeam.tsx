@@ -1,4 +1,5 @@
 import { Image } from "@heroui/react";
+import { motion } from "framer-motion";
 
 const WinnerTeam = ({
   mvpPlayer,
@@ -17,7 +18,6 @@ const WinnerTeam = ({
         className="absolute left-0 top-0 z-10 h-full w-full scale-[1.02] object-cover"
       ></video>
 
-      {/* Series and match name */}
       <div
         className={`transform transition-all duration-1000 ease-in-out ${
           screenIndex === 1
@@ -51,7 +51,10 @@ const WinnerTeam = ({
       >
         {matchWinners?.map((player: any, index: any) => {
           return (
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               key={player.uId}
               className={`transform transition-all duration-1000 ease-in-out ${
                 screenIndex === 1
@@ -61,7 +64,7 @@ const WinnerTeam = ({
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               <p className="text-neutral-800">{player.playerName}</p>
-            </div>
+            </motion.div>
           );
         })}
       </div>
@@ -73,7 +76,10 @@ const WinnerTeam = ({
         <div className="flex">
           {matchWinners?.map((player: any, index: any) => {
             return (
-              <div
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 key={player.uId}
                 className={`transform transition-all duration-1000 ease-in-out ${
                   screenIndex === 1
@@ -98,7 +104,7 @@ const WinnerTeam = ({
                   <p className="text-5xl">{player.rescueTimes}</p>
                   <p className="text-medium">RESCUE</p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
