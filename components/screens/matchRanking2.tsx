@@ -1,6 +1,6 @@
 import { Image } from "@heroui/react";
 import { motion } from "framer-motion";
-const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
+const MatchRankings2 = ({ matchTeams, seriesName, matchName }: any) => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
       <video
@@ -12,30 +12,30 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
       ></video>
       <div className="absolute bottom-2 left-0 z-20 grid h-[510px] w-full grid-cols-2 px-4 text-4xl font-bold">
         <div className="flex flex-col">
-          {matchTeams?.slice(0, 4).map((team: any, index: number) => {
-            const placementPoints = team.totalPoints - team.killCount;
+          {matchTeams?.slice(8, 12)?.map((team: any, index: number) => {
+            const placementPoints = team?.totalPoints - team?.killCount;
             return (
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                key={team.teamId}
+                key={team?.teamId}
                 className="flex h-[127.5px] items-center"
               >
                 <div className="flex h-full w-[260px] items-center justify-center">
-                  #{index + 1}
+                  #{index + 9}
                 </div>
                 <div className="flex h-full w-[135px] items-center justify-center">
-                  {team.teamName}
+                  {team?.teamName}
                 </div>
                 <div className="flex h-full w-[200px] items-center justify-center">
                   {placementPoints}
                 </div>
                 <div className="flex h-full w-[125px] items-center justify-center">
-                  {team.killCount}
+                  {team?.killCount}
                 </div>
                 <div className="flex h-full w-[185px] items-center justify-center">
-                  {team.totalPoints}
+                  {team?.totalPoints}
                 </div>
               </motion.div>
             );
@@ -43,30 +43,30 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
         </div>
 
         <div className="flex flex-col">
-          {matchTeams?.slice(4, 8).map((team: any, index: number) => {
-            const placementPoints = team.totalPoints - team.killCount;
+          {matchTeams?.slice(12, 16)?.map((team: any, index: number) => {
+            const placementPoints = team?.totalPoints - team?.killCount;
             return (
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                key={team.teamId}
+                key={team?.teamId}
                 className="flex h-[127.5px] items-center"
               >
                 <div className="flex h-full w-[290px] items-center justify-center">
-                  #{index + 5}
+                  #{index + 13}
                 </div>
                 <div className="flex h-full w-[135px] items-center justify-center">
-                  {team.teamName}
+                  {team?.teamName}
                 </div>
                 <div className="flex h-full w-[200px] items-center justify-center">
                   {placementPoints}
                 </div>
                 <div className="flex h-full w-[125px] items-center justify-center">
-                  {team.killCount}
+                  {team?.killCount}
                 </div>
                 <div className="flex h-full w-[185px] items-center justify-center">
-                  {team.totalPoints}
+                  {team?.totalPoints}
                 </div>
               </motion.div>
             );
@@ -120,4 +120,4 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
   );
 };
 
-export default MatchRankings;
+export default MatchRankings2;

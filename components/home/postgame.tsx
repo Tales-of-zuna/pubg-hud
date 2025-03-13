@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import MatchRankings from "../screens/matchRanking";
+import MatchRankings2 from "../screens/matchRanking2";
 import MVPDisplay from "../screens/mvpDisplay";
 import OverallRanking from "../screens/overallRanking";
+import OverallRanking2 from "../screens/overallRanking2";
 import WinnerTeam from "../screens/winnerTeam";
 
 const popupChannel = new BroadcastChannel("popup");
@@ -116,8 +118,8 @@ const BattleScreen = ({
       return;
     }
 
-    const screenDurations = [35000, 20000, 35000, 35000, 35000, 35000];
-    // const screenDurations = [1000, 1000, 100000, 1000];
+    // const screenDurations = [35000, 20000, 35000, 35000, 35000, 35000];
+    const screenDurations = [1000, 1000, 1000, 1000, 1000, 1000];
     let index = 0;
 
     const cycleScreens = () => {
@@ -161,15 +163,15 @@ const BattleScreen = ({
       )}
       {screenIndex === 2 && (
         <MatchRankings
-          matchTeams={matchTeams.slice(0, 8)}
+          matchTeams={matchTeams}
           seriesName={seriesName}
           matchName={matchName}
           screenIndex={screenIndex}
         />
       )}
       {screenIndex === 3 && (
-        <MatchRankings
-          matchTeams={matchTeams.slice(8, 16)}
+        <MatchRankings2
+          matchTeams={matchTeams}
           seriesName={seriesName}
           matchName={matchName}
           screenIndex={screenIndex}
@@ -177,15 +179,15 @@ const BattleScreen = ({
       )}
       {screenIndex === 4 && (
         <OverallRanking
-          teamsData={teamsData.slice(0, 8)}
+          teamsData={teamsData}
           seriesName={seriesName}
           matchName={matchName}
           screenIndex={screenIndex}
         />
       )}
       {screenIndex === 5 && (
-        <OverallRanking
-          teamsData={teamsData.slice(8, 16)}
+        <OverallRanking2
+          teamsData={teamsData}
           seriesName={seriesName}
           matchName={matchName}
           screenIndex={screenIndex}
