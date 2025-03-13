@@ -1,5 +1,4 @@
 "use client";
-import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const AutoNotifs = ({
@@ -17,7 +16,7 @@ const AutoNotifs = ({
   const prevTeamInfoRef = useRef<any>(null);
 
   const addNotification = useCallback((type: any, data: any) => {
-    const id = Date.now();
+    const id = crypto.randomUUID();
     const newNotification = { id, type, data, timestamp: Date.now() };
 
     setNotifications((prev: any) => [...prev, newNotification]);
@@ -40,9 +39,7 @@ const AutoNotifs = ({
     if (teamInfo.liveMemberNum === 0) {
       addNotification("teamEliminated", {
         teamName: teamInfo.teamName,
-        teamId: teamInfo.teamId,
         kills: teamInfo.killNum,
-        position: teamInfo.position || "?",
       });
     }
 
@@ -141,55 +138,57 @@ const AutoNotifs = ({
   }, [circleInfo, isInGame]);
 
   const renderNotification = (notification: any) => {
-    switch (notification.type) {
-      case "teamEliminated":
-        return (
-          <div
-            key={notification.id}
-            className="absolute left-[830px] top-[200px] z-10 flex h-[90px] w-[275px] bg-cyan-600 bg-opacity-30"
-          >
-            <p className="text-xl font-bold">Eliminated</p>
-          </div>
-        );
-
-      case "grenadeKill":
-      case "vehicleKill":
-      case "firstBlood":
-      case "firstBloodGrenade":
-      case "firstBloodVehicle":
-        return (
-          <motion.div
-            key={notification.id}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="absolute left-0 top-[350px] z-10"
-          >
-            <video
-              src="assets/videos/mininotif.mp4"
-              autoPlay
-              loop
-              muted
-              className="h-full w-full object-cover"
-            ></video>
-            <div className="absolute left-0 top-0">
-              <p className="text-2xl font-bold">
-                {notification.type === "firstBlood" && `FIRST BLOOD: `}
-                {notification.type === "firstBloodGrenade" &&
-                  `FIRST GRENADE KILL: `}
-                {notification.type === "firstBloodVehicle" &&
-                  `FIRST VEHICLE KILL: `}
-                {notification.type === "grenadeKill" && `GRENADE KILL: `}
-                {notification.type === "vehicleKill" && `VEHICLE KILL: `}
-                {notification.data.playerName}
-              </p>
-            </div>
-          </motion.div>
-        );
-
-      default:
-        return null;
-    }
+    // switch (notification.type) {
+    //   case "teamEliminated":
+    //     return (
+    //       <div
+    //         key={notification.id}
+    //         className="absolute left-[830px] top-[200px] z-10 flex h-[90px] w-[275px] bg-cyan-600 bg-opacity-30"
+    //       >
+    //         {notification.data.teamName}
+    //         {notification.data.kills}
+    //         <p className="text-xl font-bold">Eliminated</p>
+    //       </div>
+    //     );
+    //   case "grenadeKill":
+    //   case "vehicleKill":
+    //   case "firstBlood":
+    //   case "firstBloodGrenade":
+    //   case "firstBloodVehicle":
+    //     return (
+    //       <motion.div
+    //         key={notification.id}
+    //         initial={{ opacity: 0, x: 50 }}
+    //         animate={{ opacity: 1, x: 0 }}
+    //         transition={{ duration: 0.5 }}
+    //         className="absolute left-0 top-[350px] z-10 flex w-96 items-center justify-center"
+    //       >
+    //         <video
+    //           src="assets/videos/mininotif.mp4"
+    //           autoPlay
+    //           loop
+    //           muted
+    //           className="h-full w-full object-cover"
+    //         ></video>
+    //         <div className="absolute left-0 top-2 z-30 flex w-full items-center justify-center font-bold">
+    //           <p className="text-5xl text-neutral-800">
+    //             {notification.type === "firstBlood" && `FIRST BLOOD`}
+    //             {notification.type === "firstBloodGrenade" &&
+    //               `FIRST GRENADE KILL`}
+    //             {notification.type === "firstBloodVehicle" &&
+    //               `FIRST VEHICLE KILL`}
+    //             {notification.type === "grenadeKill" && `GRENADE KILL`}
+    //             {notification.type === "vehicleKill" && `VEHICLE KILL`}
+    //           </p>
+    //         </div>
+    //         <div className="absolute bottom-0 left-0 w-full text-center uppercase">
+    //           <p className="text-white">{notification.data.playerName}</p>
+    //         </div>
+    //       </motion.div>
+    //     );
+    //   default:
+    //     return null;
+    // }
   };
 
   return (

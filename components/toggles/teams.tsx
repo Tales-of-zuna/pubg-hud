@@ -57,18 +57,20 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
                   (player: any) => player.uId == observedPlayer,
                 )
                   ? // ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
-                    "border-l-5s border-[#FEE75C]"
+                    "border-l-5 border-[#FEE75C]"
                   : ""
               } h-full w-[40px] items-center justify-center overflow-hidden text-white`}
             >
               {index + 1}
             </div>
-            <div className="relative flex h-full w-[140px] items-center justify-center text-medium">
-              <Image
-                src="assets/images/player.webp"
-                alt=""
-                className="aspect-square h-[30px]"
-              />
+            <div className="relative flex h-full w-[140px] items-center justify-start text-medium">
+              <div className="flex w-[70px] justify-center">
+                <Image
+                  src={`/assets/images/teams/${team?.teamName}.png`}
+                  alt=""
+                  className="aspect-square h-[30px]"
+                />
+              </div>
               {team?.teamName}
             </div>
             <div className="flex h-full w-[155px] items-end justify-center gap-1 py-2">

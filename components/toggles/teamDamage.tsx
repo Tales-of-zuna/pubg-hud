@@ -24,9 +24,9 @@ const TeamDamage = ({ selectedTeam }: any) => {
         </div>
         <div className="flex h-[100px] w-full items-center justify-center gap-2">
           <Image
-            src="/assets/images/logo.png"
+            src={`/assets/images/teams/${selectedTeam?.teamName}.png`}
             alt=""
-            className="h-[80px] w-[80px] object-cover"
+            className="h-[60px] w-[60px] object-cover"
           />
           <p className="text-xl font-bold text-neutral-800">
             {selectedTeam?.teamName}
