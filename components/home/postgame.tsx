@@ -116,8 +116,8 @@ const BattleScreen = ({
       return;
     }
 
-    // const screenDurations = [35000, 20000, 35000, 35000];
-    const screenDurations = [1000, 1000, 100000, 1000];
+    const screenDurations = [35000, 20000, 35000, 35000, 35000, 35000];
+    // const screenDurations = [1000, 1000, 100000, 1000];
     let index = 0;
 
     const cycleScreens = () => {
@@ -161,16 +161,31 @@ const BattleScreen = ({
       )}
       {screenIndex === 2 && (
         <MatchRankings
-          matchTeams={matchTeams}
+          matchTeams={matchTeams.slice(0, 8)}
           seriesName={seriesName}
           matchName={matchName}
           screenIndex={screenIndex}
         />
       )}
-
       {screenIndex === 3 && (
+        <MatchRankings
+          matchTeams={matchTeams.slice(8, 16)}
+          seriesName={seriesName}
+          matchName={matchName}
+          screenIndex={screenIndex}
+        />
+      )}
+      {screenIndex === 4 && (
         <OverallRanking
-          teamsData={teamsData}
+          teamsData={teamsData.slice(0, 8)}
+          seriesName={seriesName}
+          matchName={matchName}
+          screenIndex={screenIndex}
+        />
+      )}
+      {screenIndex === 5 && (
+        <OverallRanking
+          teamsData={teamsData.slice(8, 16)}
           seriesName={seriesName}
           matchName={matchName}
           screenIndex={screenIndex}

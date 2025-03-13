@@ -7,7 +7,7 @@ const TeamDamage = ({ selectedTeam }: any) => {
       animate={{ opacity: 1, x: 0 }} // Animate to full visibility
       exit={{ opacity: 0, x: -50 }} // Exit animation
       transition={{ duration: 0.5, ease: "easeOut" }} // Smooth transition
-      className="absolute bottom-[280px] left-0 z-10 h-[350px] w-[250px] bg-green-600 bg-opacity-30"
+      className="absolute bottom-[280px] left-0 z-10 h-[350px] w-[250px]"
     >
       <div className="relative h-full w-full">
         <video

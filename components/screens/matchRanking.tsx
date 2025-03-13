@@ -13,29 +13,29 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
       <div className="absolute bottom-2 left-0 z-20 grid h-[510px] w-full grid-cols-2 px-4 text-4xl font-bold">
         <div className="flex flex-col">
           {matchTeams?.slice(0, 4).map((team: any, index: number) => {
-            const placementPoints = team.totalPoints - team.killCount;
+            const placementPoints = team?.totalPoints - team?.killCount;
             return (
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                key={team.teamId}
+                key={team?.teamId}
                 className="flex h-[127.5px] items-center"
               >
                 <div className="flex h-full w-[260px] items-center justify-center">
                   #{index + 1}
                 </div>
                 <div className="flex h-full w-[135px] items-center justify-center">
-                  {team.teamName}
+                  {team?.teamName}
                 </div>
                 <div className="flex h-full w-[200px] items-center justify-center">
                   {placementPoints}
                 </div>
                 <div className="flex h-full w-[125px] items-center justify-center">
-                  {team.killCount}
+                  {team?.killCount}
                 </div>
                 <div className="flex h-full w-[185px] items-center justify-center">
-                  {team.totalPoints}
+                  {team?.totalPoints}
                 </div>
               </motion.div>
             );
@@ -44,29 +44,29 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
 
         <div className="flex flex-col">
           {matchTeams?.slice(4, 8).map((team: any, index: number) => {
-            const placementPoints = team.totalPoints - team.killCount;
+            const placementPoints = team?.totalPoints - team?.killCount;
             return (
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                key={team.teamId}
+                key={team?.teamId}
                 className="flex h-[127.5px] items-center"
               >
                 <div className="flex h-full w-[290px] items-center justify-center">
                   #{index + 5}
                 </div>
                 <div className="flex h-full w-[135px] items-center justify-center">
-                  {team.teamName}
+                  {team?.teamName}
                 </div>
                 <div className="flex h-full w-[200px] items-center justify-center">
                   {placementPoints}
                 </div>
                 <div className="flex h-full w-[125px] items-center justify-center">
-                  {team.killCount}
+                  {team?.killCount}
                 </div>
                 <div className="flex h-full w-[185px] items-center justify-center">
-                  {team.totalPoints}
+                  {team?.totalPoints}
                 </div>
               </motion.div>
             );
@@ -94,25 +94,25 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
         <div className="flex w-[272px] flex-col items-center justify-center uppercase text-neutral-800">
           <p className="text-lg uppercase">team</p>
           <p className="text-6xl font-bold uppercase">
-            {matchTeams[0].teamName}
+            {matchTeams[0]?.teamName}
           </p>
         </div>
         <div className="flex w-[272px] flex-col items-center justify-center text-neutral-800">
           <p className="uppercase">place pts</p>
           <p className="text-9xl font-bold uppercase">
-            {matchTeams[0].totalPoints - matchTeams[0].killCount}
+            {matchTeams[0]?.totalPoints - matchTeams[0]?.killCount}
           </p>
         </div>
         <div className="flex w-[272px] flex-col items-center justify-center text-neutral-800">
           <p className="uppercase">elims</p>
           <p className="text-9xl font-bold uppercase">
-            {matchTeams[0].killCount}
+            {matchTeams[0]?.killCount}
           </p>
         </div>
         <div className="flex w-[272px] flex-col items-center justify-center text-neutral-800">
           <p className="uppercase">total pts</p>
           <p className="text-9xl font-bold uppercase">
-            {matchTeams[0].totalPoints}
+            {matchTeams[0]?.totalPoints}
           </p>
         </div>
       </div>

@@ -40,21 +40,27 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className={`flex h-[43.5px] w-full ${
-              team?.players?.some((player: any) => player.uId == observedPlayer)
-                ? // ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
-                  "border-l-2 border-[#FEE75C]"
-                : team?.players?.some(
-                      (player: any) => player.isOutsideBlueCircle === true,
-                    )
-                  ? "z-30 animate-pulse bg-blue-700 bg-opacity-100 backdrop-blur-lg"
-                  : ""
+              team?.players?.some(
+                (player: any) => player.isOutsideBlueCircle === true,
+              )
+                ? "z-30 animate-pulse bg-blue-700 bg-opacity-30 backdrop-blur-lg"
+                : ""
             } text-xl font-bold ${
               team?.players?.every((player: any) => player.health <= 0)
                 ? "bg-black bg-opacity-90 text-white grayscale backdrop-blur-sm"
                 : "text-neutral-800"
             }`}
           >
-            <div className="flex h-full w-[40px] items-center justify-center text-white">
+            <div
+              className={`flex ${
+                team?.players?.some(
+                  (player: any) => player.uId == observedPlayer,
+                )
+                  ? // ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
+                    "border-l-5s border-[#FEE75C]"
+                  : ""
+              } h-full w-[40px] items-center justify-center overflow-hidden text-white`}
+            >
               {index + 1}
             </div>
             <div className="relative flex h-full w-[140px] items-center justify-center text-medium">
