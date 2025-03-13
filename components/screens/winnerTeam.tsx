@@ -73,7 +73,7 @@ const WinnerTeam = ({
       <div
         className={`absolute bottom-[205px] right-0 z-20 flex h-[900px] w-[1342px] items-end text-4xl font-bold`}
       >
-        <div className="flex">
+        <div className="flex h-full items-end">
           {matchWinners?.map((player: any, index: any) => {
             return (
               <motion.div
@@ -85,7 +85,7 @@ const WinnerTeam = ({
                   screenIndex === 1
                     ? "translate-y-0 opacity-100"
                     : "translate-y-8 opacity-0"
-                } h-full w-[335.5px] space-y-8 bg-gradient-to-t from-black via-black to-transparent p-4`}
+                } flex h-full w-[335.5px] flex-col items-start justify-end space-y-8 bg-gradient-to-t from-black to-transparent p-4`}
                 style={{ transitionDelay: `${(index + 1) * 150}ms` }}
               >
                 <div className="">
