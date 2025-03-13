@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import MatchRankings from "../screens/matchRanking";
 import MatchRankings2 from "../screens/matchRanking2";
@@ -22,6 +20,7 @@ const BattleScreen = ({
   const [mvpPlayer, setMvpPlayer] = useState<any>(null);
   const [matchWinners, setMatchWinners] = useState<any>([]);
   const [matchTeams, setMatchTeams] = useState<any>([]);
+  const [isMvpCalculated, setIsMvpCalculated] = useState<boolean>(false); // MVP calculation status
 
   const saveTeamData = async () => {
     const teamStats: any = {};
@@ -40,7 +39,6 @@ const BattleScreen = ({
       }
 
       teamStats[teamId].killCount += killNum;
-
       teamStats[teamId].bestRank = Math.min(teamStats[teamId].bestRank, rank);
     });
     Object.values(teamStats).forEach((team: any) => {
@@ -89,7 +87,9 @@ const BattleScreen = ({
       );
 
       setMvpPlayer(mvp);
+      setIsMvpCalculated(true); // Set MVP calculation flag to true
     }
+
     popupChannel.postMessage({ data: [] });
     toggleChannel.postMessage({ data: [] });
   }, [isInGame]);
@@ -119,7 +119,6 @@ const BattleScreen = ({
     }
 
     const screenDurations = [35000, 20000, 35000, 35000, 35000, 35000];
-    // const screenDurations = [1000, 1000, 1000, 1000, 1000, 1000];
     let index = 0;
 
     const cycleScreens = () => {
@@ -139,7 +138,11 @@ const BattleScreen = ({
   }, [isInGame]);
 
   if (isInGame == true) {
-    return <div className="h-screen w-screen bg-transparent">v1.2</div>;
+    return <div className="h-screen w-screen bg-transparent"></div>;
+  }
+
+  if (!isMvpCalculated) {
+    return <div className="bg-[#008C4A]"></div>;
   }
 
   return (
