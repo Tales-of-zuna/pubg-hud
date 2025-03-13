@@ -74,7 +74,8 @@ const OverallRanking = ({ teamsData, seriesName, matchName }: any) => {
       <div className="absolute bottom-[200px] left-[170px] z-20 flex h-[500px] w-[800px] items-center text-5xl font-bold">
         <div className="relative h-full w-full">
           <Image
-            src="/assets/images/logo.png"
+            // src={`/assets/images/teams/${teamsData[0]?.teamName}.png`}
+            src={`/assets/images/logo.png`}
             alt=""
             className="h-[500px] w-[800px] object-contain"
           />

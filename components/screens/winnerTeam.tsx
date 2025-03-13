@@ -85,7 +85,7 @@ const WinnerTeam = ({
                   screenIndex === 1
                     ? "translate-y-0 opacity-100"
                     : "translate-y-8 opacity-0"
-                } h-full w-[335.5px] space-y-8 bg-gradient-to-t from-black to-transparent p-4`}
+                } h-full w-[335.5px] space-y-8 bg-gradient-to-t from-black via-black to-transparent p-4`}
                 style={{ transitionDelay: `${(index + 1) * 150}ms` }}
               >
                 <div className="">
@@ -120,7 +120,7 @@ const WinnerTeam = ({
         style={{ transitionDelay: "300ms" }}
       >
         <Image
-          src="/assets/images/logo.png"
+          src={`/assets/images/teams/${mvpPlayer?.teamName}.png`}
           className="h-32 w-32 object-contain"
           alt=""
         />

@@ -20,7 +20,7 @@ const MVPDisplay = ({ seriesName, matchName, mvpPlayer }: any) => {
         <p className="text-9xl">MVP</p>
         <div className="flex items-center gap-4">
           <Image
-            src="/assets/images/logo.png"
+            src={`/assets/images/teams/${mvpPlayer?.teamName}.png`}
             className="h-32 w-32 object-contain"
             alt=""
           />
