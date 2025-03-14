@@ -41,7 +41,7 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
             className={`flex h-[43.5px] w-full ${
               team?.players?.some(
                 (player: any) => player.isOutsideBlueCircle === true,
-              )
+              ) && team?.players?.some((player: any) => player.health > 0)
                 ? "z-30 animate-pulse bg-blue-700 bg-opacity-30 backdrop-blur-lg"
                 : ""
             } text-xl font-bold ${

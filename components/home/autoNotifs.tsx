@@ -195,7 +195,7 @@ const AutoNotifs = ({
     <div className="absolute left-0 top-0 z-10">
       {/* {notifications.map(renderNotification)} */}
       {circleTimer !== null && (
-        <div className="absolute left-[275px] top-[90px] z-10 flex h-[100px] w-[315px] bg-cyan-600 bg-opacity-30">
+        <div className="absolute left-[275px] top-[120px] z-10 flex h-[100px] w-[315px] bg-cyan-600 bg-opacity-30">
           <video
             src="assets/videos/circleTimer.mp4"
             autoPlay
