@@ -96,7 +96,7 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
           </motion.div>
         ))}
       </div>
-      <div className="absolute bottom-9 flex h-[40px] w-full items-center justify-around gap-2 bg-[#030e22] px-2 text-lg font-bold">
+      <div className="absolute bottom-9 flex h-[40px] w-full items-center justify-around gap-2 bg-[#030e22] px-8 text-lg font-bold">
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded-full bg-green-600"></div>
           ALIVE

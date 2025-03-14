@@ -65,7 +65,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="h-full w-full bg-[#008C4A]">
+    <div className="h-screen w-screen bg-[#008C4A]">
       <BattleScreen
         totalPlayerList={gameData.totalPlayerList}
         activeScreen={activeScreen}
