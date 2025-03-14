@@ -155,6 +155,7 @@ const Admin = () => {
                   "playerimage",
                   "teamdamage",
                   "plane",
+                  "fourteams",
                 ].map((toggle) => (
                   <Switch
                     key={toggle}
@@ -170,7 +171,9 @@ const Admin = () => {
                           ? "Player image"
                           : toggle === "plane"
                             ? "Plane"
-                            : "Team damage"}
+                            : toggle === "fourteams"
+                              ? "Four Teams"
+                              : "Team damage"}
                   </Switch>
                 ))}
                 <Button

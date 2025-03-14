@@ -1,5 +1,6 @@
 "use clien";
 import { useEffect, useState } from "react";
+import FourTeams from "../toggles/fourTeams";
 import Plane from "../toggles/plane";
 import PlayerImage from "../toggles/playerImage";
 import Sponsors from "../toggles/sponsors";
@@ -97,6 +98,9 @@ const Toggle = ({
       )}
       {toggles?.includes("teamdamage") && (
         <TeamDamage selectedTeam={selectedTeam} />
+      )}
+      {toggles?.includes("fourteams") && (
+        <FourTeams teamsWithPlayers={teamsWithPlayers} />
       )}
     </div>
   );
