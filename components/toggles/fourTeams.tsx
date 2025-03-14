@@ -1,5 +1,6 @@
 "use client";
 import { Image } from "@heroui/react";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const FourTeams = ({ teamsWithPlayers }: any) => {
@@ -9,7 +10,7 @@ const FourTeams = ({ teamsWithPlayers }: any) => {
     if (!teamsWithPlayers) return;
 
     const aliveTeams = teamsWithPlayers.filter((team: any) =>
-      team.players.some((player: any) => player.health <= 0),
+      team.players.some((player: any) => player.health > 0),
     );
 
     if (aliveTeams.length <= 4) {
@@ -20,9 +21,12 @@ const FourTeams = ({ teamsWithPlayers }: any) => {
   return (
     <div className="absolute left-0 top-14 z-30 flex h-[55px] w-screen items-center justify-center gap-8">
       <div className="flex h-full w-[1300px] items-center justify-center gap-8">
-        {fourteams?.map((team: any) => {
+        {fourteams?.map((team: any, index: number) => {
           return (
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: index * 0.1 }}
               key={team?.teamName}
               className="relative flex h-[55px] w-[250px] items-center justify-center"
             >
@@ -60,7 +64,7 @@ const FourTeams = ({ teamsWithPlayers }: any) => {
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
