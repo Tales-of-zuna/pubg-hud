@@ -17,17 +17,16 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
         loop
         muted
       ></video>
-      <div className="z-10 flex h-[40px] w-full overflow-hidden bg-[#030e22] text-medium font-bold">
+      <div className="z-10 flex h-[40px] w-full items-center overflow-hidden bg-[#030e22] text-medium font-bold">
         <div className="flex h-full w-[40px] items-center justify-center text-white">
           #
         </div>
-        <div className="relative flex h-full w-[140px] items-center justify-center">
+        <div className="flex h-full w-[140px] items-center justify-center">
           TEAMS
         </div>
-        <div className="flex h-full w-[155px] items-end justify-center gap-1 py-2">
+        <div className="flex h-full w-[155px] items-center justify-center">
           ALIVE
         </div>
-
         <div className="flex h-full w-[70px] items-center justify-center text-white">
           ELIMS
         </div>
@@ -97,7 +96,7 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
           </motion.div>
         ))}
       </div>
-      <div className="absolute bottom-9 flex h-[40px] w-full items-center justify-center gap-2 bg-[#030e22] px-2 text-lg font-bold">
+      <div className="absolute bottom-9 flex h-[40px] w-full items-center justify-around gap-2 bg-[#030e22] px-2 text-lg font-bold">
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded-full bg-green-600"></div>
           ALIVE
