@@ -87,7 +87,7 @@ const BattleScreen = ({
       );
 
       setMvpPlayer(mvp);
-      setIsMvpCalculated(true); // Set MVP calculation flag to true
+      setIsMvpCalculated(true);
     }
 
     popupChannel.postMessage({ data: [] });
