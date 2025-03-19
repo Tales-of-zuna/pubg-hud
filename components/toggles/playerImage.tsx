@@ -12,7 +12,7 @@ const PlayerImage = ({ observedPlayer }: any) => {
       >
         <div className="relative h-full w-full">
           <Image
-            src="/assets/images/logo.png"
+            src={`/assets/images/${observedPlayer.uId}.png`}
             alt=""
             className="h-[200px] w-[290px] object-contain"
           />
@@ -21,5 +21,4 @@ const PlayerImage = ({ observedPlayer }: any) => {
     </AnimatePresence>
   );
 };
-
 export default PlayerImage;
