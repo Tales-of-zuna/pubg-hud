@@ -1,4 +1,5 @@
 "use clien";
+import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import FourTeams from "../toggles/fourTeams";
 import Plane from "../toggles/plane";
@@ -73,32 +74,44 @@ const Toggle = ({
 
   return (
     <div className="absolute left-0 top-0 z-10 h-screen w-screen overflow-hidden">
-      {toggles?.includes("teams") && (
-        <Teams
-          teamsWithPlayers={teamsWithPlayers}
-          observedPlayer={observedPlayer}
-          getPlacementPoints={getPlacementPoints}
-        />
-      )}
+      <AnimatePresence>
+        {toggles?.includes("teams") && (
+          <Teams
+            teamsWithPlayers={teamsWithPlayers}
+            observedPlayer={observedPlayer}
+            getPlacementPoints={getPlacementPoints}
+          />
+        )}
+      </AnimatePresence>
       {toggles?.includes("lastfourteams") && (
         <div className="h-32 w-32 bg-red-500">last four</div>
       )}
-      {toggles?.includes("plane") && (
-        <Plane
-          mapName={mapName}
-          seriesName={seriesName}
-          matchName={matchName}
-        />
-      )}
-      {toggles?.includes("playerimage") && (
-        <PlayerImage observedPlayer={observedPlayer} />
-      )}
-      {toggles?.includes("sponsors") && (
-        <Sponsors seriesName={seriesName} matchName={matchName} />
-      )}
-      {toggles?.includes("teamdamage") && (
-        <TeamDamage selectedTeam={selectedTeam} />
-      )}
+      <AnimatePresence>
+        {toggles?.includes("plane") && (
+          <Plane
+            mapName={mapName}
+            seriesName={seriesName}
+            matchName={matchName}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {toggles?.includes("playerimage") && (
+          <PlayerImage observedPlayer={observedPlayer} />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {toggles?.includes("sponsors") && (
+          <Sponsors seriesName={seriesName} matchName={matchName} />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {toggles?.includes("teamdamage") && (
+          <TeamDamage selectedTeam={selectedTeam} />
+        )}
+      </AnimatePresence>
       {toggles?.includes("fourteams") && (
         <FourTeams teamsWithPlayers={teamsWithPlayers} />
       )}

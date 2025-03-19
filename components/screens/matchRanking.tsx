@@ -87,6 +87,8 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
           <p className="text-neutral-800">#1</p>
         </div>
         <div className="flex w-[700px] items-center justify-center">
+          {/* teamLogos */}
+
           <Image
             src={`/assets/images/teams/${matchTeams[0]?.teamName}.png`}
             alt=""
