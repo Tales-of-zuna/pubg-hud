@@ -76,7 +76,7 @@ const MatchRankings2 = ({ matchTeams, seriesName, matchName }: any) => {
       <div className="absolute left-4 top-16 z-20 flex w-full items-center text-6xl font-bold">
         Match Rankings
       </div>
-      <div className="absolute left-4 top-[135px] z-20 flex h-[70px] w-[694px] items-center justify-around text-5xl font-bold">
+      <div className="absolute left-4 top-[135px] z-20 flex h-[70px] w-[694px] items-center justify-around text-5xl font-bold text-neutral-800">
         <p>{matchName}</p>
         <p>{seriesName}</p>
       </div>

@@ -86,7 +86,7 @@ const OverallRanking2 = ({ teamsData, seriesName, matchName }: any) => {
         className={`absolute right-[170px] top-[210px] z-20 flex h-[75px] w-[660px] transform items-center justify-around text-4xl font-bold transition-all duration-1000 ease-in-out`}
       >
         <p className="text-neutral-800">{matchName}</p>
-        <p className="">{seriesName}</p>
+        <p className="text-neutral-800">{seriesName}</p>
       </div>
     </div>
   );
