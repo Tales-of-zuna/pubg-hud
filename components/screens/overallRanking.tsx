@@ -1,7 +1,7 @@
 import { Image } from "@heroui/react";
 import { mdiFoodDrumstick } from "@mdi/js";
 import Icon from "@mdi/react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 const OverallRanking = ({ teamsData, seriesName, matchName }: any) => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
@@ -36,36 +36,37 @@ const OverallRanking = ({ teamsData, seriesName, matchName }: any) => {
           </div>
         </div>
         {teamsData?.slice(0, 8)?.map((team: any, index: any) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="flex h-[80px] w-full items-center justify-between py-2"
-          >
-            <div
-              className={`flex h-full w-full items-center justify-center ${index == 0 ? "bg-yellow-600 bg-opacity-30" : index == 1 ? "bg-white bg-opacity-30" : index == 2 ? "bg-orange-900 bg-opacity-30" : "bg-white bg-opacity-10"} text-xl font-light backdrop-blur-xl`}
+          <AnimatePresence key={index}>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="flex h-[80px] w-full items-center justify-between py-2"
             >
-              <div className="flex h-full w-[66px] items-center justify-center font-black">
-                #{index + 1}
+              <div
+                className={`flex h-full w-full items-center justify-center ${index == 0 ? "bg-yellow-600 bg-opacity-30" : index == 1 ? "bg-white bg-opacity-30" : index == 2 ? "bg-orange-900 bg-opacity-30" : "bg-white bg-opacity-10"} text-xl font-light backdrop-blur-xl`}
+              >
+                <div className="flex h-full w-[66px] items-center justify-center font-black">
+                  #{index + 1}
+                </div>
+                <div className="flex h-full w-[198px] items-center justify-center">
+                  {team.teamName}
+                </div>
+                <div className="flex h-full w-[132px] items-center justify-center">
+                  {team.totalPoints - team.killCount}
+                </div>
+                <div className="flex h-full w-[66px] items-center justify-center">
+                  {team.killCount}
+                </div>
+                <div className="flex h-full w-[132px] items-center justify-center font-black">
+                  {team.totalPoints}
+                </div>
+                <div className="flex h-full w-[66px] items-center justify-center font-black">
+                  {team.winCount}
+                </div>
               </div>
-              <div className="flex h-full w-[198px] items-center justify-center">
-                {team.teamName}
-              </div>
-              <div className="flex h-full w-[132px] items-center justify-center">
-                {team.totalPoints - team.killCount}
-              </div>
-              <div className="flex h-full w-[66px] items-center justify-center">
-                {team.killCount}
-              </div>
-              <div className="flex h-full w-[132px] items-center justify-center font-black">
-                {team.totalPoints}
-              </div>
-              <div className="flex h-full w-[66px] items-center justify-center font-black">
-                {team.winCount}
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </AnimatePresence>
         ))}
       </div>
       <div className="absolute bottom-[100px] left-[170px] z-20 flex h-[100px] w-[800px] items-center text-7xl font-bold">

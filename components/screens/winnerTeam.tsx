@@ -1,5 +1,5 @@
 import { Image } from "@heroui/react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 const WinnerTeam = ({
   mvpPlayer,
@@ -51,20 +51,21 @@ const WinnerTeam = ({
       >
         {matchWinners?.map((player: any, index: any) => {
           return (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              key={player.uId}
-              className={`transform transition-all duration-1000 ease-in-out ${
-                screenIndex === 1
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-8 opacity-0"
-              } flex h-full w-[335.5px] items-center justify-center`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              <p className="text-neutral-800">{player.playerName}</p>
-            </motion.div>
+            <AnimatePresence key={player.uId}>
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={`transform transition-all duration-1000 ease-in-out ${
+                  screenIndex === 1
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0"
+                } flex h-full w-[335.5px] items-center justify-center`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <p className="text-neutral-800">{player.playerName}</p>
+              </motion.div>
+            </AnimatePresence>
           );
         })}
       </div>
@@ -76,35 +77,36 @@ const WinnerTeam = ({
         <div className="flex h-full items-end">
           {matchWinners?.map((player: any, index: any) => {
             return (
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                key={player.uId}
-                className={`transform transition-all duration-1000 ease-in-out ${
-                  screenIndex === 1
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0"
-                } flex h-full w-[335.5px] flex-col items-start justify-end space-y-8 bg-gradient-to-t from-black to-transparent p-4`}
-                style={{ transitionDelay: `${(index + 1) * 150}ms` }}
-              >
-                <div className="">
-                  <p className="text-5xl">{player.killNum}</p>
-                  <p className="text-medium">ELIMS</p>
-                </div>
-                <div className="">
-                  <p className="text-5xl">{player.damage}</p>
-                  <p className="text-medium">DAMAGE</p>
-                </div>
-                <div className="">
-                  <p className="text-5xl">{player.knockouts}</p>
-                  <p className="text-medium">KNOCKOUTS</p>
-                </div>
-                <div className="">
-                  <p className="text-5xl">{player.rescueTimes}</p>
-                  <p className="text-medium">RESCUE</p>
-                </div>
-              </motion.div>
+              <AnimatePresence key={player.uId}>
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className={`transform transition-all duration-1000 ease-in-out ${
+                    screenIndex === 1
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-8 opacity-0"
+                  } flex h-full w-[335.5px] flex-col items-start justify-end space-y-8 bg-gradient-to-t from-black to-transparent p-4`}
+                  style={{ transitionDelay: `${(index + 1) * 150}ms` }}
+                >
+                  <div className="">
+                    <p className="text-5xl">{player.killNum}</p>
+                    <p className="text-medium">ELIMS</p>
+                  </div>
+                  <div className="">
+                    <p className="text-5xl">{player.damage}</p>
+                    <p className="text-medium">DAMAGE</p>
+                  </div>
+                  <div className="">
+                    <p className="text-5xl">{player.knockouts}</p>
+                    <p className="text-medium">KNOCKOUTS</p>
+                  </div>
+                  <div className="">
+                    <p className="text-5xl">{player.rescueTimes}</p>
+                    <p className="text-medium">RESCUE</p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             );
           })}
         </div>

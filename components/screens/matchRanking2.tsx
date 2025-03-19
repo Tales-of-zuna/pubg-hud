@@ -1,5 +1,5 @@
 import { Image } from "@heroui/react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 const MatchRankings2 = ({ matchTeams, seriesName, matchName }: any) => {
   return (
     <div className="relative h-screen w-screen overflow-hidden">
@@ -15,29 +15,30 @@ const MatchRankings2 = ({ matchTeams, seriesName, matchName }: any) => {
           {matchTeams?.slice(8, 12)?.map((team: any, index: number) => {
             const placementPoints = team?.totalPoints - team?.killCount;
             return (
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                key={team?.teamId}
-                className="flex h-[127.5px] items-center"
-              >
-                <div className="flex h-full w-[260px] items-center justify-center">
-                  #{index + 9}
-                </div>
-                <div className="flex h-full w-[135px] items-center justify-center">
-                  {team?.teamName}
-                </div>
-                <div className="flex h-full w-[200px] items-center justify-center">
-                  {placementPoints}
-                </div>
-                <div className="flex h-full w-[125px] items-center justify-center">
-                  {team?.killCount}
-                </div>
-                <div className="flex h-full w-[185px] items-center justify-center">
-                  {team?.totalPoints}
-                </div>
-              </motion.div>
+              <AnimatePresence key={team?.teamId}>
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="flex h-[127.5px] items-center"
+                >
+                  <div className="flex h-full w-[260px] items-center justify-center">
+                    #{index + 9}
+                  </div>
+                  <div className="flex h-full w-[135px] items-center justify-center">
+                    {team?.teamName}
+                  </div>
+                  <div className="flex h-full w-[200px] items-center justify-center">
+                    {placementPoints}
+                  </div>
+                  <div className="flex h-full w-[125px] items-center justify-center">
+                    {team?.killCount}
+                  </div>
+                  <div className="flex h-full w-[185px] items-center justify-center">
+                    {team?.totalPoints}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             );
           })}
         </div>
@@ -46,29 +47,30 @@ const MatchRankings2 = ({ matchTeams, seriesName, matchName }: any) => {
           {matchTeams?.slice(12, 16)?.map((team: any, index: number) => {
             const placementPoints = team?.totalPoints - team?.killCount;
             return (
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                key={team?.teamId}
-                className="flex h-[127.5px] items-center"
-              >
-                <div className="flex h-full w-[290px] items-center justify-center">
-                  #{index + 13}
-                </div>
-                <div className="flex h-full w-[135px] items-center justify-center">
-                  {team?.teamName}
-                </div>
-                <div className="flex h-full w-[200px] items-center justify-center">
-                  {placementPoints}
-                </div>
-                <div className="flex h-full w-[125px] items-center justify-center">
-                  {team?.killCount}
-                </div>
-                <div className="flex h-full w-[185px] items-center justify-center">
-                  {team?.totalPoints}
-                </div>
-              </motion.div>
+              <AnimatePresence key={team?.teamId}>
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="flex h-[127.5px] items-center"
+                >
+                  <div className="flex h-full w-[290px] items-center justify-center">
+                    #{index + 13}
+                  </div>
+                  <div className="flex h-full w-[135px] items-center justify-center">
+                    {team?.teamName}
+                  </div>
+                  <div className="flex h-full w-[200px] items-center justify-center">
+                    {placementPoints}
+                  </div>
+                  <div className="flex h-full w-[125px] items-center justify-center">
+                    {team?.killCount}
+                  </div>
+                  <div className="flex h-full w-[185px] items-center justify-center">
+                    {team?.totalPoints}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             );
           })}
         </div>
