@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
+
 const AutoNotifs = ({
   totalPlayerList,
   circleInfo,
@@ -31,23 +32,40 @@ const AutoNotifs = ({
   useEffect(() => {
     if (!isInGame || !teamInfo) return;
 
-    if (prevTeamInfoRef.current?.liveMemberNum === teamInfo.liveMemberNum) {
+    // Initialize prevTeamInfoRef if it's null
+    if (!prevTeamInfoRef.current) {
       prevTeamInfoRef.current = teamInfo;
       return;
     }
 
-    if (teamInfo.liveMemberNum === 0) {
+    // Check if team was eliminated
+    if (
+      prevTeamInfoRef.current.liveMemberNum > 0 &&
+      teamInfo.liveMemberNum === 0
+    ) {
       addNotification("teamEliminated", {
         teamName: teamInfo.teamName,
         kills: teamInfo.killNum,
       });
     }
 
-    prevTeamInfoRef.current = teamInfo;
+    prevTeamInfoRef.current = { ...teamInfo };
   }, [teamInfo, addNotification, isInGame]);
 
   useEffect(() => {
     if (!totalPlayerList?.length || !isInGame) return;
+
+    // Initialize player tracking if needed
+    if (Object.keys(prevPlayersRef.current).length === 0) {
+      totalPlayerList.forEach((player: any) => {
+        prevPlayersRef.current[player.id] = {
+          killNumByGrenade: player.killNumByGrenade || 0,
+          killNumInVehicle: player.killNumInVehicle || 0,
+          killNum: player.killNum || 0,
+        };
+      });
+      return;
+    }
 
     totalPlayerList.forEach((player: any) => {
       const prevPlayer = prevPlayersRef.current[player.id] || {
@@ -57,14 +75,18 @@ const AutoNotifs = ({
       };
 
       // First blood logic
-      if (!firstBloodShownRef.current && player.killNum > 0) {
+      if (
+        !firstBloodShownRef.current &&
+        player.killNum > 0 &&
+        prevPlayer.killNum === 0
+      ) {
         firstBloodShownRef.current = true;
 
         let killType = "firstBlood";
 
-        if (player.killNumByGrenade > 0) {
+        if (player.killNumByGrenade > prevPlayer.killNumByGrenade) {
           killType = "firstBloodGrenade";
-        } else if (player.killNumInVehicle > 0) {
+        } else if (player.killNumInVehicle > prevPlayer.killNumInVehicle) {
           killType = "firstBloodVehicle";
         }
 
@@ -88,9 +110,9 @@ const AutoNotifs = ({
       }
 
       prevPlayersRef.current[player.id] = {
-        killNumByGrenade: player.killNumByGrenade,
-        killNumInVehicle: player.killNumInVehicle,
-        killNum: player.killNum,
+        killNumByGrenade: player.killNumByGrenade || 0,
+        killNumInVehicle: player.killNumInVehicle || 0,
+        killNum: player.killNum || 0,
       };
     });
   }, [totalPlayerList, addNotification, isInGame]);
@@ -141,14 +163,22 @@ const AutoNotifs = ({
     switch (notification.type) {
       case "teamEliminated":
         return (
-          <div
+          <motion.div
             key={notification.id}
-            className="absolute left-[830px] top-[200px] z-10 flex h-[90px] w-[275px] bg-cyan-600 bg-opacity-30"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.5 }}
+            className="absolute left-[830px] top-[200px] z-10 flex h-[90px] w-[275px] flex-col items-center justify-center bg-cyan-600 bg-opacity-30 p-2"
           >
-            {notification.data.teamName}
-            {notification.data.kills}
-            <p className="text-xl font-bold">Eliminated</p>
-          </div>
+            <p className="text-2xl font-bold text-white">
+              {notification.data.teamName}
+            </p>
+            <p className="text-xl font-bold text-white">Eliminated</p>
+            <p className="text-lg text-white">
+              Kills: {notification.data.kills}
+            </p>
+          </motion.div>
         );
       case "grenadeKill":
       case "vehicleKill":
@@ -160,6 +190,7 @@ const AutoNotifs = ({
             key={notification.id}
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5 }}
             className="absolute left-0 top-[350px] z-10 flex w-96 items-center justify-center"
           >
@@ -193,7 +224,7 @@ const AutoNotifs = ({
 
   return (
     <div className="absolute left-0 top-0 z-10">
-      {/* {notifications.map(renderNotification)} */}
+      {notifications.map(renderNotification)}
       {circleTimer !== null && (
         <div className="absolute left-[275px] top-[120px] z-10 flex h-[100px] w-[315px] bg-cyan-600 bg-opacity-30">
           <video
