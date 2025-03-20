@@ -25,6 +25,7 @@ const Home = () => {
     teamInfo: null,
     isInGame: null,
   });
+  const [teamScores, setTeamScores] = useState<any>([]);
 
   const fetchAllData = async () => {
     try {
@@ -64,6 +65,19 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const fetchTeamScores = async () => {
+      try {
+        const res = await fetch("/api/gameData");
+        const teamScores = await res.json();
+        setTeamScores(teamScores);
+      } catch (error) {
+        console.log("Error fetching team scores:", error);
+      }
+    };
+    fetchTeamScores();
+  }, []);
+
   return (
     <div className="h-screen w-screen bg-[#008C4A]">
       <BattleScreen
@@ -90,6 +104,7 @@ const Home = () => {
         matchName={matchName}
         seriesName={seriesName}
         mapName={mapName}
+        teamScores={teamScores}
       />
     </div>
   );

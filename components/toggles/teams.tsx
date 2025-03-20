@@ -1,7 +1,8 @@
+"use client";
 import { Image } from "@heroui/react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
+const Teams = ({ teamsWithPlayers, observedPlayer, teamScores }: any) => {
   return (
     <motion.div
       initial={{ opacity: 0, x: 50 }} // Start hidden and below its position
@@ -24,7 +25,10 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
         <div className="flex h-full w-[140px] items-center justify-center">
           TEAMS
         </div>
-        <div className="flex h-full w-[155px] items-center justify-center">
+        <div className="flex h-full w-[70px] items-center justify-center">
+          ALIVE
+        </div>
+        <div className="flex h-full w-[85px] items-center justify-center">
           ALIVE
         </div>
         <div className="flex h-full w-[70px] items-center justify-center text-white">
@@ -73,7 +77,14 @@ const Teams = ({ teamsWithPlayers, observedPlayer }: any) => {
                 </div>
                 {team?.teamName}
               </div>
-              <div className="flex h-full w-[155px] items-end justify-center gap-1 py-2">
+              <div className="flex h-full w-[70px] items-center justify-center text-white">
+                {
+                  teamScores
+                    ?.find((score: any) => score.teamName === team?.teamName)
+                    ?.players?.filter((player: any) => player.health > 0).length
+                }
+              </div>
+              <div className="flex h-full w-[85px] items-end justify-center gap-1 py-2">
                 {team?.players?.map((player: any) => {
                   return (
                     <div
