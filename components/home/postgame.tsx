@@ -118,7 +118,7 @@ const BattleScreen = ({
       return;
     }
 
-    const screenDurations = [35000, 20000, 35000, 35000, 35000, 35000];
+    const screenDurations = [35000, 200000, 35000, 35000, 35000, 35000];
     let index = 0;
 
     const cycleScreens = () => {

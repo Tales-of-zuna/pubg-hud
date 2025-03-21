@@ -44,7 +44,7 @@ const OverallRanking2 = ({ teamsData, seriesName, matchName }: any) => {
               className="flex h-[80px] w-full items-center justify-between py-2"
             >
               <div
-                className={`flex h-full w-full items-center justify-center ${"bg-white bg-opacity-10"} text-2xl font-light backdrop-blur-xl`}
+                className={`flex h-full w-full items-center justify-center bg-white bg-opacity-10 text-2xl font-light backdrop-blur-xl`}
               >
                 <div className="flex h-full w-[66px] items-center justify-center font-black">
                   #{index + 9}
