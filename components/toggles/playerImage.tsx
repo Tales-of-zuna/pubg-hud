@@ -9,7 +9,7 @@ const PlayerImage = ({ observedPlayer }: any) => {
       transition={{ duration: 0.5, ease: "easeOut" }} // Smooth transition
       className="absolute bottom-0 left-[450px] z-10 flex h-[200px] w-[286px] flex-col items-center justify-end"
     >
-      <div className="relative h-full w-full">
+      <div className="relative flex h-full w-full items-end justify-center">
         <Image
           src={`/assets/images/players/${observedPlayer}.png`}
           alt=""
