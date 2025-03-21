@@ -107,7 +107,7 @@ const AutoNotifs = ({
     }
 
     // Check if team was eliminated
-    if (prevTeamInfo.liveMemberNum > 0 && teamInfo.liveMemberNum === 0) {
+    if (prevTeamInfo.liveMemberNum > 0 && teamInfo.liveMemberNum == 0) {
       showNotification("teamEliminated", {
         teamName: teamInfo.teamName,
         kills: teamInfo.killNum,
