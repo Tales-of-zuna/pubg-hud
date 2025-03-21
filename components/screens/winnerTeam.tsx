@@ -88,22 +88,24 @@ const WinnerTeam = ({
                     } z-20 flex h-full w-[335.5px] flex-col items-start justify-end space-y-8 bg-gradient-to-t from-black to-transparent p-4`}
                     style={{ transitionDelay: `${(index + 1) * 150}ms` }}
                   >
-                    <div className="z-20">
+                    <div className="absolute left-0 top-0 z-20 h-[900px] w-full bg-gradient-to-t from-black to-transparent"></div>
+                    <div className="z-30 text-[#CFE356]">
                       <p className="text-5xl">{player.killNum}</p>
                       <p className="text-medium">ELIMS</p>
                     </div>
-                    <div className="z-20">
+                    <div className="z-30 text-[#CFE356]">
                       <p className="text-5xl">{player.damage}</p>
                       <p className="text-medium">DAMAGE</p>
                     </div>
-                    <div className="z-20">
+                    <div className="z-30 text-[#CFE356]">
                       <p className="text-5xl">{player.knockouts}</p>
                       <p className="text-medium">KNOCKOUTS</p>
                     </div>
-                    <div className="z-20">
+                    <div className="z-30 text-[#CFE356]">
                       <p className="text-5xl">{player.rescueTimes}</p>
                       <p className="text-medium">RESCUE</p>
                     </div>
+
                     <AnimatePresence>
                       <motion.div
                         initial={{ opacity: 0, y: 50 }}
