@@ -1,6 +1,6 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const AutoNotifs = ({
   circleInfo,
@@ -10,44 +10,60 @@ const AutoNotifs = ({
 }: any) => {
   const [circleTimer, setCircleTimer] = useState<number | null>(null);
   const [notification, setNotification] = useState<any>(null);
-  const circleTimerIntervalRef = useRef<any>(null);
-  const notificationTimeoutRef = useRef<any>(null);
-  const firstBloodShownRef = useRef(false);
-  const prevPlayersRef = useRef<{ [key: string]: any }>({});
-  const prevTeamInfoRef = useRef<any>(null);
+  const [firstBloodShown, setFirstBloodShown] = useState(false);
+  const [prevPlayers, setPrevPlayers] = useState<{ [key: string]: any }>({});
+  const [prevTeamInfo, setPrevTeamInfo] = useState<any>(null);
+  const [circleTimerInterval, setCircleTimerInterval] = useState<any>(null);
+  const [notificationTimeout, setNotificationTimeout] = useState<any>(null);
 
-  const showNotification = useCallback((type: string, data: any) => {
-    console.log("New notification:", type, data);
+  const showNotification = useCallback(
+    (type: string, data: any) => {
+      console.log("New notification:", type, data);
 
-    if (notificationTimeoutRef.current) {
-      console.log("Clearing existing timeout");
-      clearTimeout(notificationTimeoutRef.current);
-    }
+      // Clear any existing notification timeout
+      if (notificationTimeout) {
+        console.log("Clearing existing timeout");
+        clearTimeout(notificationTimeout);
+      }
 
-    setNotification({ type, data });
+      // Set the new notification
+      setNotification({ type, data });
 
-    notificationTimeoutRef.current = setTimeout(() => {
-      console.log("Clearing notification after timeout");
-      setNotification(null);
-      notificationTimeoutRef.current = null;
-    }, 5000);
-  }, []);
+      // Set a timeout to clear the notification
+      const timeoutId = setTimeout(() => {
+        console.log("Clearing notification after timeout");
+        setNotification(null);
+        setNotificationTimeout(null);
+      }, 5000);
 
+      setNotificationTimeout(timeoutId);
+    },
+    [notificationTimeout],
+  );
+
+  // Handle player-based notifications
   useEffect(() => {
     if (!totalPlayerList?.length || !isInGame) return;
 
+    // Create a copy of the current player state to update
+    const newPrevPlayers = { ...prevPlayers };
+    let showedFirstBlood = firstBloodShown;
+
     totalPlayerList.forEach((player: any) => {
-      const prevPlayer = prevPlayersRef.current[player.id] || {
+      const prevPlayer = prevPlayers[player.id] || {
         killNum: 0,
         killNumByGrenade: 0,
         killNumInVehicle: 0,
       };
 
-      if (!firstBloodShownRef.current && player.killNum > 0) {
-        firstBloodShownRef.current = true;
+      // Check for first blood
+      if (!showedFirstBlood && player.killNum > 0) {
+        showedFirstBlood = true;
+        setFirstBloodShown(true);
         showNotification("firstBlood", { playerName: player.playerName });
       }
 
+      // Check for grenade kills
       if (player.killNumByGrenade > prevPlayer.killNumByGrenade) {
         console.log(
           `Grenade kill detected for ${player.playerName}: ${prevPlayer.killNumByGrenade} → ${player.killNumByGrenade}`,
@@ -55,6 +71,7 @@ const AutoNotifs = ({
         showNotification("grenadeKill", { playerName: player.playerName });
       }
 
+      // Check for vehicle kills
       if (player.killNumInVehicle > prevPlayer.killNumInVehicle) {
         console.log(
           `Vehicle kill detected for ${player.playerName}: ${prevPlayer.killNumInVehicle} → ${player.killNumInVehicle}`,
@@ -62,41 +79,53 @@ const AutoNotifs = ({
         showNotification("vehicleKill", { playerName: player.playerName });
       }
 
-      prevPlayersRef.current[player.id] = {
+      // Update the previous player state
+      newPrevPlayers[player.id] = {
         killNum: player.killNum,
         killNumByGrenade: player.killNumByGrenade,
         killNumInVehicle: player.killNumInVehicle,
       };
     });
-  }, [totalPlayerList, isInGame]);
 
+    // Update the previous players state
+    setPrevPlayers(newPrevPlayers);
+  }, [
+    totalPlayerList,
+    isInGame,
+    prevPlayers,
+    firstBloodShown,
+    showNotification,
+  ]);
+
+  // Handle team elimination notification
   useEffect(() => {
     if (!isInGame || !teamInfo) return;
 
-    if (!prevTeamInfoRef.current) {
-      prevTeamInfoRef.current = teamInfo;
+    if (!prevTeamInfo) {
+      setPrevTeamInfo(teamInfo);
       return;
     }
 
-    if (
-      prevTeamInfoRef.current.liveMemberNum > 0 &&
-      teamInfo.liveMemberNum === 0
-    ) {
+    // Check if team was eliminated
+    if (prevTeamInfo.liveMemberNum > 0 && teamInfo.liveMemberNum === 0) {
       showNotification("teamEliminated", {
         teamName: teamInfo.teamName,
         kills: teamInfo.killNum,
       });
     }
 
-    prevTeamInfoRef.current = teamInfo;
-  }, [teamInfo, isInGame]);
+    // Update previous team info
+    setPrevTeamInfo(teamInfo);
+  }, [teamInfo, isInGame, prevTeamInfo, showNotification]);
 
+  // Handle circle timer
   useEffect(() => {
     if (!circleInfo || !isInGame) {
-      if (circleTimerIntervalRef.current) {
-        clearInterval(circleTimerIntervalRef.current);
-        circleTimerIntervalRef.current = null;
+      if (circleTimerInterval) {
+        clearInterval(circleTimerInterval);
+        setCircleTimerInterval(null);
       }
+      setCircleTimer(null);
       return;
     }
 
@@ -108,69 +137,66 @@ const AutoNotifs = ({
     if (timeRemaining <= 20 && Counter < MaxTime && CircleStatus === 0) {
       setCircleTimer(timeRemaining);
 
-      if (circleTimerIntervalRef.current) {
-        clearInterval(circleTimerIntervalRef.current);
+      if (circleTimerInterval) {
+        clearInterval(circleTimerInterval);
       }
 
-      circleTimerIntervalRef.current = setInterval(() => {
+      const intervalId = setInterval(() => {
         setCircleTimer((prev) => {
           const newValue = prev !== null && prev > 0 ? prev - 1 : null;
 
-          if (newValue === null && circleTimerIntervalRef.current) {
-            clearInterval(circleTimerIntervalRef.current);
-            circleTimerIntervalRef.current = null;
+          if (newValue === null && circleTimerInterval) {
+            clearInterval(circleTimerInterval);
+            setCircleTimerInterval(null);
           }
 
           return newValue;
         });
       }, 1000);
+
+      setCircleTimerInterval(intervalId);
     } else if (CircleStatus !== 0) {
       setCircleTimer(null);
-      if (circleTimerIntervalRef.current) {
-        clearInterval(circleTimerIntervalRef.current);
-        circleTimerIntervalRef.current = null;
+      if (circleTimerInterval) {
+        clearInterval(circleTimerInterval);
+        setCircleTimerInterval(null);
       }
     }
+  }, [circleInfo, isInGame, circleTimerInterval]);
 
-    return () => {
-      if (circleTimerIntervalRef.current) {
-        clearInterval(circleTimerIntervalRef.current);
-        circleTimerIntervalRef.current = null;
-      }
-    };
-  }, [circleInfo, isInGame]);
-
+  // Cleanup effects when component unmounts
   useEffect(() => {
     return () => {
-      if (circleTimerIntervalRef.current) {
-        clearInterval(circleTimerIntervalRef.current);
+      if (circleTimerInterval) {
+        clearInterval(circleTimerInterval);
       }
-      if (notificationTimeoutRef.current) {
-        clearTimeout(notificationTimeoutRef.current);
+      if (notificationTimeout) {
+        clearTimeout(notificationTimeout);
       }
     };
-  }, []);
+  }, [circleTimerInterval, notificationTimeout]);
 
+  // Reset state when game ends
   useEffect(() => {
     if (!isInGame) {
       console.log("Resetting state as game ended");
-      firstBloodShownRef.current = false;
-      prevPlayersRef.current = {};
-      prevTeamInfoRef.current = null;
+      setFirstBloodShown(false);
+      setPrevPlayers({});
+      setPrevTeamInfo(null);
       setCircleTimer(null);
       setNotification(null);
 
-      if (circleTimerIntervalRef.current) {
-        clearInterval(circleTimerIntervalRef.current);
-        circleTimerIntervalRef.current = null;
+      if (circleTimerInterval) {
+        clearInterval(circleTimerInterval);
+        setCircleTimerInterval(null);
       }
 
-      if (notificationTimeoutRef.current) {
-        clearTimeout(notificationTimeoutRef.current);
-        notificationTimeoutRef.current = null;
+      if (notificationTimeout) {
+        clearTimeout(notificationTimeout);
+        setNotificationTimeout(null);
       }
     }
-  }, [isInGame]);
+  }, [isInGame, circleTimerInterval, notificationTimeout]);
 
   return (
     <div className="absolute left-0 top-0 z-10">

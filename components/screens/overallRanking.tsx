@@ -49,8 +49,13 @@ const OverallRanking = ({ teamsData, seriesName, matchName }: any) => {
                 <div className="flex h-full w-[66px] items-center justify-center font-black">
                   #{index + 1}
                 </div>
-                <div className="flex h-full w-[198px] items-center justify-center">
-                  {team.teamName}
+                <div className="flex h-full w-[198px] items-center justify-center gap-4">
+                  <Image
+                    src={`/assets/images/teams/${team?.teamName}.png`}
+                    alt=""
+                    className="aspect-square h-[30px]"
+                  />
+                  <p className="w-[40px]">{team?.teamName}</p>
                 </div>
                 <div className="flex h-full w-[132px] items-center justify-center">
                   {team.totalPoints - team.killCount}
