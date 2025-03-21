@@ -83,7 +83,7 @@ const BattleScreen = ({
     setMatchWinners(rankedPlayers);
     if (rankedPlayers.length > 0) {
       const mvp = rankedPlayers.reduce((topPlayer: any, current: any) =>
-        current.damage > topPlayer.damage ? current : topPlayer,
+        current.killNum > topPlayer.killNum ? current : topPlayer,
       );
 
       setMvpPlayer(mvp);
