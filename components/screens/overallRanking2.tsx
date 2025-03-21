@@ -70,7 +70,8 @@ const OverallRanking2 = ({ teamsData, seriesName, matchName }: any) => {
         ))}
       </div>
       <div className="absolute bottom-[100px] left-[170px] z-20 flex h-[100px] w-[800px] items-center text-7xl font-bold">
-        #1 {teamsData[0]?.teamName}
+        <span className="mr-4 text-yellow-600">#1</span>{" "}
+        {teamsData[0]?.teamName}
       </div>
       <div className="absolute bottom-[200px] left-[170px] z-20 flex h-[500px] w-[800px] items-center text-5xl font-bold">
         <div className="relative h-full w-full">

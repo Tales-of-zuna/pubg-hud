@@ -11,7 +11,7 @@ const PlayerImage = ({ observedPlayer }: any) => {
     >
       <div className="relative h-full w-full">
         <Image
-          src={`/assets/images/${observedPlayer.uId}.png`}
+          src={`/assets/images/players/${observedPlayer}.png`}
           alt=""
           className="h-[200px] w-[290px] object-contain"
         />

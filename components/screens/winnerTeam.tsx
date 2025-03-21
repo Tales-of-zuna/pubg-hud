@@ -75,43 +75,53 @@ const WinnerTeam = ({
         <div className="flex h-full items-end">
           {matchWinners?.map((player: any, index: any) => {
             return (
-              <AnimatePresence key={player.uId}>
-                <motion.div
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className={`relative transform transition-all duration-1000 ease-in-out ${
-                    screenIndex === 1
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-8 opacity-0"
-                  } flex h-full w-[335.5px] flex-col items-start justify-end space-y-8 bg-gradient-to-t from-black to-transparent p-4`}
-                  style={{ transitionDelay: `${(index + 1) * 150}ms` }}
-                >
-                  <div className="z-20">
-                    <p className="text-5xl">{player.killNum}</p>
-                    <p className="text-medium">ELIMS</p>
-                  </div>
-                  <div className="z-20">
-                    <p className="text-5xl">{player.damage}</p>
-                    <p className="text-medium">DAMAGE</p>
-                  </div>
-                  <div className="z-20">
-                    <p className="text-5xl">{player.knockouts}</p>
-                    <p className="text-medium">KNOCKOUTS</p>
-                  </div>
-                  <div className="z-20">
-                    <p className="text-5xl">{player.rescueTimes}</p>
-                    <p className="text-medium">RESCUE</p>
-                  </div>
-                  <div className="absolute bottom-0 right-0 z-10">
+              <div key={player.uId}>
+                <AnimatePresence>
+                  <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: index * 0.1 }}
+                    className="absolute bottom-0 right-0 z-10 flex h-full w-full items-end"
+                  >
                     <Image
-                      src={`/assets/images/players/${player.uId}.png}`}
+                      src={`/assets/images/players/${player?.uId}.png`}
                       alt=""
-                      className="h-auto w-full object-contain"
+                      className="h-[600px] w-[335.5px] object-cover object-bottom"
                     />
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+                  </motion.div>
+                </AnimatePresence>
+
+                <AnimatePresence>
+                  <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className={`relative transform transition-all duration-1000 ease-in-out ${
+                      screenIndex === 1
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-8 opacity-0"
+                    } z-20 flex h-full w-[335.5px] flex-col items-start justify-end space-y-8 bg-gradient-to-t from-black to-transparent p-4`}
+                    style={{ transitionDelay: `${(index + 1) * 150}ms` }}
+                  >
+                    <div className="">
+                      <p className="text-5xl">{player.killNum}</p>
+                      <p className="text-medium">ELIMS</p>
+                    </div>
+                    <div className="">
+                      <p className="text-5xl">{player.damage}</p>
+                      <p className="text-medium">DAMAGE</p>
+                    </div>
+                    <div className="">
+                      <p className="text-5xl">{player.knockouts}</p>
+                      <p className="text-medium">KNOCKOUTS</p>
+                    </div>
+                    <div className="">
+                      <p className="text-5xl">{player.rescueTimes}</p>
+                      <p className="text-medium">RESCUE</p>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             );
           })}
         </div>

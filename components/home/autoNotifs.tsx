@@ -1,102 +1,99 @@
 "use client";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
-const AutoNotifs = ({
-  totalPlayerList,
-  circleInfo,
-  teamInfo,
-  isInGame,
-}: any) => {
-  const [notifications, setNotifications] = useState<any>([]);
-  const [circleTimer, setCircleTimer] = useState<any>(null);
-  const circleTimerIntervalRef = useRef<any>(null);
-  const firstBloodShownRef = useRef(false);
 
-  const prevPlayersRef = useRef<any>({});
+const AutoNotifs = ({
+  circleInfo,
+  isInGame,
+  totalPlayerList,
+  teamInfo,
+}: any) => {
+  const [circleTimer, setCircleTimer] = useState<number | null>(null);
+  const [notification, setNotification] = useState<any>(null);
+  const circleTimerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const notificationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const firstBloodShownRef = useRef(false);
+  const prevPlayersRef = useRef<{ [key: string]: any }>({});
   const prevTeamInfoRef = useRef<any>(null);
 
-  const addNotification = useCallback((type: any, data: any) => {
-    const id = crypto.randomUUID();
-    const newNotification = { id, type, data, timestamp: Date.now() };
+  const showNotification = useCallback(
+    (type: string, data: any) => {
+      if (notification) return;
 
-    setNotifications((prev: any) => [...prev, newNotification]);
+      if (notificationTimeoutRef.current) {
+        clearTimeout(notificationTimeoutRef.current);
+      }
 
-    setTimeout(() => {
-      setNotifications((prev: any) =>
-        prev.filter((notif: any) => notif.id !== id),
-      );
-    }, 5000);
-  }, []);
+      setNotification({ type, data });
 
-  useEffect(() => {
-    if (!isInGame || !teamInfo) return;
-
-    if (prevTeamInfoRef.current?.liveMemberNum === teamInfo.liveMemberNum) {
-      prevTeamInfoRef.current = teamInfo;
-      return;
-    }
-
-    if (teamInfo.liveMemberNum === 0) {
-      addNotification("teamEliminated", {
-        teamName: teamInfo.teamName,
-        kills: teamInfo.killNum,
-      });
-    }
-
-    prevTeamInfoRef.current = teamInfo;
-  }, [teamInfo, addNotification, isInGame]);
+      notificationTimeoutRef.current = setTimeout(() => {
+        setNotification(null);
+        notificationTimeoutRef.current = null;
+      }, 5000);
+    },
+    [notification],
+  );
 
   useEffect(() => {
     if (!totalPlayerList?.length || !isInGame) return;
 
     totalPlayerList.forEach((player: any) => {
       const prevPlayer = prevPlayersRef.current[player.id] || {
+        killNum: 0,
         killNumByGrenade: 0,
         killNumInVehicle: 0,
-        killNum: 0,
       };
 
-      // First blood logic
       if (!firstBloodShownRef.current && player.killNum > 0) {
         firstBloodShownRef.current = true;
-
-        let killType = "firstBlood";
-
-        if (player.killNumByGrenade > 0) {
-          killType = "firstBloodGrenade";
-        } else if (player.killNumInVehicle > 0) {
-          killType = "firstBloodVehicle";
-        }
-
-        addNotification(killType, {
-          playerName: player.playerName,
-        });
+        showNotification("firstBlood", { playerName: player.playerName });
       }
 
-      // Track grenade kills
       if (player.killNumByGrenade > prevPlayer.killNumByGrenade) {
-        addNotification("grenadeKill", {
-          playerName: player.playerName,
-        });
+        showNotification("grenadeKill", { playerName: player.playerName });
       }
 
-      // Track vehicle kills
       if (player.killNumInVehicle > prevPlayer.killNumInVehicle) {
-        addNotification("vehicleKill", {
-          playerName: player.playerName,
-        });
+        showNotification("vehicleKill", { playerName: player.playerName });
       }
 
       prevPlayersRef.current[player.id] = {
+        killNum: player.killNum,
         killNumByGrenade: player.killNumByGrenade,
         killNumInVehicle: player.killNumInVehicle,
-        killNum: player.killNum,
       };
     });
-  }, [totalPlayerList, addNotification, isInGame]);
+  }, [totalPlayerList, showNotification, isInGame]);
 
   useEffect(() => {
-    if (!circleInfo || !isInGame) return;
+    if (!isInGame || !teamInfo) return;
+
+    if (!prevTeamInfoRef.current) {
+      prevTeamInfoRef.current = teamInfo;
+      return;
+    }
+
+    if (
+      prevTeamInfoRef.current.liveMemberNum > 0 &&
+      teamInfo.liveMemberNum === 0
+    ) {
+      showNotification("teamEliminated", {
+        teamName: teamInfo.teamName,
+        kills: teamInfo.killNum,
+      });
+    }
+
+    prevTeamInfoRef.current = teamInfo;
+  }, [teamInfo, showNotification, isInGame]);
+
+  useEffect(() => {
+    if (!circleInfo || !isInGame) {
+      if (circleTimerIntervalRef.current) {
+        clearInterval(circleTimerIntervalRef.current);
+        circleTimerIntervalRef.current = null;
+      }
+      return;
+    }
 
     const Counter = Number(circleInfo.Counter);
     const MaxTime = Number(circleInfo.MaxTime);
@@ -110,19 +107,19 @@ const AutoNotifs = ({
         clearInterval(circleTimerIntervalRef.current);
       }
 
-      const intervalId = setInterval(() => {
-        setCircleTimer((prev: any) => {
-          if (prev !== null && prev > 0) {
-            return prev - 1;
-          } else {
-            clearInterval(intervalId);
-            return null;
+      circleTimerIntervalRef.current = setInterval(() => {
+        setCircleTimer((prev) => {
+          const newValue = prev !== null && prev > 0 ? prev - 1 : null;
+
+          if (newValue === null && circleTimerIntervalRef.current) {
+            clearInterval(circleTimerIntervalRef.current);
+            circleTimerIntervalRef.current = null;
           }
+
+          return newValue;
         });
       }, 1000);
-
-      circleTimerIntervalRef.current = intervalId;
-    } else {
+    } else if (CircleStatus !== 0) {
       setCircleTimer(null);
       if (circleTimerIntervalRef.current) {
         clearInterval(circleTimerIntervalRef.current);
@@ -133,33 +130,51 @@ const AutoNotifs = ({
     return () => {
       if (circleTimerIntervalRef.current) {
         clearInterval(circleTimerIntervalRef.current);
+        circleTimerIntervalRef.current = null;
       }
     };
   }, [circleInfo, isInGame]);
 
-  const renderNotification = (notification: any) => {
-    switch (notification.type) {
-      case "teamEliminated":
-        return (
-          <div
-            key={notification.id}
-            className="absolute left-[830px] top-[200px] z-10 flex h-[90px] w-[275px] bg-cyan-600 bg-opacity-30"
-          >
-            {notification.data.teamName}
-            {notification.data.kills}
-            <p className="text-xl font-bold">Eliminated</p>
-          </div>
-        );
-      case "grenadeKill":
-      case "vehicleKill":
-      case "firstBlood":
-      case "firstBloodGrenade":
-      case "firstBloodVehicle":
-        return (
+  useEffect(() => {
+    return () => {
+      if (circleTimerIntervalRef.current) {
+        clearInterval(circleTimerIntervalRef.current);
+      }
+      if (notificationTimeoutRef.current) {
+        clearTimeout(notificationTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isInGame) {
+      firstBloodShownRef.current = false;
+      prevPlayersRef.current = {};
+      prevTeamInfoRef.current = null;
+      setCircleTimer(null);
+      setNotification(null);
+
+      if (circleTimerIntervalRef.current) {
+        clearInterval(circleTimerIntervalRef.current);
+        circleTimerIntervalRef.current = null;
+      }
+
+      if (notificationTimeoutRef.current) {
+        clearTimeout(notificationTimeoutRef.current);
+        notificationTimeoutRef.current = null;
+      }
+    }
+  }, [isInGame]);
+
+  return (
+    <div className="absolute left-0 top-0 z-10">
+      <AnimatePresence>
+        {notification && (
           <motion.div
-            key={notification.id}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
+            key={notification.type}
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.5 }}
             className="absolute left-0 top-[350px] z-10 flex w-96 items-center justify-center"
           >
@@ -173,44 +188,44 @@ const AutoNotifs = ({
             <div className="absolute left-0 top-2 z-30 flex w-full items-center justify-center font-bold">
               <p className="text-5xl text-neutral-800">
                 {notification.type === "firstBlood" && `FIRST BLOOD`}
-                {notification.type === "firstBloodGrenade" &&
-                  `FIRST GRENADE KILL`}
-                {notification.type === "firstBloodVehicle" &&
-                  `FIRST VEHICLE KILL`}
                 {notification.type === "grenadeKill" && `GRENADE KILL`}
                 {notification.type === "vehicleKill" && `VEHICLE KILL`}
+                {notification.type === "teamEliminated" &&
+                  `TEAM ELIMINATED - ${notification.data.teamName} (${notification.data.kills} KILLS)`}
               </p>
             </div>
             <div className="absolute bottom-0 left-0 w-full text-center uppercase">
               <p className="text-white">{notification.data.playerName}</p>
             </div>
           </motion.div>
-        );
-      default:
-        return null;
-    }
-  };
+        )}
+      </AnimatePresence>
 
-  return (
-    <div className="absolute left-0 top-0 z-10">
-      {/* {notifications.map(renderNotification)} */}
-      {circleTimer !== null && (
-        <div className="absolute left-[275px] top-[120px] z-10 flex h-[100px] w-[315px] bg-cyan-600 bg-opacity-30">
-          <video
-            src="assets/videos/circleTimer.mp4"
-            autoPlay
-            loop
-            muted
-            className="h-full w-full object-cover"
-          ></video>
-          <div className="absolute left-0 top-0 flex h-full w-[115px] items-center justify-center text-4xl font-bold text-slate-800">
-            {circleTimer}
-          </div>
-          <div className="absolute right-0 top-0 flex h-full w-[200px] items-center justify-center text-wrap text-center text-3xl font-bold uppercase">
-            Circle <br /> closing in
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {circleTimer !== null && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.5 }}
+            className="absolute left-[275px] top-[120px] z-10 flex h-[100px] w-[315px] bg-cyan-600 bg-opacity-30"
+          >
+            <video
+              src="assets/videos/circleTimer.mp4"
+              autoPlay
+              loop
+              muted
+              className="h-full w-full object-cover"
+            ></video>
+            <div className="absolute left-0 top-0 flex h-full w-[115px] items-center justify-center text-4xl font-bold text-slate-800">
+              {circleTimer}
+            </div>
+            <div className="absolute right-0 top-0 flex h-full w-[200px] items-center justify-center text-wrap text-center text-3xl font-bold uppercase">
+              Circle <br /> closing in
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

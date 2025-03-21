@@ -75,7 +75,7 @@ const MVPDisplay = ({ seriesName, matchName, mvpPlayer }: any) => {
           <Image
             src={`/assets/images/players/${mvpPlayer?.uId}.png`}
             alt=""
-            className="h-[1000px] w-[500px] object-contain"
+            className="h-[800px] w-[500px] object-cover"
           />
         </div>
       </div>
