@@ -1,4 +1,5 @@
 import { Divider, Image } from "@heroui/react";
+import { motion } from "framer-motion";
 
 const MVPDisplay = ({ seriesName, matchName, mvpPlayer }: any) => {
   return (
@@ -43,30 +44,46 @@ const MVPDisplay = ({ seriesName, matchName, mvpPlayer }: any) => {
       </div>
 
       <div className="absolute bottom-0 right-0 z-20 grid h-[600px] w-[1180px] grid-cols-2 items-center justify-center gap-8 p-24 text-3xl font-bold">
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          exit={{ opacity: 0, y: 50 }}
           className={`col-span-1 transform bg-white bg-opacity-10 p-4 backdrop-blur-2xl transition-all delay-100 duration-1000 ease-in-out ${mvpPlayer?.teamName ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"} flex flex-col items-center justify-center`}
         >
           <p className="text-9xl">{mvpPlayer?.killNum || 0}</p>
           <p className="text-orange-500">ELIMS</p>
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          exit={{ opacity: 0, y: 50 }}
           className={`col-span-1 transform bg-white bg-opacity-10 p-4 backdrop-blur-2xl transition-all delay-300 duration-1000 ease-in-out ${mvpPlayer?.teamName ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"} flex flex-col items-center justify-center`}
         >
           <p className="text-9xl">{mvpPlayer?.rescueTimes || 0}</p>
           <p className="text-orange-500">RESCUE TIMES</p>
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          exit={{ opacity: 0, y: 50 }}
           className={`col-span-1 transform bg-white bg-opacity-10 p-4 backdrop-blur-2xl transition-all delay-700 duration-1000 ease-in-out ${mvpPlayer?.teamName ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"} flex flex-col items-center justify-center`}
         >
           <p className="text-9xl">{mvpPlayer?.assist || 0}</p>
           <p className="text-orange-500">ASSISTS</p>
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          exit={{ opacity: 0, y: 50 }}
           className={`col-span-1 transform bg-white bg-opacity-10 p-4 backdrop-blur-2xl transition-all delay-1000 duration-1000 ease-in-out ${mvpPlayer?.teamName ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"} flex flex-col items-center justify-center`}
         >
           <p className="text-9xl">{mvpPlayer?.damage || 0}</p>
           <p className="text-orange-500">DAMAGE</p>
-        </div>
+        </motion.div>
       </div>
       <div className="absolute left-8 top-8 z-20 flex items-center text-4xl font-bold uppercase opacity-20">
         Winner winner chicken dinner
