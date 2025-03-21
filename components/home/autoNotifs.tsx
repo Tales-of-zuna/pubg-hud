@@ -10,29 +10,28 @@ const AutoNotifs = ({
 }: any) => {
   const [circleTimer, setCircleTimer] = useState<number | null>(null);
   const [notification, setNotification] = useState<any>(null);
-  const circleTimerIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const notificationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const circleTimerIntervalRef = useRef<any>(null);
+  const notificationTimeoutRef = useRef<any>(null);
   const firstBloodShownRef = useRef(false);
   const prevPlayersRef = useRef<{ [key: string]: any }>({});
   const prevTeamInfoRef = useRef<any>(null);
 
-  const showNotification = useCallback(
-    (type: string, data: any) => {
-      if (notification) return;
+  const showNotification = useCallback((type: string, data: any) => {
+    console.log("New notification:", type, data);
 
-      if (notificationTimeoutRef.current) {
-        clearTimeout(notificationTimeoutRef.current);
-      }
+    if (notificationTimeoutRef.current) {
+      console.log("Clearing existing timeout");
+      clearTimeout(notificationTimeoutRef.current);
+    }
 
-      setNotification({ type, data });
+    setNotification({ type, data });
 
-      notificationTimeoutRef.current = setTimeout(() => {
-        setNotification(null);
-        notificationTimeoutRef.current = null;
-      }, 5000);
-    },
-    [notification],
-  );
+    notificationTimeoutRef.current = setTimeout(() => {
+      console.log("Clearing notification after timeout");
+      setNotification(null);
+      notificationTimeoutRef.current = null;
+    }, 5000);
+  }, []);
 
   useEffect(() => {
     if (!totalPlayerList?.length || !isInGame) return;
@@ -50,10 +49,16 @@ const AutoNotifs = ({
       }
 
       if (player.killNumByGrenade > prevPlayer.killNumByGrenade) {
+        console.log(
+          `Grenade kill detected for ${player.playerName}: ${prevPlayer.killNumByGrenade} → ${player.killNumByGrenade}`,
+        );
         showNotification("grenadeKill", { playerName: player.playerName });
       }
 
       if (player.killNumInVehicle > prevPlayer.killNumInVehicle) {
+        console.log(
+          `Vehicle kill detected for ${player.playerName}: ${prevPlayer.killNumInVehicle} → ${player.killNumInVehicle}`,
+        );
         showNotification("vehicleKill", { playerName: player.playerName });
       }
 
@@ -63,7 +68,7 @@ const AutoNotifs = ({
         killNumInVehicle: player.killNumInVehicle,
       };
     });
-  }, [totalPlayerList, showNotification, isInGame]);
+  }, [totalPlayerList, isInGame]);
 
   useEffect(() => {
     if (!isInGame || !teamInfo) return;
@@ -84,7 +89,7 @@ const AutoNotifs = ({
     }
 
     prevTeamInfoRef.current = teamInfo;
-  }, [teamInfo, showNotification, isInGame]);
+  }, [teamInfo, isInGame]);
 
   useEffect(() => {
     if (!circleInfo || !isInGame) {
@@ -148,6 +153,7 @@ const AutoNotifs = ({
 
   useEffect(() => {
     if (!isInGame) {
+      console.log("Resetting state as game ended");
       firstBloodShownRef.current = false;
       prevPlayersRef.current = {};
       prevTeamInfoRef.current = null;

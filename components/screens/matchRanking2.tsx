@@ -88,9 +88,9 @@ const MatchRankings2 = ({ matchTeams, seriesName, matchName }: any) => {
         </div>
         <div className="flex w-[700px] items-center justify-center">
           <Image
-            src={`/assets/images/teams/${matchTeams[0]?.teamName}.png`}
+            src={`/assets/images/teamsTogether/${matchTeams[0]?.teamName}.png`}
             alt=""
-            className="z-20 h-64 w-64 object-contain"
+            className="z-20 h-[276px] w-[700px] object-contain"
           />
         </div>
         <div className="flex w-[272px] flex-col items-center justify-center uppercase text-neutral-800">
