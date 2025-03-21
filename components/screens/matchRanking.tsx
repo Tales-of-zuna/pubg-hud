@@ -86,14 +86,18 @@ const MatchRankings = ({ matchTeams, seriesName, matchName }: any) => {
         <div className="w-[100px] p-4 text-4xl">
           <p className="text-neutral-800">#1</p>
         </div>
-        <div className="flex w-[700px] items-center justify-center">
-          {/* teamLogos */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex w-[700px] items-center justify-center"
+        >
           <Image
             src={`/assets/images/teamsTogether/${matchTeams[0]?.teamName}.png`}
             alt=""
             className="z-20 h-[276px] w-[700px] object-contain"
           />
-        </div>
+        </motion.div>
         <div className="flex w-[272px] flex-col items-center justify-center uppercase text-neutral-800">
           <p className="text-lg uppercase">team</p>
           <p className="text-6xl font-bold uppercase">
