@@ -71,6 +71,7 @@ const Home = () => {
         const res = await fetch("/api/gameData");
         const teamScores = await res.json();
         setTeamScores(teamScores);
+        console.log(teamScores);
       } catch (error) {
         console.log("Error fetching team scores:", error);
       }

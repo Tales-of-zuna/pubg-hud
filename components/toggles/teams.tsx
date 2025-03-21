@@ -5,10 +5,10 @@ import { AnimatePresence, motion } from "framer-motion";
 const Teams = ({ teamsWithPlayers, observedPlayer, teamScores }: any) => {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 50 }} // Start hidden and below its position
-      animate={{ opacity: 1, x: 0 }} // Animate to full visibility
-      exit={{ opacity: 0, x: 50 }} // Exit animation
-      transition={{ duration: 0.5, ease: "easeOut" }} // Smooth transition
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 50 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="absolute bottom-5 right-0 z-10 flex h-[812px] w-[425px] flex-col justify-start"
     >
       <video
@@ -25,11 +25,11 @@ const Teams = ({ teamsWithPlayers, observedPlayer, teamScores }: any) => {
         <div className="flex h-full w-[140px] items-center justify-center">
           TEAMS
         </div>
-        <div className="flex h-full w-[70px] items-center justify-center">
-          ALIVE
-        </div>
         <div className="flex h-full w-[85px] items-center justify-center">
           ALIVE
+        </div>
+        <div className="flex h-full w-[70px] items-center justify-center">
+          PTS
         </div>
         <div className="flex h-full w-[70px] items-center justify-center text-white">
           ELIMS
@@ -60,8 +60,7 @@ const Teams = ({ teamsWithPlayers, observedPlayer, teamScores }: any) => {
                   team?.players?.some(
                     (player: any) => player.uId == observedPlayer,
                   )
-                    ? // ? "bg-gradient-to-r from-[#FEE75C] to-[#18BDFb] text-neutral-800"
-                      "border-l-5 border-[#FEE75C]"
+                    ? "border-l-5 border-[#FEE75C]"
                     : ""
                 } h-full w-[40px] items-center justify-center overflow-hidden text-white`}
               >
@@ -77,13 +76,7 @@ const Teams = ({ teamsWithPlayers, observedPlayer, teamScores }: any) => {
                 </div>
                 {team?.teamName}
               </div>
-              <div className="flex h-full w-[70px] items-center justify-center text-white">
-                {
-                  teamScores
-                    ?.find((score: any) => score.teamName === team?.teamName)
-                    ?.players?.filter((player: any) => player.health > 0).length
-                }
-              </div>
+
               <div className="flex h-full w-[85px] items-end justify-center gap-1 py-2">
                 {team?.players?.map((player: any) => {
                   return (
@@ -101,7 +94,11 @@ const Teams = ({ teamsWithPlayers, observedPlayer, teamScores }: any) => {
                   );
                 })}
               </div>
-
+              <div className="flex h-full w-[70px] items-center justify-center text-white">
+                {(teamScores?.find(
+                  (score: any) => score.teamName === team?.teamName,
+                )?.totalPoints || 0) + team.teamKillNum}
+              </div>
               <div className="flex h-full w-[70px] items-center justify-center text-white">
                 {team?.teamKillNum}
               </div>

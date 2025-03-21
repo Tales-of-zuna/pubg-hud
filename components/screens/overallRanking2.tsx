@@ -40,11 +40,11 @@ const OverallRanking2 = ({ teamsData, seriesName, matchName }: any) => {
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 1, delay: index * 0.1 }}
               className="flex h-[80px] w-full items-center justify-between py-2"
             >
               <div
-                className={`flex h-full w-full items-center justify-center ${"bg-white bg-opacity-10"} text-xl font-light backdrop-blur-xl`}
+                className={`flex h-full w-full items-center justify-center ${"bg-white bg-opacity-10"} text-2xl font-light backdrop-blur-xl`}
               >
                 <div className="flex h-full w-[66px] items-center justify-center font-black">
                   #{index + 9}

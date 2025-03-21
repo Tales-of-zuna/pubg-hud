@@ -15,6 +15,7 @@ const Toggle = ({
   matchName,
   seriesName,
   mapName,
+  teamScores,
 }: any) => {
   const toggles = activeToggles?.data || [];
   const [teamsWithPlayers, setTeamsWithPlayers] = useState<any>();
@@ -61,16 +62,6 @@ const Toggle = ({
       }
     });
   }, [observedPlayer, teamsWithPlayers]);
-  const getPlacementPoints = (placement: any) => {
-    if (placement === 1) return 10;
-    if (placement === 2) return 6;
-    if (placement === 3) return 5;
-    if (placement === 4) return 4;
-    if (placement === 5) return 3;
-    if (placement === 6) return 2;
-    if (placement >= 7 && placement <= 8) return 1;
-    return 0;
-  };
 
   return (
     <div className="absolute left-0 top-0 z-10 h-screen w-screen overflow-hidden">
@@ -79,7 +70,7 @@ const Toggle = ({
           <Teams
             teamsWithPlayers={teamsWithPlayers}
             observedPlayer={observedPlayer}
-            getPlacementPoints={getPlacementPoints}
+            teamScores={teamScores}
           />
         )}
       </AnimatePresence>
